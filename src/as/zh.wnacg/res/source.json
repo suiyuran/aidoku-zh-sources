@@ -1,0 +1,24 @@
+{
+  "info": {
+    "id": "zh.wnacg",
+    "lang": "zh",
+    "name": "绅士漫画",
+    "version": 1,
+    "url": "https://www.wnacg.com",
+    "nsfw": 2
+  },
+  "listings": [
+    {
+      "name": "同人志"
+    },
+    {
+      "name": "单行本"
+    },
+    {
+      "name": "杂志&短篇"
+    },
+    {
+      "name": "韩漫"
+    }
+  ]
+}

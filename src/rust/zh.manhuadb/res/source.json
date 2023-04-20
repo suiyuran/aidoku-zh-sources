@@ -1,0 +1,10 @@
+{
+  "info": {
+    "id": "zh.manhuadb",
+    "lang": "zh",
+    "name": "漫画DB",
+    "version": 1,
+    "url": "https://www.manhuadb.com",
+    "nsfw": 1
+  }
+}
