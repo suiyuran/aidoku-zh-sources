@@ -1,0 +1,15 @@
+{
+  "info": {
+    "id": "zh.dogemanga",
+    "lang": "zh",
+    "name": "漫画狗",
+    "version": 1,
+    "url": "https://dogemanga.com",
+    "nsfw": 0
+  },
+  "listings": [
+    {
+      "name": "最新连载"
+    }
+  ]
+}
