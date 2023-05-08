@@ -4,6 +4,7 @@ import {
   FilterType,
   Html,
   HttpMethod,
+  JSON,
   Listing,
   Manga,
   MangaContentRating,
@@ -15,19 +16,28 @@ import {
   Source,
 } from "aidoku-as/src";
 
+let gp1 = "";
+let gp2 = "";
+
 export class Dogemanga extends Source {
-  genExploreURL(set: string): string {
-    return `https://dogemanga.com?s=${set}`;
+  genExploreURL(page: string, set: string): string {
+    return `https://dogemanga.com/_search?p=${page}&s=${set}`;
   }
 
   genSearchURL(query: string, page: number): string {
-    return `https://dogemanga.com?q=${encodeURI(query)}&o=${((page - 1) * 24) as i32}`;
+    return `https://dogemanga.com/_search?q=${encodeURI(query)}&o=${((page - 1) * 24) as i32}`;
   }
 
   transMangaStatus(status: string): MangaStatus {
     if (status.includes("連載完結")) return MangaStatus.Completed;
     if (status.includes("連載中")) return MangaStatus.Ongoing;
     return MangaStatus.Unknown;
+  }
+
+  getJSON(url: string): JSON {
+    const request = Request.create(HttpMethod.GET);
+    request.url = url;
+    return request.json();
   }
 
   getHTML(url: string): Html {
@@ -47,18 +57,24 @@ export class Dogemanga extends Source {
       }
     }
 
-    const url = query === "" ? this.genExploreURL("") : this.genSearchURL(query, page);
-    const html = this.getHTML(url);
-    const list = html.select("div[data-manga-id]").array();
-    const hasMore = query !== "";
+    page === 1 && (gp1 = gp2 = "");
+    const notSearch = query === "";
+    const url = notSearch ? this.genExploreURL(gp1, "") : this.genSearchURL(query, page);
+    const json = this.getJSON(url);
+    const data = json.asObject();
+    const list = data.get("manga_cards").asArray().toArray();
+    const next = data.get("next").toString();
+    const hasMore = next !== "";
+    gp1 = notSearch && hasMore ? next.split("?")[1].split("&")[0].split("=")[1] : "";
     const mangas: Manga[] = [];
 
     for (let i = 0; i < list.length; i++) {
-      const item = list[i];
-      const id = item.attr("data-manga-id");
-      const title = item.select(".site-card__manga-title").text().trim();
+      const item = list[i].toString();
+      const html = Html.parse(String.UTF8.encode(item));
+      const id = html.select(".site-card").attr("data-manga-id");
+      const title = html.select(".site-card__manga-title").text().trim();
       const manga = new Manga(id, title);
-      manga.cover_url = item.select(".card-img-top").attr("src");
+      manga.cover_url = html.select(".card-img-top").attr("src");
       mangas.push(manga);
     }
 
@@ -72,18 +88,23 @@ export class Dogemanga extends Source {
       set = "1";
     }
 
-    const url = this.genExploreURL(set);
-    const html = this.getHTML(url);
-    const list = html.select("div[data-manga-id]").array();
-    const hasMore = false;
+    page === 1 && (gp1 = gp2 = "");
+    const url = this.genExploreURL(gp2, set);
+    const json = this.getJSON(url);
+    const data = json.asObject();
+    const list = data.get("manga_cards").asArray().toArray();
+    const next = data.get("next").toString();
+    const hasMore = next !== "";
+    gp2 = hasMore ? next.split("?")[1].split("&")[0].split("=")[1] : "";
     const mangas: Manga[] = [];
 
     for (let i = 0; i < list.length; i++) {
-      const item = list[i];
-      const id = item.attr("data-manga-id");
-      const title = item.select(".site-card__manga-title").text().trim();
+      const item = list[i].toString();
+      const html = Html.parse(String.UTF8.encode(item));
+      const id = html.select(".site-card").attr("data-manga-id");
+      const title = html.select(".site-card__manga-title").text().trim();
       const manga = new Manga(id, title);
-      manga.cover_url = item.select(".card-img-top").attr("src");
+      manga.cover_url = html.select(".card-img-top").attr("src");
       mangas.push(manga);
     }
 
