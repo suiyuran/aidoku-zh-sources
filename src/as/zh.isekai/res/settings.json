@@ -1,0 +1,15 @@
+[
+  {
+    "type": "group",
+    "title": "设置",
+    "items": [
+      {
+        "type": "select",
+        "key": "CDN_URL",
+        "title": "CDN",
+        "default": "https://cdn.hentaibomb.com",
+        "values": ["https://cdn.hentaibomb.com"]
+      }
+    ]
+  }
+]

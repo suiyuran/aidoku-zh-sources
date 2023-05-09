@@ -12,6 +12,7 @@ import {
   Page,
   Request,
   Source,
+  defaults,
 } from "aidoku-as/src";
 
 export class Isekai extends Source {
@@ -21,6 +22,10 @@ export class Isekai extends Source {
 
   genSearchURL(query: string, page: number): string {
     return `https://isekai.ch/page/${page as i32}/?cat=1&s=${encodeURI(query)}`;
+  }
+
+  setCDNURL(url: string): string {
+    return url.replace("https://cdn.nhentai.xxx", defaults.get("CDN_URL").toString());
   }
 
   getHTML(url: string): Html {
@@ -56,7 +61,8 @@ export class Isekai extends Source {
         .pop();
       const title = item.select("a>p").text().trim();
       const manga = new Manga(id, title);
-      manga.cover_url = item.select("a>div").attr("style").replace("background-image:url(", "").replace(")", "");
+      const cover_url = item.select("a>div").attr("style").replace("background-image:url(", "").replace(")", "");
+      manga.cover_url = this.setCDNURL(cover_url);
       mangas.push(manga);
     }
 
@@ -68,11 +74,12 @@ export class Isekai extends Source {
     const html = this.getHTML(url);
     const title = html.select(".card>.card-header").text().trim();
     const manga = new Manga(mangaId, title);
-    manga.cover_url = html
+    const cover_url = html
       .select(".card>.card-body>div>div:nth-child(1)>div>div>div")
       .attr("style")
       .replace("background-image:url(", "")
       .replace(")", "");
+    manga.cover_url = this.setCDNURL(cover_url);
     manga.author = "";
     manga.artist = "";
     manga.description = "";
@@ -101,7 +108,7 @@ export class Isekai extends Source {
     for (let i = 0; i < list.length; i++) {
       const item = list[i];
       const page = new Page(i);
-      page.url = item.attr("data-original");
+      page.url = this.setCDNURL(item.attr("data-original"));
       pages.push(page);
     }
 
