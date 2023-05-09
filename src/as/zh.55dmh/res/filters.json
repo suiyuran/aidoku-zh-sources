@@ -1,0 +1,30 @@
+[
+  {
+    "type": "title"
+  },
+  {
+    "type": "select",
+    "name": "题材",
+    "options": ["全部", "热血", "武侠", "科幻", "推理", "耽美", "恐怖", "少女", "恋爱", "生活", "战争"]
+  },
+  {
+    "type": "select",
+    "name": "读者",
+    "options": ["全部", "儿童", "少年", "少女", "青年"]
+  },
+  {
+    "type": "select",
+    "name": "进度",
+    "options": ["全部", "已完结", "连载中"]
+  },
+  {
+    "type": "sort",
+    "name": "排序",
+    "canAscend": true,
+    "options": ["点击", "更新", "发布"],
+    "default": {
+      "index": 0,
+      "ascending": false
+    }
+  }
+]

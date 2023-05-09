@@ -8,6 +8,7 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 
 ## 支持站点
 
+- https://www.55dmh.com
 - https://www.baozimh.com
 - https://www.copymanga.tv
 - https://dogemanga.com

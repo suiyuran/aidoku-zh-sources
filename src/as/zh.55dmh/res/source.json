@@ -1,0 +1,15 @@
+{
+  "info": {
+    "id": "zh.55dmh",
+    "lang": "zh",
+    "name": "无敌漫画",
+    "version": 1,
+    "url": "https://www.55dmh.com",
+    "nsfw": 0
+  },
+  "listings": [
+    {
+      "name": "最近更新"
+    }
+  ]
+}
