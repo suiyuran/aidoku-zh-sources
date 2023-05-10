@@ -12,6 +12,7 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 - https://www.baozimh.com
 - https://www.copymanga.tv
 - https://dogemanga.com
+- https://godamanga.com
 - https://isekai.ch
 - https://komiic.com
 - https://www.manhuadb.com

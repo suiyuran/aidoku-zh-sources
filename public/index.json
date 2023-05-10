@@ -36,6 +36,15 @@
     "nsfw": 0
   },
   {
+    "id": "zh.godamanga",
+    "name": "G站漫画",
+    "file": "zh.godamanga-v1.aix",
+    "icon": "zh.godamanga-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 0
+  },
+  {
     "id": "zh.isekai",
     "name": "ISEKAI",
     "file": "zh.isekai-v1.aix",
