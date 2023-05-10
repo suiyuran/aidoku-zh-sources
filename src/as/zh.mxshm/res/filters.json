@@ -1,0 +1,20 @@
+[
+  {
+    "type": "title"
+  },
+  {
+    "type": "select",
+    "name": "题材",
+    "options": ["全部"]
+  },
+  {
+    "type": "select",
+    "name": "地区",
+    "options": ["全部", "韩国", "日本"]
+  },
+  {
+    "type": "select",
+    "name": "进度",
+    "options": ["全部", "连载", "完结"]
+  }
+]
