@@ -76,12 +76,14 @@ const FILTER_THEME: [&str; 61] = [
 	"xianxia",
 	"loveLive",
 ];
+const FILTER_TOP: [&str; 4] = ["", "japan", "korea", "west"];
 const FILTER_ORDERING: [&str; 2] = ["popular", "datetime_updated"];
 
 #[get_manga_list]
 fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	let mut query = String::new();
 	let mut theme = String::new();
+	let mut top = String::new();
 	let mut ordering = String::new();
 
 	for filter in filters {
@@ -94,6 +96,9 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 				match filter.name.as_str() {
 					"题材" => {
 						theme = FILTER_THEME[index].to_string();
+					}
+					"地区" => {
+						top = FILTER_TOP[index].to_string();
 					}
 					_ => continue,
 				}
@@ -113,10 +118,11 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	}
 
 	let url = if query.is_empty() {
-		helper::gen_explore_url(theme, ordering, page)
+		helper::gen_explore_url(theme, top, ordering, page)
 	} else {
 		helper::gen_search_url(query, page)
 	};
+
 	let json = helper::get_json(url);
 	let data = json.get("results").as_object()?;
 	let list = data.get("list").as_array()?;

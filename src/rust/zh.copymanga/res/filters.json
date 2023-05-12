@@ -70,6 +70,11 @@
     ]
   },
   {
+    "type": "select",
+    "name": "地区",
+    "options": ["全部", "日漫", "韩漫", "美漫"]
+  },
+  {
     "type": "sort",
     "name": "排序",
     "canAscend": true,

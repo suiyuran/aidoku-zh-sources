@@ -31,11 +31,12 @@ pub fn get_json(url: String) -> ObjectRef {
 		.unwrap()
 }
 
-pub fn gen_explore_url(theme: String, ordering: String, page: i32) -> String {
+pub fn gen_explore_url(theme: String, top: String, ordering: String, page: i32) -> String {
 	format!(
-		"{}/comics?theme={}&ordering={}&limit={}&offset={}",
+		"{}/comics?theme={}&top={}&ordering={}&limit={}&offset={}",
 		API_URL,
 		theme,
+		top,
 		ordering,
 		50,
 		(page - 1) * 50,
