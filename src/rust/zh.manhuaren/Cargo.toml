@@ -1,0 +1,20 @@
+[package]
+name = "manhuaren-aidoku"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+opt-level = "s"
+strip = true
+lto = true
+
+[dependencies]
+aidoku = { git = "https://github.com/Aidoku/aidoku-rs", features = ["helpers"] }
+md5 = { version = "0.7.0", default-features = false }
