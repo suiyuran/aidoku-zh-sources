@@ -1,4 +1,4 @@
-import { ArrayRef, Filter, Listing, ValueRef } from "aidoku-as/src";
+import { ArrayRef, Filter, Listing, Request, ValueRef } from "aidoku-as/src";
 import { Dogemanga } from "./dogemanga";
 
 const source = new Dogemanga();
@@ -39,4 +39,9 @@ export function get_page_list(chapter_descriptor: i32): i32 {
     array.push(new ValueRef(result[i].value));
   }
   return array.value.rid;
+}
+
+export function modify_image_request(req: i32): void {
+  const request = new Request(req);
+  source.modifyImageRequest(request);
 }

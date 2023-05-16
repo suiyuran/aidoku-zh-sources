@@ -167,4 +167,8 @@ export class Dogemanga extends Source {
 
     return pages;
   }
+
+  modifyImageRequest(request: Request): void {
+    request.setHeader("Referer", "https://dogemanga.com/");
+  }
 }
