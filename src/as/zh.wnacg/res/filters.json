@@ -1,5 +1,15 @@
 [
   {
     "type": "title"
+  },
+  {
+    "type": "select",
+    "name": "类别",
+    "options": ["全部", "同人志", "单行本", "杂志&短篇"]
+  },
+  {
+    "type": "select",
+    "name": "语言",
+    "options": ["全部", "汉化", "日语", "English"]
   }
 ]

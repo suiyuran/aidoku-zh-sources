@@ -15,9 +15,14 @@ import {
   Source,
 } from "aidoku-as/src";
 
+const FILTER_CATEGORY = ["", "5", "6", "7"];
+const FILTER_CATEGORY_5 = ["5", "1", "12", "16"];
+const FILTER_CATEGIRY_6 = ["6", "9", "13", "17"];
+const FILTER_CATEGORY_7 = ["7", "10", "14", "18"];
+
 export class Wnacg extends Source {
-  genExploreURL(cate: string, page: number): string {
-    return `https://www.wnacg.com/albums-index-page-${page as i32}-cate-${cate}.html`;
+  genExploreURL(category: string, page: number): string {
+    return `https://www.wnacg.com/albums-index-page-${page as i32}-cate-${category}.html`;
   }
 
   genSearchURL(query: string, page: number): string {
@@ -38,6 +43,7 @@ export class Wnacg extends Source {
 
   getMangaList(filters: Filter[], page: number): MangaPageResult {
     let query = "";
+    let category = "";
 
     for (let i = 0; i < filters.length; i++) {
       const filter = filters[i];
@@ -45,9 +51,26 @@ export class Wnacg extends Source {
       if (filter.type === FilterType.Title) {
         query = filter.value.toString();
       }
+      if (filter.type === FilterType.Select) {
+        const index = filter.value.toInteger() as i32;
+        if (filter.name === "类别") {
+          category = FILTER_CATEGORY[index];
+        }
+        if (filter.name === "语言") {
+          if (category === "5") {
+            category = FILTER_CATEGORY_5[index];
+          }
+          if (category === "6") {
+            category = FILTER_CATEGIRY_6[index];
+          }
+          if (category === "7") {
+            category = FILTER_CATEGORY_7[index];
+          }
+        }
+      }
     }
 
-    const url = query === "" ? this.genExploreURL("", page) : this.genSearchURL(query, page);
+    const url = query === "" ? this.genExploreURL(category, page) : this.genSearchURL(query, page);
     const html = this.getHTML(url);
     const list = html.select("ul>li").array();
     const hasMore = true;
@@ -66,22 +89,22 @@ export class Wnacg extends Source {
   }
 
   getMangaListing(listing: Listing, page: number): MangaPageResult {
-    let cate = "";
+    let category = "";
 
-    if (listing.name === "同人志") {
-      cate = "1";
+    if (listing.name === "CG画集") {
+      category = "2";
     }
-    if (listing.name === "单行本") {
-      cate = "9";
+    if (listing.name === "3D漫画") {
+      category = "22";
     }
-    if (listing.name === "杂志&短篇") {
-      cate = "10";
+    if (listing.name === "Cosplay") {
+      category = "3";
     }
     if (listing.name === "韩漫") {
-      cate = "20";
+      category = "19";
     }
 
-    const url = this.genExploreURL(cate, page);
+    const url = this.genExploreURL(category, page);
     const html = this.getHTML(url);
     const list = html.select("ul>li").array();
     const mangas: Manga[] = [];
@@ -109,7 +132,7 @@ export class Wnacg extends Source {
     manga.artist = "";
     manga.description = "";
     manga.url = url;
-    manga.categories = html
+    const categories = html
       .select("#bodywrap>div>.uwconn>label:nth-child(1)")
       .text()
       .replace("分類：", "")
@@ -117,6 +140,11 @@ export class Wnacg extends Source {
       .map((a: string) => a.split("&"))
       .flat()
       .map((a: string) => a.trim());
+    const tags = html
+      .select("#bodywrap>div>.uwconn>.addtags>.tagshow")
+      .array()
+      .map((a: Html) => a.text().trim());
+    manga.categories = [categories, tags].flat();
     manga.status = MangaStatus.Unknown;
     manga.rating = MangaContentRating.NSFW;
     manga.viewer = MangaViewer.RTL;
