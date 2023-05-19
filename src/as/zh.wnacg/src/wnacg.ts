@@ -26,7 +26,7 @@ export class Wnacg extends Source {
   }
 
   genSearchURL(query: string, page: number): string {
-    return `https://www.wnacg.com/search/index.php?q=${encodeURI(query)}&s=create_time_DESC&p=${page as i32}`;
+    return `https://www.wnacg.com/search/index.php?q=${encodeURI(query)}&s=create_time_DESC&syn=yes&p=${page as i32}`;
   }
 
   getHTML(url: string): Html {
@@ -72,7 +72,7 @@ export class Wnacg extends Source {
 
     const url = query === "" ? this.genExploreURL(category, page) : this.genSearchURL(query, page);
     const html = this.getHTML(url);
-    const list = html.select("ul>li").array();
+    const list = html.select(".gallary_item").array();
     const hasMore = true;
     const mangas: Manga[] = [];
 
@@ -106,7 +106,7 @@ export class Wnacg extends Source {
 
     const url = this.genExploreURL(category, page);
     const html = this.getHTML(url);
-    const list = html.select("ul>li").array();
+    const list = html.select(".gallary_item").array();
     const mangas: Manga[] = [];
     const hasMore = true;
 
