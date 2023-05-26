@@ -103,8 +103,6 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 		helper::gen_hot_body_string(order_by, page)
 	};
 
-	println!("{}", body);
-
 	let json = helper::get_json(body);
 	let data = json.get("data").as_object()?;
 	let mangas;
