@@ -16,6 +16,7 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 - https://www.ho5ho.com
 - https://isekai.ch
 - https://komiic.com
+- https://manhuabika.com
 - https://www.manhuadb.com
 - https://www.manhuaren.com
 - http://www.mxshm.site

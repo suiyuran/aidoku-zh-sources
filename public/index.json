@@ -72,6 +72,15 @@
     "nsfw": 0
   },
   {
+    "id": "zh.manhuabika",
+    "name": "哔咔漫画",
+    "file": "zh.manhuabika-v1.aix",
+    "icon": "zh.manhuabika-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 2
+  },
+  {
     "id": "zh.manhuadb",
     "name": "漫画DB",
     "file": "zh.manhuadb-v1.aix",

@@ -1,0 +1,36 @@
+{
+  "info": {
+    "id": "zh.manhuabika",
+    "lang": "zh",
+    "name": "哔咔漫画",
+    "version": 1,
+    "url": "https://manhuabika.com",
+    "nsfw": 2
+  },
+  "listings": [
+    {
+      "name": "日榜"
+    },
+    {
+      "name": "周榜"
+    },
+    {
+      "name": "月榜"
+    },
+    {
+      "name": "随机本子"
+    },
+    {
+      "name": "大湿推荐"
+    },
+    {
+      "name": "那年今天"
+    },
+    {
+      "name": "大家都在看"
+    },
+    {
+      "name": "官方都在看"
+    }
+  ]
+}

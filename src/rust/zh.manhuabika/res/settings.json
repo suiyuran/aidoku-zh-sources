@@ -1,0 +1,26 @@
+[
+  {
+    "type": "group",
+    "title": "设置",
+    "items": [
+      {
+        "type": "text",
+        "key": "username",
+        "placeholder": "账号",
+        "default": "iamabot"
+      },
+      {
+        "type": "text",
+        "key": "password",
+        "placeholder": "密码",
+        "default": "password"
+      },
+      {
+        "type": "text",
+        "key": "token",
+        "placeholder": "令牌",
+        "default": ""
+      }
+    ]
+  }
+]
