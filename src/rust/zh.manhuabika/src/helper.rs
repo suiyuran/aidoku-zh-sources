@@ -1,5 +1,5 @@
 use aidoku::{
-	error::AidokuError,
+	error::{AidokuError, AidokuErrorKind},
 	helpers::{substring::Substring, uri::encode_uri},
 	prelude::*,
 	std::{
@@ -39,7 +39,11 @@ pub fn gen_request(url: String, method: HttpMethod) -> Request {
 	let nonce = gen_nonce();
 	let signature = gen_signature(&url, &time, &nonce, &format!("{:?}", method));
 	let token = defaults_get("token").unwrap().as_string().unwrap().read();
-	let authorization = if token.is_empty() { login() } else { token };
+	let authorization = if !url.contains("sign-in") && token.is_empty() {
+		login().unwrap()
+	} else {
+		token
+	};
 	Request::new(url, method)
 		.header("api-key", API_KEY)
 		.header("app-build-version", "45")
@@ -57,18 +61,17 @@ pub fn gen_request(url: String, method: HttpMethod) -> Request {
 		.header("User-Agent", "okhttp/3.8.1")
 }
 
-pub fn login() -> String {
+pub fn login() -> Result<String, AidokuError> {
 	let request = gen_request(gen_login_url(), HttpMethod::Post).header("Authorization", "");
-	let username = defaults_get("username")
-		.unwrap()
-		.as_string()
-		.unwrap()
-		.read();
-	let password = defaults_get("password")
-		.unwrap()
-		.as_string()
-		.unwrap()
-		.read();
+	let username = defaults_get("username")?.as_string()?.read();
+	let password = defaults_get("password")?.as_string()?.read();
+
+	if username.is_empty() || password.is_empty() {
+		return Err(AidokuError {
+			reason: AidokuErrorKind::DefaultNotFound,
+		});
+	}
+
 	let body = format!(
 		r#"{{
 			"email": "{}",
@@ -76,14 +79,25 @@ pub fn login() -> String {
 		}}"#,
 		username, password
 	);
-	let json = request.body(body.as_bytes()).json().unwrap();
-	let data = json.as_object().unwrap();
-	let data = data.get("data").as_object().unwrap();
-	let token_ref = data.get("token");
 
-	defaults_set("token", token_ref.clone());
+	let request = request.body(body.as_bytes());
 
-	token_ref.as_string().unwrap().read()
+	request.send();
+
+	if request.status_code() != 200 {
+		return Err(AidokuError {
+			reason: AidokuErrorKind::DefaultNotFound,
+		});
+	}
+
+	let json = request.json()?;
+	let data = json.as_object()?;
+	let data = data.get("data").as_object()?;
+	let token = data.get("token");
+
+	defaults_set("token", token.clone());
+
+	Ok(token.as_string()?.read())
 }
 
 pub fn search(keyword: String, page: i32) -> Result<ValueRef, AidokuError> {
@@ -100,7 +114,7 @@ pub fn search(keyword: String, page: i32) -> Result<ValueRef, AidokuError> {
 	request.send();
 
 	if request.status_code() == 401 {
-		request.header("Authorization", &login()).json()
+		request.header("Authorization", &login()?).json()
 	} else {
 		request.json()
 	}
@@ -168,7 +182,7 @@ pub fn get_json(url: String) -> Result<ValueRef, AidokuError> {
 	request.send();
 
 	if request.status_code() == 401 {
-		request.header("Authorization", &login()).json()
+		request.header("Authorization", &login()?).json()
 	} else {
 		request.json()
 	}
