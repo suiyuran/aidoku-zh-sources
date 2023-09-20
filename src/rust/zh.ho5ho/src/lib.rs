@@ -202,12 +202,6 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 	let url = format!("{}/{}/", MANGA_URL, id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
 	let html = html.select(".wp-manga-chapter>a");
-	let len = html
-		.html()
-		.read()
-		.match_indices("Server")
-		.collect::<Vec<_>>()
-		.len();
 	let mut chapters: Vec<Chapter> = Vec::new();
 
 	for (index, item) in html.array().enumerate() {
@@ -216,21 +210,15 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 			Err(_) => continue,
 		};
 		let url = item.attr("href").read();
-		let list = url
+		let id = url
 			.split("/")
 			.filter(|a| !a.is_empty())
 			.map(|a| a.to_string())
-			.collect::<Vec<String>>();
-		let id = format!("{}/{}/{}", list[4], list[5], list[6]);
-		let title = item
-			.text()
-			.read()
-			.split("-")
-			.last()
-			.unwrap()
-			.trim()
-			.to_string();
-		let chapter = (len - index) as f32;
+			.collect::<Vec<String>>()
+			.pop()
+			.unwrap();
+		let title = item.text().read();
+		let chapter = (index + 1) as f32;
 		chapters.push(Chapter {
 			id,
 			title,
@@ -239,6 +227,7 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 			..Default::default()
 		});
 	}
+	chapters.reverse();
 
 	Ok(chapters)
 }
