@@ -3,19 +3,19 @@
     "id": "zh.godamanga",
     "lang": "zh",
     "name": "G站漫画",
-    "version": 1,
+    "version": 2,
     "url": "https://godamanga.com",
     "nsfw": 0
   },
   "listings": [
     {
-      "name": "最新上架"
-    },
-    {
       "name": "人气推荐"
     },
     {
       "name": "热门更新"
+    },
+    {
+      "name": "最新上架"
     }
   ]
 }
