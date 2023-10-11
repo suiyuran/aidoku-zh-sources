@@ -110,10 +110,10 @@
   {
     "id": "zh.se8",
     "name": "韩漫库",
-    "file": "zh.se8-v1.aix",
-    "icon": "zh.se8-v1.png",
+    "file": "zh.se8-v2.aix",
+    "icon": "zh.se8-v2.png",
     "lang": "zh",
-    "version": 1,
+    "version": 2,
     "nsfw": 2
   },
   {
