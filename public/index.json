@@ -101,10 +101,10 @@
   {
     "id": "zh.msxhm",
     "name": "漫小肆韩漫",
-    "file": "zh.msxhm-v1.aix",
-    "icon": "zh.msxhm-v1.png",
+    "file": "zh.msxhm-v2.aix",
+    "icon": "zh.msxhm-v2.png",
     "lang": "zh",
-    "version": 1,
+    "version": 2,
     "nsfw": 2
   },
   {

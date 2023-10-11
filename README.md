@@ -19,6 +19,6 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 - [哔咔漫画](https://manhuabika.com)
 - [漫画DB](https://www.manhuadb.com)
 - ~~[漫画人](https://www.manhuaren.com)~~
-- [漫小肆韩漫](http://www.mxshm.site)
+- [漫小肆韩漫](https://www.mxshm.site)
 - [韩漫库](https://se8.us)
 - [绅士漫画](https://www.wnacg.com)
