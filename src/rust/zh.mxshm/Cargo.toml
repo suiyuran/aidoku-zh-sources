@@ -1,5 +1,5 @@
 [package]
-name = "mxshm-aidoku"
+name = "aidoku-mxshm"
 version = "0.1.0"
 edition = "2021"
 

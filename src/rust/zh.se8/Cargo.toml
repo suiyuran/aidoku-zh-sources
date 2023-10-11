@@ -1,5 +1,5 @@
 [package]
-name = "se8-aidoku"
+name = "aidoku-se8"
 version = "0.1.0"
 edition = "2021"
 
