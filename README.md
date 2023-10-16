@@ -11,7 +11,7 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 - [无敌漫画](https://www.55dmh.com)
 - [包子漫画](https://www.baozimh.com)
 - [拷贝漫画](https://www.copymanga.tv)
-- [漫画狗](https://dogemanga.com)
+- ~~[漫画狗](https://dogemanga.com)~~
 - [G站漫画](https://godamanga.com)
 - [HO5HO](https://www.ho5ho.com)
 - ~~[ISEKAI](https://isekai.ch)~~
