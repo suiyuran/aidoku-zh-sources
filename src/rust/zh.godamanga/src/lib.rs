@@ -3,7 +3,6 @@ extern crate alloc;
 
 use aidoku::{
 	error::Result,
-	helpers::substring::Substring,
 	prelude::*,
 	std::{
 		net::{HttpMethod, Request},
@@ -14,7 +13,8 @@ use aidoku::{
 };
 use alloc::string::ToString;
 
-mod helper;
+const WWW_URL: &str = "https://godamanga.com";
+const ART_URL: &str = "https://gd.godamanga.art";
 
 const FILTER_CATEGORY: [&str; 35] = [
 	"",
@@ -81,7 +81,14 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	let mut mangas: Vec<Manga> = Vec::new();
 
 	if query.is_empty() {
-		let url = helper::gen_explore_url(String::from("manga"), category, page);
+		let caregory_str = if category.is_empty() {
+			String::from("manga")
+		} else if category.len() <= 2 {
+			format!("manga-genre/{}", category)
+		} else {
+			format!("manga-tag/{}", category)
+		};
+		let url = format!("{}/{}/page/{}", WWW_URL, caregory_str, page);
 		let html = Request::new(url, HttpMethod::Get).html()?;
 
 		for item in html.select(".pb-2>a").array() {
@@ -97,7 +104,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 				.collect::<Vec<String>>()
 				.pop()
 				.unwrap();
-			let cover = helper::gen_cover_url(item.select("div>img").attr("src").read());
+			let cover = format!("{}/{}", WWW_URL, item.select("div>img").attr("src").read());
 			let title = item.select("div>h3").text().read();
 			mangas.push(Manga {
 				id,
@@ -107,7 +114,23 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 			});
 		}
 	} else {
-		let json = helper::search(query, page)?;
+		let url = String::from("https://go.mgsearcher.com/indexes/mangaStrapiPro/search");
+		let body = format!(
+			r#"{{
+			"hitsPerPage": 30,
+			"page": {},
+			"q": "{}"
+		}}"#,
+			page, query
+		);
+		let json = Request::new(url, HttpMethod::Post)
+			.body(body.as_bytes())
+			.header("Content-Type", "application/json")
+			.header(
+				"Authorization",
+				"Bearer 9bdaaa44f0dd520da24298a02818944327b8280a79feb480302feda7c009264a",
+			)
+			.json()?;
 		let data = json.as_object()?;
 		let list = data.get("hits").as_array()?;
 
@@ -148,7 +171,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 		_ => return get_manga_list(Vec::new(), page),
 	}
 
-	let url = helper::gen_explore_url(list, String::new(), page);
+	let url = format!("{}/{}/page/{}", WWW_URL, list, page);
 	let html = Request::new(url, HttpMethod::Get).html()?;
 	let has_more = true;
 	let mut mangas: Vec<Manga> = Vec::new();
@@ -166,7 +189,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 			.collect::<Vec<String>>()
 			.pop()
 			.unwrap();
-		let cover = helper::gen_cover_url(item.select("div>img").attr("src").read());
+		let cover = format!("{}/{}", WWW_URL, item.select("div>img").attr("src").read());
 		let title = item.select("div>h3").text().read();
 		mangas.push(Manga {
 			id,
@@ -184,7 +207,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 
 #[get_manga_details]
 fn get_manga_details(id: String) -> Result<Manga> {
-	let url = helper::gen_manga_url(id.clone());
+	let url = format!("{}/manga/{}", WWW_URL, id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
 	let cover = html
 		.select("meta[property='og:image']")
@@ -240,13 +263,13 @@ fn get_manga_details(id: String) -> Result<Manga> {
 
 #[get_chapter_list]
 fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
-	let url = helper::gen_chapter_list_url(id);
+	let url = format!("{}/chapterlist/{}", WWW_URL, id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
-	let html = html.select(".grid>.rounded-lg>a");
-	let len = html.array().len();
+	let list = html.select(".grid>.rounded-lg>a").array();
+	let len = list.len();
 	let mut chapters: Vec<Chapter> = Vec::new();
 
-	for (index, item) in html.array().enumerate() {
+	for (index, item) in list.enumerate() {
 		let item = match item.as_node() {
 			Ok(node) => node,
 			Err(_) => continue,
@@ -275,27 +298,24 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 
 #[get_page_list]
 fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
-	let url = helper::gen_page_list_url(manga_id.clone(), chapter_id.clone());
-	let text = Request::new(url.clone(), HttpMethod::Get).string()?;
-	let id = text
-		.substring_after("\\\",{\\\"id\\\":")
-		.unwrap()
-		.substring_before(",\\\"isAd\\\"")
-		.unwrap()
-		.to_string();
-	let page_url = helper::gen_page_url(id);
-	let json = Request::new(page_url, HttpMethod::Get).json()?;
-	let data = json.as_object()?;
-	let data = data.get("data").as_object()?;
-	let data = data.get("attributes").as_object()?;
-	let list = data.get("chapter_img").as_array()?;
+	let url = format!(
+		"{}/manga/{}/{}",
+		ART_URL,
+		manga_id.clone(),
+		chapter_id.clone()
+	);
+	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
+	let list = html.select(".text-center>div>img").array();
 
 	let mut pages: Vec<Page> = Vec::new();
 
 	for (index, item) in list.enumerate() {
-		let page = item.as_object()?;
+		let item = match item.as_node() {
+			Ok(node) => node,
+			Err(_) => continue,
+		};
 		let index = index as i32;
-		let url = page.get("url").as_string()?.read();
+		let url = item.attr("src").read();
 		pages.push(Page {
 			index,
 			url,
@@ -304,4 +324,13 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	}
 
 	Ok(pages)
+}
+
+#[modify_image_request]
+fn modify_image_request(request: Request) {
+	let url = request.url().to_string();
+
+	if !url.starts_with("https") {
+		request.set_url(format!("{}/{}", ART_URL, url));
+	}
 }
