@@ -104,7 +104,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 				.collect::<Vec<String>>()
 				.pop()
 				.unwrap();
-			let cover = format!("{}/{}", WWW_URL, item.select("div>img").attr("src").read());
+			let cover = item.select("div>img").attr("src").read();
 			let title = item.select("div>h3").text().read();
 			mangas.push(Manga {
 				id,
@@ -189,7 +189,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 			.collect::<Vec<String>>()
 			.pop()
 			.unwrap();
-		let cover = format!("{}/{}", WWW_URL, item.select("div>img").attr("src").read());
+		let cover = item.select("div>img").attr("src").read();
 		let title = item.select("div>h3").text().read();
 		mangas.push(Manga {
 			id,
@@ -213,11 +213,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 		.select("meta[property='og:image']")
 		.attr("content")
 		.read();
-	let title = html
-		.select("meta[property='og:title']")
-		.attr("content")
-		.read()
-		.replace("-G站漫畫", "");
+	let title = html.select("title").text().read();
 	let author = html
 		.select("a[href*=author]>span")
 		.array()
@@ -243,8 +239,8 @@ fn get_manga_details(id: String) -> Result<Manga> {
 		.filter(|a| !a.is_empty())
 		.collect::<Vec<String>>();
 	let status = MangaStatus::Ongoing;
-	let nsfw = MangaContentRating::Nsfw;
-	let viewer = MangaViewer::Rtl;
+	let nsfw = MangaContentRating::Safe;
+	let viewer = MangaViewer::Scroll;
 
 	Ok(Manga {
 		id,
@@ -265,7 +261,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 	let url = format!("{}/chapterlist/{}", WWW_URL, id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
-	let list = html.select(".grid>.rounded-lg>a").array();
+	let list = html.select("#chapterlist+div>div>a").array();
 	let len = list.len();
 	let mut chapters: Vec<Chapter> = Vec::new();
 
@@ -315,7 +311,11 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 			Err(_) => continue,
 		};
 		let index = index as i32;
-		let url = item.attr("src").read();
+		let url = if item.has_attr("data-src") {
+			item.attr("data-src").read()
+		} else {
+			item.attr("src").read()
+		};
 		pages.push(Page {
 			index,
 			url,
