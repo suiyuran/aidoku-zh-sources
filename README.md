@@ -13,6 +13,7 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 - [拷贝漫画](https://www.copymanga.tv)
 - ~~[漫画狗](https://dogemanga.com)~~
 - [G站漫画](https://godamanga.com)
+- [Hanime1.me](https://hanime1.me/comics)
 - [HO5HO](https://www.ho5ho.com)
 - ~~[ISEKAI](https://isekai.ch)~~
 - [Komiic漫画](https://komiic.com)

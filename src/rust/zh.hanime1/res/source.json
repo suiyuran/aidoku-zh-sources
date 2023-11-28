@@ -1,0 +1,21 @@
+{
+  "info": {
+    "id": "zh.hanime1",
+    "lang": "zh",
+    "name": "Hanime1.me",
+    "version": 1,
+    "url": "https://hanime1.me/comics",
+    "nsfw": 2
+  },
+  "listings": [
+    {
+      "name": "日榜"
+    },
+    {
+      "name": "周榜"
+    },
+    {
+      "name": "总榜"
+    }
+  ]
+}
