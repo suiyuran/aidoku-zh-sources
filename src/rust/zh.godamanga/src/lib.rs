@@ -262,7 +262,6 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 	let url = format!("{}/chapterlist/{}", WWW_URL, id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
 	let list = html.select("#chapterlist+div>div>a").array();
-	let len = list.len();
 	let mut chapters: Vec<Chapter> = Vec::new();
 
 	for (index, item) in list.enumerate() {
@@ -278,8 +277,13 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 			.collect::<Vec<String>>()
 			.pop()
 			.unwrap();
-		let title = item.select("div>span:first-child").text().read();
-		let chapter = (len - index) as f32;
+		let title = item
+			.select("div>span:first-child")
+			.text()
+			.read()
+			.trim()
+			.to_string();
+		let chapter = (index + 1) as f32;
 		chapters.push(Chapter {
 			id,
 			title,
@@ -288,6 +292,7 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 			..Default::default()
 		});
 	}
+	chapters.reverse();
 
 	Ok(chapters)
 }
