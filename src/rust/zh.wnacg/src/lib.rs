@@ -173,7 +173,8 @@ fn get_manga_details(id: String) -> Result<Manga> {
 		.select("#bodywrap>div>.uwthumb>img")
 		.attr("src")
 		.read()
-		.replace("//", "https:");
+		.replace("//", "");
+	let cover = format!("https://{}", cover);
 	let title = html.select("#bodywrap>h2").text().read();
 	let author = String::new();
 	let artist = String::new();
