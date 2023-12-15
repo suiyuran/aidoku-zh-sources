@@ -1,0 +1,10 @@
+[
+  {
+    "type": "title"
+  },
+  {
+    "type": "select",
+    "name": "进度",
+    "options": ["全部", "连载", "完结"]
+  }
+]
