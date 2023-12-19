@@ -1,0 +1,14 @@
+[
+  {
+    "type": "group",
+    "title": "设置",
+    "items": [
+      {
+        "type": "text",
+        "key": "session",
+        "placeholder": "会话",
+        "default": ""
+      }
+    ]
+  }
+]

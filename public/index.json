@@ -135,6 +135,15 @@
     "nsfw": 0
   },
   {
+    "id": "zh.noy1",
+    "name": "NoyAcg",
+    "file": "zh.noy1-v1.aix",
+    "icon": "zh.noy1-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 2
+  },
+  {
     "id": "zh.se8",
     "name": "韩漫库",
     "file": "zh.se8-v2.aix",
