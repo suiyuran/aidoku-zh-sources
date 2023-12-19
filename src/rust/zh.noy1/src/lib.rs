@@ -166,7 +166,7 @@ fn get_page_list(manga_id: String, _: String) -> Result<Vec<Page>> {
 	let mut index = 0 as i32;
 
 	while index < len {
-		let url = helper::gen_page_url(manga_id.clone(), index);
+		let url = helper::gen_page_url(manga_id.clone(), index + 1);
 		pages.push(Page {
 			index,
 			url,
