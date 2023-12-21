@@ -8,7 +8,7 @@ use aidoku::{
 	},
 };
 
-const WWW_URL: &str = "https://noy1.top";
+pub const WWW_URL: &str = "https://noy1.top";
 const PIC_URL: &str = "https://img.noy.asia";
 
 pub fn explore(tag: String, sort: String, page: i32) -> Result<ValueRef, AidokuError> {

@@ -4,7 +4,7 @@ extern crate alloc;
 use aidoku::{
 	error::Result,
 	prelude::*,
-	std::{String, Vec},
+	std::{net::Request, String, Vec},
 	Chapter, Filter, FilterType, Listing, Manga, MangaPageResult, Page,
 };
 use alloc::string::ToString;
@@ -176,4 +176,9 @@ fn get_page_list(manga_id: String, _: String) -> Result<Vec<Page>> {
 	}
 
 	Ok(pages)
+}
+
+#[modify_image_request]
+fn modify_image_request(request: Request) {
+	request.header("Referer", helper::WWW_URL);
 }
