@@ -25,6 +25,9 @@ pub fn decrypt(text: String) -> String {
 
 pub fn get_json(url: String) -> ObjectRef {
 	Request::new(url, HttpMethod::Get)
+		.header("version", "2.0.7")
+		.header("platform", "3")
+		.header("region", "1")
 		.json()
 		.unwrap()
 		.as_object()
@@ -45,8 +48,8 @@ pub fn gen_explore_url(theme: String, top: String, ordering: String, page: i32) 
 
 pub fn gen_search_url(query: String, page: i32) -> String {
 	format!(
-		"{}/api/kb/web/searchs/comics?q={}&q_type={}&limit={}&offset={}",
-		WWW_URL,
+		"{}/search/comic?q={}&q_type={}&limit={}&offset={}",
+		API_URL,
 		encode_uri(query),
 		"",
 		20,

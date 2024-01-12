@@ -2,6 +2,7 @@ use aidoku::{
 	std::{ArrayRef, ObjectRef, String, Vec},
 	Chapter, Manga, MangaContentRating, MangaStatus, MangaViewer, Page,
 };
+use alloc::string::ToString;
 
 use crate::helper;
 
@@ -42,19 +43,25 @@ pub fn parse_manga(manga: ObjectRef) -> Manga {
 		.collect::<Vec<String>>()
 		.join(", ");
 	let artist = String::new();
-	let description = manga.get("brief").as_string().unwrap_or_default().read();
+	let description = manga
+		.get("brief")
+		.as_string()
+		.unwrap_or_default()
+		.read()
+		.trim()
+		.to_string();
 	let url = helper::gen_manga_url(id.clone());
 	let categories = manga
 		.get("theme")
 		.as_array()
-		.unwrap()
+		.unwrap_or_default()
 		.map(|theme| {
 			theme
 				.as_object()
-				.unwrap()
+				.unwrap_or_default()
 				.get("name")
 				.as_string()
-				.unwrap()
+				.unwrap_or_default()
 				.read()
 		})
 		.collect::<Vec<String>>();
