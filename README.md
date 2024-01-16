@@ -26,3 +26,4 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 - [NoyAcg](https://noy1.top)
 - [韩漫库](https://se8.us)
 - [绅士漫画](https://www.wnacg.com)
+- [野蛮漫画](https://yemancomic.com)
