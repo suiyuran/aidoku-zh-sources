@@ -153,6 +153,15 @@
     "nsfw": 2
   },
   {
+    "id": "zh.vomicmh",
+    "name": "vomic漫画",
+    "file": "zh.vomicmh-v1.aix",
+    "icon": "zh.vomicmh-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 0
+  },
+  {
     "id": "zh.wnacg",
     "name": "绅士漫画",
     "file": "zh.wnacg-v2.aix",
