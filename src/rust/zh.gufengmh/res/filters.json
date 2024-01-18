@@ -1,0 +1,30 @@
+[
+  {
+    "type": "title"
+  },
+  {
+    "type": "select",
+    "name": "类型",
+    "options": ["全部", "少年漫画", "少女漫画", "青年漫画", "真人漫画"]
+  },
+  {
+    "type": "select",
+    "name": "地区",
+    "options": ["全部", "日本漫画", "国产漫画", "港台漫画", "欧美漫画", "韩国漫画"]
+  },
+  {
+    "type": "select",
+    "name": "进度",
+    "options": ["全部", "已完结", "连载中"]
+  },
+  {
+    "type": "sort",
+    "name": "排序",
+    "canAscend": true,
+    "options": ["按发布排序", "按更新排序", "按点击排序"],
+    "default": {
+      "index": 2,
+      "ascending": false
+    }
+  }
+]

@@ -54,6 +54,15 @@
     "nsfw": 0
   },
   {
+    "id": "zh.gufengmh",
+    "name": "古风漫画",
+    "file": "zh.gufengmh-v1.aix",
+    "icon": "zh.gufengmh-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 0
+  },
+  {
     "id": "zh.hanime1",
     "name": "Hanime1.me",
     "file": "zh.hanime1-v1.aix",

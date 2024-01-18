@@ -1,0 +1,39 @@
+{
+  "info": {
+    "id": "zh.gufengmh",
+    "lang": "zh",
+    "name": "古风漫画",
+    "version": 1,
+    "url": "https://www.gufengmh.com",
+    "nsfw": 0
+  },
+  "listings": [
+    {
+      "name": "总人气榜"
+    },
+    {
+      "name": "日人气榜"
+    },
+    {
+      "name": "周人气榜"
+    },
+    {
+      "name": "月人气榜"
+    },
+    {
+      "name": "总点击榜"
+    },
+    {
+      "name": "日点击榜"
+    },
+    {
+      "name": "周点击榜"
+    },
+    {
+      "name": "月点击榜"
+    },
+    {
+      "name": "总订阅榜"
+    }
+  ]
+}
