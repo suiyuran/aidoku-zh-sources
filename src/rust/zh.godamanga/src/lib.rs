@@ -14,7 +14,7 @@ use aidoku::{
 use alloc::string::ToString;
 
 const WWW_URL: &str = "https://godamanga.com";
-const ART_URL: &str = "https://gd.godamanga.art";
+const ART_URL: &str = "https://m.cocolamanhua.com";
 
 const FILTER_CATEGORY: [&str; 35] = [
 	"",
@@ -213,7 +213,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 		.select("meta[property='og:image']")
 		.attr("content")
 		.read();
-	let title = html.select("title").text().read();
+	let title = html.select("title").text().read().replace("-G站漫畫", "");
 	let author = html
 		.select("a[href*=author]>span")
 		.array()
@@ -235,6 +235,8 @@ fn get_manga_details(id: String) -> Result<Manga> {
 				.replace("热门漫画", "")
 				.replace("#", "")
 				.replace("热门推荐", "")
+				.trim()
+				.to_string()
 		})
 		.filter(|a| !a.is_empty())
 		.collect::<Vec<String>>();
