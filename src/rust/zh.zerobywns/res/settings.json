@@ -1,0 +1,20 @@
+[
+  {
+    "type": "group",
+    "title": "设置",
+    "items": [
+      {
+        "type": "text",
+        "key": "saltkey",
+        "placeholder": "key",
+        "default": ""
+      },
+      {
+        "type": "text",
+        "key": "auth",
+        "placeholder": "auth",
+        "default": ""
+      }
+    ]
+  }
+]
