@@ -187,5 +187,14 @@
     "lang": "zh",
     "version": 1,
     "nsfw": 0
+  },
+  {
+    "id": "zh.zerobywns",
+    "name": "zero搬运网",
+    "file": "zh.zerobywns-v1.aix",
+    "icon": "zh.zerobywns-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 0
   }
 ]

@@ -1,0 +1,51 @@
+[
+  {
+    "type": "title"
+  },
+  {
+    "type": "select",
+    "name": "分类",
+    "options": [
+      "全部",
+      "卖肉",
+      "战斗",
+      "日常",
+      "后宫",
+      "搞笑",
+      "日常~",
+      "爱情",
+      "冒险",
+      "奇幻",
+      "战斗~",
+      "体育",
+      "机战",
+      "职业",
+      "汉化组跟上，不再更新"
+    ]
+  },
+  {
+    "type": "select",
+    "name": "进度",
+    "options": ["全部", "连载中", "已完结"]
+  },
+  {
+    "type": "select",
+    "name": "性质",
+    "options": ["全部", "一半中文一半生肉", "全生肉", "全中文"]
+  },
+  {
+    "type": "select",
+    "name": "地区",
+    "options": ["全部", "日本"]
+  },
+  {
+    "type": "sort",
+    "name": "排序",
+    "canAscend": true,
+    "options": ["上架时间", "更新时间"],
+    "default": {
+      "index": 0,
+      "ascending": false
+    }
+  }
+]
