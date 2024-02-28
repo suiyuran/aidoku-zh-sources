@@ -6,6 +6,7 @@ use aidoku::{
 	helpers::uri::encode_uri,
 	prelude::*,
 	std::{
+		defaults::defaults_get,
 		net::{HttpMethod, Request},
 		String, Vec,
 	},
@@ -282,7 +283,13 @@ fn get_page_list(_: String, chapter_id: String) -> Result<Vec<Page>> {
 		WWW_URL,
 		chapter_id.clone()
 	);
-	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
+	let session_key = defaults_get("saltkey")?.as_string()?.read();
+	let session_auth = defaults_get("auth")?.as_string()?.read();
+	let html = Request::new(url.clone(), HttpMethod::Get)
+		.header("Cookie", &format!("Ckng_2132_saltkey=={};", session_key))
+		.header("Cookie", &format!("Ckng_2132_auth={};", session_auth))
+		.header("Content-Type", "text/html; charset=utf-8")
+		.html()?;
 	let mut pages: Vec<Page> = Vec::new();
 
 	for (index, item) in html.select(".uk-text-center>img").array().enumerate() {
