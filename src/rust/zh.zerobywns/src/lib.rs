@@ -8,6 +8,7 @@ use aidoku::{
 	std::{
 		net::{HttpMethod, Request},
 		String, Vec,
+		defaults::defaults_get,
 	},
 	Chapter, Filter, FilterType, Manga, MangaContentRating, MangaPageResult, MangaStatus,
 	MangaViewer, Page,
@@ -98,7 +99,9 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 
 		url.push_str(&format!("&odfie={}&order={}&page={}", odfie, order, page));
 
-		let html = Request::new(url, HttpMethod::Get).html()?;
+		let html = Request::new(url, HttpMethod::Get)
+			.header("Cookie", &defaults_get("session")?.as_string()?.read())
+			.html()?;
 
 		for item in html.select(".uk-card").array() {
 			let item = match item.as_node() {
@@ -135,7 +138,9 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 			encode_uri(query),
 			page
 		);
-		let html = Request::new(url, HttpMethod::Get).html()?;
+		let html = Request::new(url, HttpMethod::Get)
+			.header("Cookie", &defaults_get("session")?.as_string()?.read())
+			.html()?;
 
 		for item in html.select(".uk-card").array() {
 			let item = match item.as_node() {
@@ -179,7 +184,9 @@ fn get_manga_details(id: String) -> Result<Manga> {
 		WWW_URL,
 		id.clone()
 	);
-	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
+	let html = Request::new(url.clone(), HttpMethod::Get)
+		.header("Cookie", &defaults_get("session")?.as_string()?.read())
+		.html()?;
 	let cover = html.select(".uk-width-medium>img").attr("src").read();
 	let title = html.select(".uk-margin-left>ul>li>h3").text().read();
 	let author = html
@@ -238,7 +245,9 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 		WWW_URL,
 		id.clone()
 	);
-	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
+	let html = Request::new(url.clone(), HttpMethod::Get)
+		.header("Cookie", &defaults_get("session")?.as_string()?.read())
+		.html()?;
 	let list = html.select(".muludiv>a").array();
 	let mut chapters: Vec<Chapter> = Vec::new();
 
@@ -282,7 +291,9 @@ fn get_page_list(_: String, chapter_id: String) -> Result<Vec<Page>> {
 		WWW_URL,
 		chapter_id.clone()
 	);
-	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
+	let html = Request::new(url.clone(), HttpMethod::Get)
+		.header("Cookie", &defaults_get("session")?.as_string()?.read())
+		.html()?;
 	let mut pages: Vec<Page> = Vec::new();
 
 	for (index, item) in html.select(".uk-text-center>img").array().enumerate() {
