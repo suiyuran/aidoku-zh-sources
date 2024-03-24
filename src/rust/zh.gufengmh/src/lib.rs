@@ -15,8 +15,8 @@ use aidoku::{
 };
 use alloc::string::ToString;
 
-const WWW_URL: &str = "https://www.gufengmh.com";
-const IMG_URL: &str = "https://res.xiaoqinre.com";
+const WWW_URL: &str = "https://www.gufengmh9.com";
+const IMG_URL: &str = "https://res1.xiaoqinre.com";
 
 const FILTER_GENRE: [&str; 5] = ["", "shaonian", "shaonv", "qingnian", "zhenrenmanhua"];
 const FILTER_REGION: [&str; 6] = [
