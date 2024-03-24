@@ -1,0 +1,14 @@
+[
+  {
+    "type": "group",
+    "title": "设置",
+    "items": [
+      {
+        "type": "text",
+        "key": "url",
+        "placeholder": "URL",
+        "default": "https://www.mxs13.cc"
+      }
+    ]
+  }
+]

@@ -6,6 +6,7 @@ use aidoku::{
 	helpers::uri::encode_uri,
 	prelude::*,
 	std::{
+		defaults::defaults_get,
 		net::{HttpMethod, Request},
 		String, Vec,
 	},
@@ -14,11 +15,16 @@ use aidoku::{
 };
 use alloc::string::ToString;
 
-const WWW_URL: &str = "https://www.mxshm.site";
-
-const FILTER_TAG: [&str; 1] = ["全部"];
-const FILTER_AREA: [&str; 3] = ["-1", "1", "2"];
+const FILTER_TAG: [&str; 23] = [
+	"全部", "青春", "性感", "长腿", "多人", "御姐", "巨乳", "新婚", "媳妇", "暧昧", "清纯", "调教",
+	"少妇", "风骚", "同居", "淫乱", "好友", "女神", "诱惑", "偷情", "出轨", "正妹", "家教",
+];
+const FILTER_AREA: [&str; 4] = ["-1", "1", "2", "3"];
 const FILTER_END: [&str; 3] = ["-1", "0", "1"];
+
+fn get_url() -> String {
+	defaults_get("url").unwrap().as_string().unwrap().read()
+}
 
 #[get_manga_list]
 fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
@@ -54,14 +60,14 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	let url = if query.is_empty() {
 		format!(
 			"{}/booklist?tag={}&area={}&end={}&page={}",
-			WWW_URL,
+			get_url(),
 			encode_uri(tag),
 			area,
 			end,
 			page
 		)
 	} else {
-		format!("{}/search?keyword={}", WWW_URL, encode_uri(query.clone()))
+		format!("{}/search?keyword={}", get_url(), encode_uri(query.clone()))
 	};
 	let html = Request::new(url, HttpMethod::Get).html()?;
 	let has_more = query.is_empty();
@@ -109,7 +115,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 
 #[get_manga_details]
 fn get_manga_details(id: String) -> Result<Manga> {
-	let url = format!("{}/book/{}", WWW_URL, id.clone());
+	let url = format!("{}/book/{}", get_url(), id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
 	let cover = html
 		.select(".banner_detail_form>.cover>img")
@@ -171,7 +177,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 
 #[get_chapter_list]
 fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
-	let url = format!("{}/book/{}", WWW_URL, id.clone());
+	let url = format!("{}/book/{}", get_url(), id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
 	let mut chapters: Vec<Chapter> = Vec::new();
 
@@ -190,7 +196,7 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 			.unwrap();
 		let title = item.text().read().trim().to_string();
 		let chapter = (index + 1) as f32;
-		let url = format!("{}/chapter/{}", WWW_URL, id.clone());
+		let url = format!("{}/chapter/{}", get_url(), id.clone());
 		chapters.push(Chapter {
 			id,
 			title,
@@ -206,7 +212,7 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 
 #[get_page_list]
 fn get_page_list(_: String, chapter_id: String) -> Result<Vec<Page>> {
-	let url = format!("{}/chapter/{}", WWW_URL, chapter_id.clone());
+	let url = format!("{}/chapter/{}", get_url(), chapter_id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
 	let mut pages: Vec<Page> = Vec::new();
 
