@@ -8,6 +8,7 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 
 ## 图源列表
 
+- [139漫画](https://139mh.com)
 - [无敌漫画](https://www.55dmh.com)
 - [巴卡漫画](https://bakamh.com)
 - [包子漫画](https://www.baozimh.com)

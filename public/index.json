@@ -1,5 +1,14 @@
 [
   {
+    "id": "zh.139mh",
+    "name": "139漫画",
+    "file": "zh.139mh-v1.aix",
+    "icon": "zh.139mh-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 0
+  },
+  {
     "id": "zh.55dmh",
     "name": "无敌漫画",
     "file": "zh.55dmh-v2.aix",
