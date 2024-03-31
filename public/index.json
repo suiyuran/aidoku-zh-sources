@@ -135,6 +135,15 @@
     "nsfw": 0
   },
   {
+    "id": "zh.miaoshangmanhua",
+    "name": "喵上漫画",
+    "file": "zh.miaoshangmanhua-v1.aix",
+    "icon": "zh.miaoshangmanhua-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 0
+  },
+  {
     "id": "zh.msxhm",
     "name": "漫小肆韩漫",
     "file": "zh.msxhm-v3.aix",

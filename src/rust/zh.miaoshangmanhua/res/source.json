@@ -1,0 +1,27 @@
+{
+  "info": {
+    "id": "zh.miaoshangmanhua",
+    "lang": "zh",
+    "name": "喵上漫画",
+    "version": 1,
+    "url": "https://www.miaoshangmanhua.com",
+    "nsfw": 0
+  },
+  "listings": [
+    {
+      "name": "人气总榜"
+    },
+    {
+      "name": "人气月榜"
+    },
+    {
+      "name": "人气周榜"
+    },
+    {
+      "name": "人气日榜"
+    },
+    {
+      "name": "收藏总榜"
+    }
+  ]
+}

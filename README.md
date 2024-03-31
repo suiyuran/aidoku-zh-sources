@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 - [巴卡漫画](https://bakamh.com)
 - [包子漫画](https://www.baozimh.com)
 - [拷贝漫画](https://www.copymanga.tv)
-- ~~[漫画狗](https://dogemanga.com)~~
+- [漫画狗](https://dogemanga.com)
 - [G站漫画](https://godamanga.com)
 - [古风漫画](https://www.gufengmh.com)
 - [Hanime1.me](https://hanime1.me/comics)
@@ -23,7 +23,8 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 - [哔咔漫画](https://manhuabika.com)
 - [漫画DB](https://www.manhuadb.com)
 - ~~[漫画人](https://www.manhuaren.com)~~
-- [漫小肆韩漫](https://www.mxshm.site)
+- [喵上漫画](https://www.miaoshangmanhua.com)
+- [漫小肆韩漫](https://www.freexcomic.com)
 - [Nico](https://nicohub.cc/index?category=comic)
 - [NoyAcg](https://noy1.top)
 - [韩漫库](https://se8.us)
