@@ -3,6 +3,7 @@ use aidoku::{
 	helpers::uri::{encode_uri, QueryParameters},
 	prelude::*,
 	std::{
+		defaults::defaults_get,
 		net::{HttpMethod, Request},
 		String, ValueRef, Vec,
 	},
@@ -20,8 +21,10 @@ pub fn md5(text: String) -> String {
 }
 
 pub fn get_json(url: String) -> Result<ValueRef, AidokuError> {
+	let token = defaults_get("token")?.as_string()?.read();
+
 	Request::new(url, HttpMethod::Get)
-		.header("X-Yq-Yqci", r#"{"le": "zh"}"#)
+		.header("Authorization", &format!("YINGQISTS2 {}", token))
 		.json()
 }
 
@@ -43,7 +46,11 @@ pub fn gen_gsn_hash(mut params: Vec<(String, String)>) -> String {
 }
 
 pub fn gen_query_string(mut params: Vec<(String, String)>) -> String {
-	params.push((String::from("gak"), String::from("android_manhuaren2")));
+	let uid = defaults_get("uid").unwrap().as_string().unwrap().read();
+
+	params.push((String::from("gak"), String::from("ios_manhuaren2")));
+	params.push((String::from("gft"), String::from("json")));
+	params.push((String::from("gui"), uid));
 	params.push((String::from("gsn"), gen_gsn_hash(params.clone())));
 
 	let mut query_params = QueryParameters::new();

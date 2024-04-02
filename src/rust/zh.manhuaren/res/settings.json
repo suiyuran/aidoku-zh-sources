@@ -1,0 +1,20 @@
+[
+  {
+    "type": "group",
+    "title": "设置",
+    "items": [
+      {
+        "type": "text",
+        "key": "uid",
+        "placeholder": "用户ID",
+        "default": "486922991"
+      },
+      {
+        "type": "text",
+        "key": "token",
+        "placeholder": "令牌",
+        "default": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc19mcm9tX3JndCI6ZmFsc2UsInVzZXJfbGVnYWN5X2lkIjo0ODY5MjI5OTEsImRldmljZV9pZCI6IkE3RTJCNTE0OTFCNjcyRDJEMkMxQTZGRDMwODNFQjYwQzI1MzlBRTciLCJ1dWlkIjoiYTI0ZDUyYzAtZDY4ZC00YThmLWIyYTYtNTYzZDY4YmUzNTc4IiwiY3JlYXRldGltZV91dGMiOiIyMDI0LTA0LTAyIDAxOjM4OjI4IiwibmJmIjoxNzEyMDIxOTA4LCJleHAiOjE3MTIwMjU1MDgsImlhdCI6MTcxMjAyMTkwOH0.bQ34g4uMTyWKbzkXAKTvi8CYJWcrmGfT4Uds5uCKcwDAwr465-C094-oR-l148i4z2W_AB2bAFMblsOBF4wPXBD65qKVLp5EA4hoz2Z3wwYXBk_2yNGPx6gsyQ83DYgUQ6f2s3EYaapVTKdjC9bLrIfWz6lJBDVNFewV4x8PVBj-2RTJtH05tYdEo3FSZUkEZGtNPqYvZ60pwlcMZt-roPgvWh1AjV0IDbi480P-gsfzsl46ETEMpSU_rvI86jYab2i_8CftMWtM-AaFK-5bmuqP1KgEmTdJoXMxkpqgv5UrlTu29fndNjASnz7xonK8q6ePW6BJQdY0vwsn_VANEw"
+      }
+    ]
+  }
+]

@@ -128,10 +128,10 @@
   {
     "id": "zh.manhuaren",
     "name": "漫画人",
-    "file": "zh.manhuaren-v1.aix",
-    "icon": "zh.manhuaren-v1.png",
+    "file": "zh.manhuaren-v2.aix",
+    "icon": "zh.manhuaren-v2.png",
     "lang": "zh",
-    "version": 1,
+    "version": 2,
     "nsfw": 0
   },
   {
