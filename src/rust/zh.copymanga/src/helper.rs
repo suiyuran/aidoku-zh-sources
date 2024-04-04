@@ -25,7 +25,7 @@ pub fn decrypt(text: String) -> String {
 
 pub fn get_json(url: String) -> ObjectRef {
 	Request::new(url, HttpMethod::Get)
-		.header("version", "2.0.7")
+		.header("version", "2.2.8")
 		.header("platform", "3")
 		.header("region", "1")
 		.json()
