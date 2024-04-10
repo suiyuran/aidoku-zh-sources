@@ -3,7 +3,7 @@ extern crate alloc;
 
 use aidoku::{
 	error::Result,
-	helpers::uri::encode_uri,
+	helpers::{substring::Substring, uri::encode_uri},
 	prelude::*,
 	std::{
 		net::{HttpMethod, Request},
@@ -264,19 +264,22 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 		chapter_id.clone()
 	);
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
-	let list = html
-		.select(".rd-article__pic>:not(img[data-src*='add.png'])")
-		.array();
-
+	let text = html
+		.select(".rd-article-wr")
+		.html()
+		.read()
+		.as_str()
+		.substring_before("<script>")
+		.unwrap()
+		.to_string();
+	let list = text
+		.split("\"")
+		.filter(|a| a.starts_with("http") && !a.ends_with("/add.png"));
 	let mut pages: Vec<Page> = Vec::new();
 
 	for (index, item) in list.enumerate() {
-		let item = match item.as_node() {
-			Ok(node) => node,
-			Err(_) => continue,
-		};
 		let index = index as i32;
-		let url = item.attr("data-src").read();
+		let url = item.to_string();
 		pages.push(Page {
 			index,
 			url,
