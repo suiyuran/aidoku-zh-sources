@@ -14,7 +14,7 @@ use aidoku::{
 };
 use alloc::string::ToString;
 
-const WWW_URL: &str = "https://www.miaoshangmanhua.com";
+const WWW_URL: &str = "https://www.miaoshangmanhua.cc";
 
 const FILTER_TAG: [&str; 80] = [
 	"", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18",
@@ -67,7 +67,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 			)
 		}
 	} else {
-		format!("{}/search?key={}", WWW_URL, encode_uri(query))
+		format!("{}/search/{}/{}", WWW_URL, encode_uri(query), page)
 	};
 
 	let html = Request::new(url, HttpMethod::Get).html()?;

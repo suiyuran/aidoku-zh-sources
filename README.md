@@ -23,7 +23,7 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 - [哔咔漫画](https://manhuabika.com)
 - [漫画DB](https://www.manhuadb.com)
 - [漫画人](https://www.manhuaren.com)
-- [喵上漫画](https://www.miaoshangmanhua.com)
+- [喵上漫画](https://www.miaoshangmanhua.cc)
 - [漫小肆韩漫](https://www.freexcomic.com)
 - [Nico](https://nicohub.cc/index?category=comic)
 - [NoyAcg](https://noy1.top)
