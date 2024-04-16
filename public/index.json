@@ -27,12 +27,21 @@
     "nsfw": 2
   },
   {
-    "id": "zh.baozimh",
-    "name": "包子漫画",
-    "file": "zh.baozimh-v2.aix",
-    "icon": "zh.baozimh-v2.png",
+    "id": "zh.baozimh1",
+    "name": "包子漫画1",
+    "file": "zh.baozimh1-v3.aix",
+    "icon": "zh.baozimh1-v3.png",
     "lang": "zh",
-    "version": 2,
+    "version": 3,
+    "nsfw": 0
+  },
+  {
+    "id": "zh.baozimh2",
+    "name": "包子漫画2",
+    "file": "zh.baozimh2-v1.aix",
+    "icon": "zh.baozimh2-v1.png",
+    "lang": "zh",
+    "version": 1,
     "nsfw": 0
   },
   {

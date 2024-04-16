@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "aidoku-baozimh"
+name = "aidoku-baozimh1"
 version = "0.1.0"
 dependencies = [
  "aidoku",

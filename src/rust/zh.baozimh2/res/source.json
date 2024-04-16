@@ -1,0 +1,21 @@
+{
+  "info": {
+    "id": "zh.baozimh2",
+    "lang": "zh",
+    "name": "包子漫画2",
+    "version": 1,
+    "url": "https://baozimh.org",
+    "nsfw": 0
+  },
+  "listings": [
+    {
+      "name": "人气推荐"
+    },
+    {
+      "name": "热门更新"
+    },
+    {
+      "name": "最新上架"
+    }
+  ]
+}
