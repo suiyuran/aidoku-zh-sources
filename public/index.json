@@ -137,10 +137,10 @@
   {
     "id": "zh.miaoshangmanhua",
     "name": "喵上漫画",
-    "file": "zh.miaoshangmanhua-v3.aix",
-    "icon": "zh.miaoshangmanhua-v3.png",
+    "file": "zh.miaoshangmanhua-v4.aix",
+    "icon": "zh.miaoshangmanhua-v4.png",
     "lang": "zh",
-    "version": 3,
+    "version": 4,
     "nsfw": 0
   },
   {

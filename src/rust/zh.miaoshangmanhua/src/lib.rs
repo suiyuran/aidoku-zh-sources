@@ -25,6 +25,19 @@ const FILTER_TAG: [&str; 80] = [
 ];
 const FILTER_ORDER: [&str; 2] = ["hits", "addtime"];
 
+fn handle_cover_url(url: String) -> String {
+	if url.contains("url=") {
+		url.split("url=")
+			.map(|a| a.to_string())
+			.collect::<Vec<String>>()
+			.pop()
+			.unwrap()
+			.replace("&w=320&q=60", "")
+	} else {
+		url
+	}
+}
+
 #[get_manga_list]
 fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	let mut query = String::new();
@@ -89,7 +102,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 			.pop()
 			.unwrap()
 			.replace(".html", "");
-		let cover = item.select("li:nth-child(1)>a>img").attr("src").read();
+		let cover = handle_cover_url(item.select("li:nth-child(1)>a>img").attr("src").read());
 		let title = item.select(".title>a").text().read();
 		mangas.push(Manga {
 			id,
@@ -148,7 +161,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 			.pop()
 			.unwrap()
 			.replace(".html", "");
-		let cover = item.select(".pic>a>img").attr("src").read();
+		let cover = handle_cover_url(item.select(".pic>a>img").attr("src").read());
 		let title = item.select(".title>a").text().read();
 		mangas.push(Manga {
 			id,
@@ -168,7 +181,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 fn get_manga_details(id: String) -> Result<Manga> {
 	let url = format!("{}/comic/{}.html", WWW_URL, id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
-	let cover = html.select(".cy_info_cover>a>img").attr("src").read();
+	let cover = handle_cover_url(html.select(".cy_info_cover>a>img").attr("src").read());
 	let title = html.select(".cy_title>h1").text().read();
 	let author = html
 		.select(".cy_intro_l>.cy_xinxi:nth-child(4)>span:nth-child(1)>a")
