@@ -73,7 +73,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 				.unwrap();
 			let cover = item
 				.select(".item-thumb>a>img")
-				.attr("data-src")
+				.attr("src")
 				.read()
 				.replace("-175x238", "");
 			let title = item.select(".item-summary>.post-title>h3>a").text().read();
@@ -102,7 +102,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 				.unwrap();
 			let cover = item
 				.select(".col-4>.tab-thumb>a>img")
-				.attr("data-src")
+				.attr("src")
 				.read()
 				.replace("-193x278", "");
 			let title = item
@@ -157,7 +157,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 			.unwrap();
 		let cover = item
 			.select(".item-thumb>a>img")
-			.attr("data-src")
+			.attr("src")
 			.read()
 			.replace("-175x238", "");
 		let title = item.select(".item-summary>.post-title>h3>a").text().read();
@@ -286,7 +286,7 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 			Err(_) => continue,
 		};
 		let index = index as i32;
-		let url = item.attr("data-src").read().trim().to_string();
+		let url = item.attr("src").read().trim().to_string();
 		pages.push(Page {
 			index,
 			url,

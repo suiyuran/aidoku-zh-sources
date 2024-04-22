@@ -20,10 +20,10 @@
   {
     "id": "zh.bakamh",
     "name": "巴卡漫画",
-    "file": "zh.bakamh-v1.aix",
-    "icon": "zh.bakamh-v1.png",
+    "file": "zh.bakamh-v2.aix",
+    "icon": "zh.bakamh-v2.png",
     "lang": "zh",
-    "version": 1,
+    "version": 2,
     "nsfw": 2
   },
   {
