@@ -6,16 +6,16 @@ use aidoku::{
 	helpers::uri::encode_uri,
 	prelude::*,
 	std::{
+		defaults::defaults_get,
 		net::{HttpMethod, Request},
 		String, Vec,
-		defaults::defaults_get,
 	},
 	Chapter, Filter, FilterType, Manga, MangaContentRating, MangaPageResult, MangaStatus,
 	MangaViewer, Page,
 };
 use alloc::string::ToString;
 
-const WWW_URL: &str = "http://www.zerobywns.com";
+const WWW_URL: &str = "http://www.zerobyw24.com";
 
 const FILTER_CATEGORY_ID: [&str; 15] = [
 	"", "1", "15", "32", "6", "13", "28", "31", "22", "23", "26", "29", "34", "35", "36",

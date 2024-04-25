@@ -32,4 +32,4 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 - [vomic漫画](http://www.vomicmh.com)
 - [绅士漫画](https://www.wnacg.com)
 - [野蛮漫画](https://yemancomic.com)
-- [zero搬运网](http://www.zerobywns.com)
+- [zero搬运网](http://www.zerobyw24.com)
