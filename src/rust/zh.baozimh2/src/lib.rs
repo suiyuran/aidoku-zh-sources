@@ -13,8 +13,8 @@ use aidoku::{
 };
 use alloc::string::ToString;
 
-const WWW_URL: &str = "https://baozimh.org";
-const ART_URL: &str = "https://cn.baozimh.one";
+const WWW_URL: &str = "https://baozimh.one";
+const M_URL: &str = "https://m.baozimh.one";
 
 const FILTER_CATEGORY: [&str; 35] = [
 	"",
@@ -103,7 +103,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 		} else {
 			format!("manga-tag/{}", category)
 		};
-		let url = format!("{}/{}/page/{}", WWW_URL, caregory_str, page);
+		let url = format!("{}/{}/page/{}", M_URL, caregory_str, page);
 		let html = Request::new(url, HttpMethod::Get).html()?;
 
 		for item in html.select(".pb-2>a").array() {
@@ -186,7 +186,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 		_ => return get_manga_list(Vec::new(), page),
 	}
 
-	let url = format!("{}/{}/page/{}", WWW_URL, list, page);
+	let url = format!("{}/{}/page/{}", M_URL, list, page);
 	let html = Request::new(url, HttpMethod::Get).html()?;
 	let has_more = true;
 	let mut mangas: Vec<Manga> = Vec::new();
@@ -222,8 +222,9 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 
 #[get_manga_details]
 fn get_manga_details(id: String) -> Result<Manga> {
-	let url = format!("{}/manga/{}", WWW_URL, id.clone());
+	let url = format!("{}/manga/{}", M_URL, id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
+	let id = html.select("#mangachapters").attr("data-mid").read();
 	let cover = handle_cover_url(
 		html.select("meta[property='og:image']")
 			.attr("content")
@@ -281,9 +282,11 @@ fn get_manga_details(id: String) -> Result<Manga> {
 
 #[get_chapter_list]
 fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
-	let url = format!("{}/chapterlist/{}", WWW_URL, id.clone());
-	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
-	let list = html.select("#chapterlists>.chapteritem>a").array();
+	let url = format!("{}/manga/get?mid={}&mode=all", M_URL, id);
+	let html = Request::new(url.clone(), HttpMethod::Get)
+		.header("Referer", &M_URL)
+		.html()?;
+	let list = html.select("#chapterlist+div>div>a").array();
 	let mut chapters: Vec<Chapter> = Vec::new();
 
 	for (index, item) in list.enumerate() {
@@ -292,13 +295,7 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 			Err(_) => continue,
 		};
 		let url = item.attr("href").read();
-		let id = url
-			.split("/")
-			.filter(|a| !a.is_empty())
-			.map(|a| a.to_string())
-			.collect::<Vec<String>>()
-			.pop()
-			.unwrap();
+		let id = item.attr("data-cs").read();
 		let title = item
 			.select("div>span:first-child")
 			.text()
@@ -322,13 +319,16 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 #[get_page_list]
 fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	let url = format!(
-		"{}/manga/{}/{}",
-		ART_URL,
+		"{}/chapter/getinfo?m={}&c={}",
+		M_URL,
 		manga_id.clone(),
 		chapter_id.clone()
 	);
-	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
-	let list = html.select(".text-center>div>img").array();
+	let html = Request::new(url.clone(), HttpMethod::Get)
+		.header("Origin", &WWW_URL)
+		.header("Referer", &WWW_URL)
+		.html()?;
+	let list = html.select("#chapcontent>div>img").array();
 
 	let mut pages: Vec<Page> = Vec::new();
 
@@ -355,9 +355,5 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 
 #[modify_image_request]
 fn modify_image_request(request: Request) {
-	let url = request.url().to_string();
-
-	if !url.starts_with("https") {
-		request.set_url(format!("{}/{}", ART_URL, url));
-	}
+	request.header("Referer", &WWW_URL);
 }
