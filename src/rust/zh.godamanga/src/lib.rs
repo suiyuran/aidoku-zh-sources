@@ -325,7 +325,7 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 		.header("Origin", &NEWS_COCOLA_URL)
 		.header("Referer", &NEWS_COCOLA_URL)
 		.html()?;
-	let list = html.select(".text-center>div>img").array();
+	let list = html.select("#chapcontent>div>img").array();
 
 	let mut pages: Vec<Page> = Vec::new();
 
