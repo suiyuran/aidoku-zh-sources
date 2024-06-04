@@ -282,7 +282,7 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 		.html()
 		.read()
 		.as_str()
-		.substring_before("<script>")
+		.substring_before("rd-article__end")
 		.unwrap()
 		.to_string();
 	let list = text
@@ -301,4 +301,10 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	}
 
 	Ok(pages)
+}
+
+#[modify_image_request]
+fn modify_image_request(request: Request) {
+	let url = request.url().read();
+	request.header("Referer", &url);
 }
