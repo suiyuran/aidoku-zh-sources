@@ -15,6 +15,7 @@ use alloc::string::ToString;
 
 const WWW_URL: &str = "https://baozimh.one";
 const M_URL: &str = "https://m.baozimh.one";
+const API_URL: &str = "https://api-get.mgsearcher.com";
 
 const FILTER_CATEGORY: [&str; 35] = [
 	"",
@@ -224,7 +225,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 fn get_manga_details(id: String) -> Result<Manga> {
 	let url = format!("{}/manga/{}", M_URL, id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
-	let id = html.select("#mangachapters").attr("data-mid").read();
+	let mid = html.select("#mangachapters").attr("data-mid").read();
 	let cover = handle_cover_url(
 		html.select("meta[property='og:image']")
 			.attr("content")
@@ -243,7 +244,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 		.collect::<Vec<String>>()
 		.join(", ");
 	let artist = String::new();
-	let description = html.select(".my-unit-md").text().read();
+	let description = html.select(".text-medium.my-unit-md").text().read();
 	let categories = html
 		.select(".py-1>a:not([href*=author])>span")
 		.array()
@@ -266,7 +267,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 	let viewer = MangaViewer::Scroll;
 
 	Ok(Manga {
-		id,
+		id: format!("{id}/{mid}"),
 		cover,
 		title,
 		author,
@@ -282,26 +283,27 @@ fn get_manga_details(id: String) -> Result<Manga> {
 
 #[get_chapter_list]
 fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
-	let url = format!("{}/manga/get?mid={}&mode=all", M_URL, id);
-	let html = Request::new(url.clone(), HttpMethod::Get)
+	let ids = id.split("/").collect::<Vec<&str>>();
+	let url = format!("{}/api/manga/get?mid={}&mode=all", API_URL, ids[1]);
+	let json = Request::new(url.clone(), HttpMethod::Get)
+		.header("Origin", &M_URL)
 		.header("Referer", &M_URL)
-		.html()?;
-	let list = html.select("#chapterlist+div>div>a").array();
+		.json()?;
+	let data = json.as_object()?;
+	let data = data.get("data").as_object()?;
+	let list = data.get("chapters").as_array()?;
 	let mut chapters: Vec<Chapter> = Vec::new();
 
 	for (index, item) in list.enumerate() {
-		let item = match item.as_node() {
-			Ok(node) => node,
+		let item = match item.as_object() {
+			Ok(item) => item,
 			Err(_) => continue,
 		};
-		let url = item.attr("href").read();
-		let id = item.attr("data-cs").read();
-		let title = item
-			.select("div>span:first-child")
-			.text()
-			.read()
-			.trim()
-			.to_string();
+		let attributes = item.get("attributes").as_object()?;
+		let id = item.get("id").as_int()?.to_string();
+		let title = attributes.get("title").as_string()?.read();
+		let slug = attributes.get("slug").as_string()?.read();
+		let url = format!("{}/manga/{}/{}", M_URL, ids[0], slug);
 		let chapter = (index + 1) as f32;
 		chapters.push(Chapter {
 			id,
@@ -318,31 +320,30 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 
 #[get_page_list]
 fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
+	let ids = manga_id.split("/").collect::<Vec<&str>>();
 	let url = format!(
-		"{}/chapter/getinfo?m={}&c={}",
-		M_URL,
-		manga_id.clone(),
+		"{}/api/chapter/getinfo?m={}&c={}",
+		API_URL,
+		ids[1],
 		chapter_id.clone()
 	);
-	let html = Request::new(url.clone(), HttpMethod::Get)
+	let json = Request::new(url.clone(), HttpMethod::Get)
 		.header("Origin", &WWW_URL)
 		.header("Referer", &WWW_URL)
-		.html()?;
-	let list = html.select("#chapcontent>div>img").array();
-
+		.json()?;
+	let data = json.as_object()?;
+	let data = data.get("data").as_object()?;
+	let info = data.get("info").as_object()?;
+	let list = info.get("images").as_array()?;
 	let mut pages: Vec<Page> = Vec::new();
 
 	for (index, item) in list.enumerate() {
-		let item = match item.as_node() {
-			Ok(node) => node,
+		let item = match item.as_object() {
+			Ok(item) => item,
 			Err(_) => continue,
 		};
 		let index = index as i32;
-		let url = if item.has_attr("data-src") {
-			item.attr("data-src").read()
-		} else {
-			item.attr("src").read()
-		};
+		let url = item.get("url").as_string()?.read();
 		pages.push(Page {
 			index,
 			url,
