@@ -14,8 +14,8 @@ use aidoku::{
 use alloc::string::ToString;
 
 const WWW_URL: &str = "https://godamh.com";
-const NEWS_URL: &str = "https://news.cocolamanhua.com";
-const API_URL: &str = "https://api-get.mgsearcher.com";
+const API_URL: &str = "https://api-get-v2.mgsearcher.com";
+const IMG_URL: &str = "https://f40-1-4.g-mh.online";
 
 const FILTER_CATEGORY: [&str; 35] = [
 	"",
@@ -318,7 +318,7 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	let ids = manga_id.split("/").collect::<Vec<&str>>();
 	let url = format!(
-		"{}/chapter/getinfo?m={}&c={}",
+		"{}/api/chapter/getinfo?m={}&c={}",
 		API_URL,
 		ids[1],
 		chapter_id.clone()
@@ -330,7 +330,8 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	let data = json.as_object()?;
 	let data = data.get("data").as_object()?;
 	let info = data.get("info").as_object()?;
-	let list = info.get("images").as_array()?;
+	let images = info.get("images").as_object()?;
+	let list = images.get("images").as_array()?;
 	let mut pages: Vec<Page> = Vec::new();
 
 	for (index, item) in list.enumerate() {
@@ -339,7 +340,7 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 			Err(_) => continue,
 		};
 		let index = index as i32;
-		let url = item.get("url").as_string()?.read();
+		let url = format!("{}{}", IMG_URL, item.get("url").as_string()?.read());
 		pages.push(Page {
 			index,
 			url,
@@ -352,5 +353,5 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 
 #[modify_image_request]
 fn modify_image_request(request: Request) {
-	request.header("Referer", &NEWS_URL);
+	request.header("Referer", &WWW_URL);
 }
