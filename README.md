@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public
 - [巴卡漫画](https://bakamh.com)
 - [包子漫画1](https://www.baozimh.com)
 - [包子漫画2](https://baozimh.org)
-- [拷贝漫画](https://www.copymanga.tv)
+- [拷贝漫画](https://www.mangacopy.com)
 - [漫画狗](https://dogemanga.com)
 - [G站漫画](https://godamh.com)
 - [古风漫画](https://www.gufengmh.com)
