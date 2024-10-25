@@ -1,6 +1,5 @@
 use aidoku::{
-	std::{ArrayRef, ObjectRef, String, Vec},
-	Chapter, Manga, MangaContentRating, MangaStatus, MangaViewer, Page,
+	prelude::*, std::{ArrayRef, ObjectRef, String, Vec}, Chapter, Manga, MangaContentRating, MangaStatus, MangaViewer, Page
 };
 use alloc::string::ToString;
 
@@ -109,28 +108,41 @@ pub fn parse_manga(manga: ObjectRef) -> Manga {
 	}
 }
 
+pub fn parse_chapter_group(manga_id: String, group: ObjectRef, name: String, start: usize) -> Vec<Chapter> {
+	let list = group.get("chapters").as_array();
+	let mut chapters: Vec<Chapter> = Vec::new();
+
+	if list.is_ok() {
+		for (index, item) in list.unwrap().enumerate() {
+			let chapter = item.as_object().unwrap();
+			let id = chapter.get("id").as_string().unwrap().read();
+			let title = format!("{} - {}", name, chapter.get("name").as_string().unwrap().read());
+			let chapter = (index + start + 1) as f32;
+			let url = helper::gen_chapter_url(manga_id.clone(), id.clone());
+			chapters.push(Chapter {
+				id,
+				title,
+				chapter,
+				url,
+				..Default::default()
+			})
+		}
+	}
+
+	chapters
+}
+
 pub fn parse_chapter_list(manga: ObjectRef) -> Vec<Chapter> {
 	let build = manga.get("build").as_object().unwrap();
 	let manga_id = build.get("path_word").as_string().unwrap().read();
 	let groups = manga.get("groups").as_object().unwrap();
-	let group = groups.get("default").as_object().unwrap();
-	let list = group.get("chapters").as_array().unwrap();
-	let mut chapters: Vec<Chapter> = Vec::new();
-
-	for (index, item) in list.enumerate() {
-		let chapter = item.as_object().unwrap();
-		let id = chapter.get("id").as_string().unwrap().read();
-		let title = chapter.get("name").as_string().unwrap().read();
-		let chapter = (index + 1) as f32;
-		let url = helper::gen_chapter_url(manga_id.clone(), id.clone());
-		chapters.push(Chapter {
-			id,
-			title,
-			chapter,
-			url,
-			..Default::default()
-		})
-	}
+	let default_group = groups.get("default").as_object().unwrap_or_default();
+	let tankobon_group = groups.get("tankobon").as_object().unwrap_or_default();
+	let other_honyakuchimu_group = groups.get("other_honyakuchimu").as_object().unwrap_or_default();
+	let default = parse_chapter_group(manga_id.clone(), default_group, String::from("默认"), 0);
+	let tankobon = parse_chapter_group(manga_id.clone(), tankobon_group, String::from("单行本"), default.len());
+	let other_honyakuchimu = parse_chapter_group(manga_id.clone(), other_honyakuchimu_group, String::from("其它汉化版"), default.len() + tankobon.len());
+	let mut chapters = [default, tankobon, other_honyakuchimu].concat();
 
 	chapters.reverse();
 	chapters
