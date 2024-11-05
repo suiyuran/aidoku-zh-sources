@@ -65,10 +65,10 @@
   {
     "id": "zh.godamanga",
     "name": "G站漫画",
-    "file": "zh.godamanga-v7.aix",
-    "icon": "zh.godamanga-v7.png",
+    "file": "zh.godamanga-v8.aix",
+    "icon": "zh.godamanga-v8.png",
     "lang": "zh",
-    "version": 7,
+    "version": 8,
     "nsfw": 0
   },
   {
