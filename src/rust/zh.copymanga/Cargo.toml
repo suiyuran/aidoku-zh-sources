@@ -20,3 +20,4 @@ aidoku = { git = "https://github.com/Aidoku/aidoku-rs", features = ["helpers"] }
 aes = { version = "0.8.2", default-features = false }
 cbc = { version = "0.1.2", features = ["alloc"] }
 hex = { version = "0.4.3", default-features = false, features = ["alloc"] }
+uuid = { version = "1.11.0", default-features = false }

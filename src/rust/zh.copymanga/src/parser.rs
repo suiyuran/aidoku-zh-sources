@@ -1,9 +1,12 @@
+use core::str::FromStr;
+
 use aidoku::{
 	prelude::*, std::{ArrayRef, ObjectRef, String, Vec}, Chapter, Manga, MangaContentRating, MangaStatus, MangaViewer, Page
 };
 use alloc::string::ToString;
 
 use crate::helper;
+use uuid::Uuid;
 
 pub fn has_more(data: ObjectRef) -> bool {
 	let total = data.get("total").as_int().unwrap();
@@ -118,11 +121,14 @@ pub fn parse_chapter_group(manga_id: String, group: ObjectRef, name: String, sta
 			let id = chapter.get("id").as_string().unwrap().read();
 			let title = format!("{} - {}", name, chapter.get("name").as_string().unwrap().read());
 			let chapter = (index + start + 1) as f32;
+			let (p1, p2) = Uuid::from_str(&id.clone()).unwrap().get_timestamp().unwrap().to_unix();
+			let date_updated = (p1 as f64) + (p2 as f64 * 10e-10);
 			let url = helper::gen_chapter_url(manga_id.clone(), id.clone());
 			chapters.push(Chapter {
 				id,
 				title,
 				chapter,
+				date_updated,
 				url,
 				..Default::default()
 			})
@@ -139,10 +145,12 @@ pub fn parse_chapter_list(manga: ObjectRef) -> Vec<Chapter> {
 	let default_group = groups.get("default").as_object().unwrap_or_default();
 	let tankobon_group = groups.get("tankobon").as_object().unwrap_or_default();
 	let other_honyakuchimu_group = groups.get("other_honyakuchimu").as_object().unwrap_or_default();
+	let karapeji_group = groups.get("karapeji").as_object().unwrap_or_default();
 	let default = parse_chapter_group(manga_id.clone(), default_group, String::from("默认"), 0);
 	let tankobon = parse_chapter_group(manga_id.clone(), tankobon_group, String::from("单行本"), default.len());
 	let other_honyakuchimu = parse_chapter_group(manga_id.clone(), other_honyakuchimu_group, String::from("其它汉化版"), default.len() + tankobon.len());
-	let mut chapters = [default, tankobon, other_honyakuchimu].concat();
+	let karapeji = parse_chapter_group(manga_id.clone(), karapeji_group, String::from("全彩版"), default.len() + tankobon.len() + other_honyakuchimu.len());
+	let mut chapters = [default, tankobon, other_honyakuchimu, karapeji].concat();
 
 	chapters.reverse();
 	chapters
