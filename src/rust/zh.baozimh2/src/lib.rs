@@ -2,14 +2,10 @@
 extern crate alloc;
 
 use aidoku::{
-	error::Result,
-	prelude::*,
-	std::{
+	error::Result, helpers::uri::encode_uri, prelude::*, std::{
 		net::{HttpMethod, Request},
 		String, Vec,
-	},
-	Chapter, Filter, FilterType, Listing, Manga, MangaContentRating, MangaPageResult, MangaStatus,
-	MangaViewer, Page,
+	}, Chapter, Filter, FilterType, Listing, Manga, MangaContentRating, MangaPageResult, MangaStatus, MangaViewer, Page
 };
 use alloc::string::ToString;
 
@@ -96,7 +92,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	let has_more = true;
 	let mut mangas: Vec<Manga> = Vec::new();
 
-	if query.is_empty() {
+	let url = if query.is_empty() {
 		let caregory_str = if category.is_empty() {
 			String::from("manga")
 		} else if category.len() <= 2 {
@@ -104,64 +100,33 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 		} else {
 			format!("manga-tag/{}", category)
 		};
-		let url = format!("{}/{}/page/{}", WWW_URL, caregory_str, page);
-		let html = Request::new(url, HttpMethod::Get).html()?;
-
-		for item in html.select(".pb-2>a").array() {
-			let item = match item.as_node() {
-				Ok(node) => node,
-				Err(_) => continue,
-			};
-			let id = item
-				.attr("href")
-				.read()
-				.split("/")
-				.map(|a| a.to_string())
-				.collect::<Vec<String>>()
-				.pop()
-				.unwrap();
-			let cover = handle_cover_url(item.select("div>img").attr("src").read());
-			let title = item.select("div>h3").text().read();
-			mangas.push(Manga {
-				id,
-				cover,
-				title,
-				..Default::default()
-			});
-		}
+		format!("{}/{}/page/{}", WWW_URL, caregory_str, page)
 	} else {
-		let url = String::from("https://go.mgsearcher.com/indexes/mangaStrapiPro/search");
-		let body = format!(
-			r#"{{
-			"hitsPerPage": 30,
-			"page": {},
-			"q": "{}"
-		}}"#,
-			page, query
-		);
-		let json = Request::new(url, HttpMethod::Post)
-			.body(body.as_bytes())
-			.header("Content-Type", "application/json")
-			.header(
-				"Authorization",
-				"Bearer 9bdaaa44f0dd520da24298a02818944327b8280a79feb480302feda7c009264a",
-			)
-			.json()?;
-		let data = json.as_object()?;
-		let list = data.get("hits").as_array()?;
+		format!("{}/s/{}?page={}", WWW_URL, encode_uri(query), page)
+	};
+	let html = Request::new(url, HttpMethod::Get).html()?;
 
-		for item in list {
-			let item = item.as_object()?;
-			let id = item.get("slug").as_string()?.read();
-			let cover = handle_cover_url(item.get("cover").as_string()?.read());
-			let title = item.get("title").as_string()?.read();
-			mangas.push(Manga {
-				id,
-				cover,
-				title,
-				..Default::default()
-			});
-		}
+	for item in html.select(".pb-2>a").array() {
+		let item = match item.as_node() {
+			Ok(node) => node,
+			Err(_) => continue,
+		};
+		let id = item
+			.attr("href")
+			.read()
+			.split("/")
+			.map(|a| a.to_string())
+			.collect::<Vec<String>>()
+			.pop()
+			.unwrap();
+		let cover = handle_cover_url(item.select("div>img").attr("src").read());
+		let title = item.select("div>h3").text().read();
+		mangas.push(Manga {
+			id,
+			cover,
+			title,
+			..Default::default()
+		});
 	}
 
 	Ok(MangaPageResult {
@@ -223,7 +188,8 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 
 #[get_manga_details]
 fn get_manga_details(id: String) -> Result<Manga> {
-	let url = format!("{}/manga/{}", WWW_URL, id.clone());
+	let ids = id.split("/").collect::<Vec<&str>>();
+	let url = format!("{}/manga/{}", WWW_URL, ids[0]);
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
 	let mid = html.select("#mangachapters").attr("data-mid").read();
 	let cover = handle_cover_url(
@@ -267,7 +233,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 	let viewer = MangaViewer::Scroll;
 
 	Ok(Manga {
-		id: format!("{id}/{mid}"),
+		id: format!("{}/{}", ids[0], mid),
 		cover,
 		title,
 		author,
