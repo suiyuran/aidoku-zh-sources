@@ -4,7 +4,9 @@ Aidoku 中文图源
 
 ## 图源链接
 
-[將此來源](https://aidoku.app/add-source-list/?url=https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public/)添加到 Aidoku 中
+[點此來源](https://aidoku.app/add-source-list/?url=https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public/)添加到 Aidoku 中
+
+添加不了可以用[鏡像](https://aidoku.app/add-source-list/?url=https://cdn.jsdelivr.net/gh/suiyuran/aidoku-zh-sources@main/public/)
 
 ## 图源列表
 
