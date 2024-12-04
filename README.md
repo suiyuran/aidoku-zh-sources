@@ -2,16 +2,16 @@
 
 Aidoku 中文图源
 
-## 图源链接
+## 如何使用
 
-[點此來源](https://aidoku.app/add-source-list/?url=https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public/)添加到 Aidoku 中
+点击 [这里](https://aidoku.app/add-source-list/?url=https://raw.githubusercontent.com/suiyuran/aidoku-zh-sources/main/public/) 将图源添加到 Aidoku 中。
 
-添加不了可以用[鏡像](https://aidoku.app/add-source-list/?url=https://cdn.jsdelivr.net/gh/suiyuran/aidoku-zh-sources@main/public/)
+如果添加不了，可以点击 [这里](https://aidoku.app/add-source-list/?url=https://cdn.jsdelivr.net/gh/suiyuran/aidoku-zh-sources@main/public/) 试试。
 
 ## 图源列表
 
-- [139漫画](https://139mh.com)
-- [无敌漫画](https://www.55dmh.com)
+- ~~[139漫画](https://139mh.com)~~
+- ~~[无敌漫画](https://www.55dmh.com)~~
 - [巴卡漫画](https://bakamh.com)
 - [包子漫画1](https://www.baozimh.com)
 - [包子漫画2](https://baozimh.org)
@@ -26,12 +26,12 @@ Aidoku 中文图源
 - [哔咔漫画](https://manhuabika.com)
 - [漫画DB](https://www.manhuadb.com)
 - [漫画人](https://www.manhuaren.com)
-- [喵上漫画](https://www.miaoshangmanhua.cc)
+- ~~[喵上漫画](https://www.miaoshangmanhua.cc)~~
 - [漫小肆韩漫](https://www.freexcomic.com)
-- [Nico](https://nicohub.cc/index?category=comic)
+- ~~[Nico](https://nicohub.cc/index?category=comic)~~
 - [NoyAcg](https://noy1.top)
 - [韩漫库](https://se8.us)
-- [vomic漫画](http://www.vomicmh.com)
+- ~~[vomic漫画](http://www.vomicmh.com)~~
 - [绅士漫画](https://www.wnacg.com)
-- [野蛮漫画](https://yemancomic.com)
+- ~~[野蛮漫画](https://yemancomic.com)~~
 - [zero搬运网](http://www.zerobyw24.com)
