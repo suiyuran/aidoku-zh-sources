@@ -121,9 +121,9 @@ fn get_manga_details(id: String) -> Result<Manga> {
 		.select(".banner_detail_form>.cover>img")
 		.attr("src")
 		.read();
-	let title = html.select(".info>h1").text().read().trim().to_string();
+	let title = html.select(".banner_detail_form>.info>h1").text().read().trim().to_string();
 	let author = html
-		.select(".info>p:nth-child(4)")
+		.select(".banner_detail_form>.info>p:nth-child(3)")
 		.text()
 		.read()
 		.trim()
@@ -134,19 +134,19 @@ fn get_manga_details(id: String) -> Result<Manga> {
 		.join(", ");
 	let artist = String::new();
 	let description = html
-		.select(".info>.content>span>span")
+		.select(".banner_detail_form>.info>.content")
 		.text()
 		.read()
 		.trim()
 		.to_string();
 	let categories = html
-		.select(".info>p:nth-child(6)>span>a")
+		.select(".banner_detail_form>.info>p:nth-child(5)>span>a")
 		.array()
 		.map(|a| a.as_node().unwrap().text().read().trim().to_string())
 		.filter(|a| !a.is_empty())
 		.collect::<Vec<String>>();
 	let status = match html
-		.select(".info>p:nth-child(5)>span>span")
+		.select(".banner_detail_form>.info>p:nth-child(4)>span:nth-child(1)>span")
 		.text()
 		.read()
 		.trim()
