@@ -34,4 +34,4 @@ Aidoku 中文图源
 - ~~[vomic漫画](http://www.vomicmh.com)~~
 - [绅士漫画](https://www.wnacg.com)
 - ~~[野蛮漫画](https://yemancomic.com)~~
-- [zero搬运网](http://www.zerobyw24.com)
+- [zero搬运网](https://zerobyw.github.io)

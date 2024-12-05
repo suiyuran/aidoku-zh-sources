@@ -5,8 +5,14 @@
     "items": [
       {
         "type": "text",
+        "key": "url",
+        "placeholder": "URL",
+        "default": "https://www.zerobywav.com"
+      },
+      {
+        "type": "text",
         "key": "session",
-        "placeholder": "session",
+        "placeholder": "Session",
         "default": ""
       }
     ]
