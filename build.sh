@@ -3,14 +3,24 @@
 for src in ./src/as/*; do
   (
     cd "$src"
-    npm run build
+
+    if [ "$(cat ./res/source.json | grep 'deprecated' | awk '{print $2}')" == "true" ]; then
+      rm -rf ./build/package.aix
+    else
+      npm run build
+    fi
   )
 done
 
 for src in ./src/rust/*; do
   (
     cd "$src"
-    ./build.sh -a
+
+    if [ "$(cat ./res/source.json | grep 'deprecated' | awk '{print $2}')" == "true" ]; then
+      rm -rf ./package.aix
+    else
+      ./build.sh -a
+    fi
   )
 done
 

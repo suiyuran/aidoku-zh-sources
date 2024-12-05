@@ -6,5 +6,6 @@
     "version": 1,
     "url": "https://isekai.ch",
     "nsfw": 2
-  }
+  },
+  "deprecated": true
 }

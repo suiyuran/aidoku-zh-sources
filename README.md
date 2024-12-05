@@ -16,7 +16,7 @@ Aidoku 中文图源
 - [包子漫画1](https://www.baozimh.com)
 - [包子漫画2](https://baozimh.org)
 - [拷贝漫画](https://www.mangacopy.com)
-- [漫画狗](https://dogemanga.com)
+- ~~[漫画狗](https://dogemanga.com)~~
 - [G站漫画](https://godamh.com)
 - [古风漫画](https://www.gufengmh.com)
 - [Hanime1.me](https://hanime1.me/comics)

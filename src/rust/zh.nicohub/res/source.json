@@ -6,5 +6,6 @@
     "version": 1,
     "url": "https://nicohub.cc/index?category=comic",
     "nsfw": 0
-  }
+  },
+  "deprecated": true
 }

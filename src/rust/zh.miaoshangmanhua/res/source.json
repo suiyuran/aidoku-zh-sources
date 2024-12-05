@@ -23,5 +23,6 @@
     {
       "name": "收藏总榜"
     }
-  ]
+  ],
+  "deprecated": true
 }

@@ -1,23 +1,5 @@
 [
   {
-    "id": "zh.139mh",
-    "name": "139漫画",
-    "file": "zh.139mh-v1.aix",
-    "icon": "zh.139mh-v1.png",
-    "lang": "zh",
-    "version": 1,
-    "nsfw": 0
-  },
-  {
-    "id": "zh.55dmh",
-    "name": "无敌漫画",
-    "file": "zh.55dmh-v2.aix",
-    "icon": "zh.55dmh-v2.png",
-    "lang": "zh",
-    "version": 2,
-    "nsfw": 0
-  },
-  {
     "id": "zh.bakamh",
     "name": "巴卡漫画",
     "file": "zh.bakamh-v2.aix",
@@ -54,15 +36,6 @@
     "nsfw": 1
   },
   {
-    "id": "zh.dogemanga",
-    "name": "漫画狗",
-    "file": "zh.dogemanga-v1.aix",
-    "icon": "zh.dogemanga-v1.png",
-    "lang": "zh",
-    "version": 1,
-    "nsfw": 0
-  },
-  {
     "id": "zh.godamanga",
     "name": "G站漫画",
     "file": "zh.godamanga-v8.aix",
@@ -94,15 +67,6 @@
     "name": "HO5HO",
     "file": "zh.ho5ho-v1.aix",
     "icon": "zh.ho5ho-v1.png",
-    "lang": "zh",
-    "version": 1,
-    "nsfw": 2
-  },
-  {
-    "id": "zh.isekai",
-    "name": "ISEKAI",
-    "file": "zh.isekai-v1.aix",
-    "icon": "zh.isekai-v1.png",
     "lang": "zh",
     "version": 1,
     "nsfw": 2
@@ -144,15 +108,6 @@
     "nsfw": 0
   },
   {
-    "id": "zh.miaoshangmanhua",
-    "name": "喵上漫画",
-    "file": "zh.miaoshangmanhua-v5.aix",
-    "icon": "zh.miaoshangmanhua-v5.png",
-    "lang": "zh",
-    "version": 5,
-    "nsfw": 0
-  },
-  {
     "id": "zh.msxhm",
     "name": "漫小肆韩漫",
     "file": "zh.msxhm-v4.aix",
@@ -160,15 +115,6 @@
     "lang": "zh",
     "version": 4,
     "nsfw": 2
-  },
-  {
-    "id": "zh.nicohub",
-    "name": "Nico",
-    "file": "zh.nicohub-v1.aix",
-    "icon": "zh.nicohub-v1.png",
-    "lang": "zh",
-    "version": 1,
-    "nsfw": 0
   },
   {
     "id": "zh.noy1",
@@ -189,15 +135,6 @@
     "nsfw": 2
   },
   {
-    "id": "zh.vomicmh",
-    "name": "vomic漫画",
-    "file": "zh.vomicmh-v1.aix",
-    "icon": "zh.vomicmh-v1.png",
-    "lang": "zh",
-    "version": 1,
-    "nsfw": 0
-  },
-  {
     "id": "zh.wnacg",
     "name": "绅士漫画",
     "file": "zh.wnacg-v2.aix",
@@ -205,15 +142,6 @@
     "lang": "zh",
     "version": 2,
     "nsfw": 2
-  },
-  {
-    "id": "zh.yemancomic",
-    "name": "野蛮漫画",
-    "file": "zh.yemancomic-v1.aix",
-    "icon": "zh.yemancomic-v1.png",
-    "lang": "zh",
-    "version": 1,
-    "nsfw": 0
   },
   {
     "id": "zh.zerobywns",
