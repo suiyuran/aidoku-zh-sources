@@ -47,10 +47,10 @@
   {
     "id": "zh.gufengmh",
     "name": "古风漫画",
-    "file": "zh.gufengmh-v2.aix",
-    "icon": "zh.gufengmh-v2.png",
+    "file": "zh.gufengmh-v3.aix",
+    "icon": "zh.gufengmh-v3.png",
     "lang": "zh",
-    "version": 2,
+    "version": 3,
     "nsfw": 0
   },
   {
