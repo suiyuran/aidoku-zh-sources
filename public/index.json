@@ -119,10 +119,10 @@
   {
     "id": "zh.noy1",
     "name": "NoyAcg",
-    "file": "zh.noy1-v1.aix",
-    "icon": "zh.noy1-v1.png",
+    "file": "zh.noy1-v2.aix",
+    "icon": "zh.noy1-v2.png",
     "lang": "zh",
-    "version": 1,
+    "version": 2,
     "nsfw": 2
   },
   {
