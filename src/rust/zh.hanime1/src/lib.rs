@@ -205,7 +205,7 @@ fn get_page_list(manga_id: String, _: String) -> Result<Vec<Page>> {
 			.attr("data-srcset")
 			.read()
 			.replace("t.nhentai.net", "i.nhentai.net")
-			.replace("t.jpg", ".jpg");
+			.replace("t.", ".");
 		pages.push(Page {
 			index,
 			url,
