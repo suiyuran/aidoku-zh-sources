@@ -121,7 +121,12 @@ fn get_manga_details(id: String) -> Result<Manga> {
 		.select(".banner_detail_form>.cover>img")
 		.attr("src")
 		.read();
-	let title = html.select(".banner_detail_form>.info>h1").text().read().trim().to_string();
+	let title = html
+		.select(".banner_detail_form>.info>h1")
+		.text()
+		.read()
+		.trim()
+		.to_string();
 	let author = html
 		.select(".banner_detail_form>.info>p:nth-child(3)")
 		.text()
@@ -216,7 +221,11 @@ fn get_page_list(_: String, chapter_id: String) -> Result<Vec<Page>> {
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
 	let mut pages: Vec<Page> = Vec::new();
 
-	for (index, item) in html.select(".comicpage>div>img").array().enumerate() {
+	for (index, item) in html
+		.select(".comicpage>div>img,#cp_img>img")
+		.array()
+		.enumerate()
+	{
 		let item = match item.as_node() {
 			Ok(node) => node,
 			Err(_) => continue,
