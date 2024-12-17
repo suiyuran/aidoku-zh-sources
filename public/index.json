@@ -1,5 +1,14 @@
 [
   {
+    "id": "zh.18mh",
+    "name": "18漫画",
+    "file": "zh.18mh-v1.aix",
+    "icon": "zh.18mh-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 2
+  },
+  {
     "id": "zh.bakamh",
     "name": "巴卡漫画",
     "file": "zh.bakamh-v2.aix",

@@ -10,6 +10,7 @@ Aidoku 中文图源
 
 ## 图源列表
 
+- [18漫画](https://18mh.org)
 - ~~[139漫画](https://139mh.com)~~
 - ~~[无敌漫画](https://www.55dmh.com)~~
 - [巴卡漫画](https://bakamh.com)

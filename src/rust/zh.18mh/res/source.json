@@ -1,0 +1,21 @@
+{
+  "info": {
+    "id": "zh.18mh",
+    "lang": "zh",
+    "name": "18漫画",
+    "version": 1,
+    "url": "https://18mh.org",
+    "nsfw": 2
+  },
+  "listings": [
+    {
+      "name": "人气推荐"
+    },
+    {
+      "name": "热门更新"
+    },
+    {
+      "name": "最新上架"
+    }
+  ]
+}
