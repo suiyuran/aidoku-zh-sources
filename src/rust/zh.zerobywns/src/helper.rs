@@ -76,7 +76,7 @@ pub fn get_html(url: String) -> Result<Node, AidokuError> {
 			.unwrap_or_default()
 			.read();
 
-		if login_request.html()?.text().read().contains("登录失败") {
+		if !new_cookie_header.contains("auth") {
 			return Err(AidokuError {
 				reason: AidokuErrorKind::DefaultNotFound,
 			});
