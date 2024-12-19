@@ -7,12 +7,24 @@
         "type": "text",
         "key": "url",
         "placeholder": "URL",
-        "default": "https://www.zerobywav.com"
+        "default": "http://www.zerobywav.com"
       },
       {
         "type": "text",
-        "key": "session",
-        "placeholder": "Session",
+        "key": "username",
+        "placeholder": "账号",
+        "default": ""
+      },
+      {
+        "type": "text",
+        "key": "password",
+        "placeholder": "密码",
+        "default": ""
+      },
+      {
+        "type": "text",
+        "key": "cookie",
+        "placeholder": "Cookie",
         "default": ""
       }
     ]
