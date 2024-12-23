@@ -1,0 +1,36 @@
+{
+  "info": {
+    "id": "zh.happymh",
+    "lang": "zh",
+    "name": "嗨皮漫画",
+    "version": 1,
+    "url": "https://m.happymh.com",
+    "nsfw": 0
+  },
+  "listings": [
+    {
+      "name": "日阅读"
+    },
+    {
+      "name": "日收藏"
+    },
+    {
+      "name": "周阅读"
+    },
+    {
+      "name": "周收藏"
+    },
+    {
+      "name": "月阅读"
+    },
+    {
+      "name": "月收藏"
+    },
+    {
+      "name": "总评分"
+    },
+    {
+      "name": "月投票"
+    }
+  ]
+}

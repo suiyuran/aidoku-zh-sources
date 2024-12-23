@@ -72,6 +72,15 @@
     "nsfw": 2
   },
   {
+    "id": "zh.happymh",
+    "name": "嗨皮漫画",
+    "file": "zh.happymh-v1.aix",
+    "icon": "zh.happymh-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 0
+  },
+  {
     "id": "zh.ho5ho",
     "name": "HO5HO",
     "file": "zh.ho5ho-v1.aix",

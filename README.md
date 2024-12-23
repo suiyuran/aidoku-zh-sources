@@ -21,6 +21,7 @@ Aidoku 中文图源
 - [G站漫画](https://godamh.com)
 - [古风漫画](https://www.gufengmh.com)
 - [Hanime1.me](https://hanime1.me/comics)
+- [嗨皮漫画](https://m.happymh.com)
 - [HO5HO](https://www.ho5ho.com)
 - ~~[ISEKAI](https://isekai.ch)~~
 - [Komiic漫画](https://komiic.com)
