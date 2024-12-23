@@ -56,14 +56,13 @@ pub fn get_html(url: String) -> Result<Node, AidokuError> {
 			});
 		}
 
-		let action = html.select("#lsform").attr("action").read();
 		let formhash = html.select("input[name=formhash]").attr("value").read();
 		let login_cookie = handle_cookie_header(cookie_header);
 		let body = format!(
 			"username={}&cookietime=2592000&password={}&formhash={}&quickforward=yes&handlekey=ls",
 			username, password, formhash
 		);
-		let login_url = format!("{}/{}&inajax=1", get_url(), action);
+		let login_url = format!("{}/member.php?mod=logging&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=1", get_url());
 		let login_request = gen_request(login_url, HttpMethod::Post)
 			.header("Content-Type", "application/x-www-form-urlencoded")
 			.header("Cookie", &login_cookie)
