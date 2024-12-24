@@ -57,29 +57,35 @@ pub fn get_json(body: String) -> ObjectRef {
 
 pub fn gen_category_body_string(
 	category: String,
+	status: String,
 	order_by: String,
-	asc: bool,
 	page: i32,
 ) -> String {
+	let category_id = if category.is_empty() {
+		"[]".to_string()
+	} else {
+		format!(r#"["{}"]"#, category)
+	};
 	format!(
 		r#"{{
-      "operationName": "comicByCategory",
-      "query": "query comicByCategory($categoryId: ID!, $pagination: Pagination!) {{\n  comicByCategory(categoryId: $categoryId, pagination: $pagination) {{\n    id\n    title\n    status\n    year\n    imageUrl\n    authors {{\n      id\n      name\n      __typename\n    }}\n    categories {{\n      id\n      name\n      __typename\n    }}\n    dateUpdated\n    monthViews\n    views\n    favoriteCount\n    lastBookUpdate\n    lastChapterUpdate\n    __typename\n  }}\n}}\n",
+      "operationName": "comicByCategories",
+      "query": "query comicByCategories($categoryId: [ID!]!, $pagination: Pagination!) {{\n  comicByCategories(categoryId: $categoryId, pagination: $pagination) {{\n    id\n    title\n    status\n    year\n    imageUrl\n    authors {{\n      id\n      name\n      __typename\n    }}\n    categories {{\n      id\n      name\n      __typename\n    }}\n    dateUpdated\n    monthViews\n    views\n    favoriteCount\n    lastBookUpdate\n    lastChapterUpdate\n    __typename\n  }}\n}}\n",
       "variables": {{
-        "categoryId": "{}",
+        "categoryId": {},
         "pagination": {{
-            "asc": {},
+            "asc": false,
             "limit": {},
             "offset": {},
-            "orderBy": "{}"
+            "orderBy": "{}",
+						"status": "{}"
         }}
       }}
     }}"#,
-		category,
-		asc,
+		category_id,
 		20,
 		(page - 1) * 20,
 		order_by,
+		status,
 	)
 }
 

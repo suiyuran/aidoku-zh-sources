@@ -42,14 +42,28 @@
       "武侠",
       "机战",
       "音乐",
-      "体育"
+      "体育",
+      "黑道"
+    ]
+  },
+  {
+    "type": "select",
+    "name": "状态",
+    "options": [
+      "全部",
+      "连载",
+      "完结"
     ]
   },
   {
     "type": "sort",
     "name": "排序",
-    "canAscend": true,
-    "options": ["热门", "更新时间"],
+    "canAscend": false,
+    "options": [
+      "更新",
+      "观看数",
+      "喜爱数"
+    ],
     "default": {
       "index": 0,
       "ascending": false

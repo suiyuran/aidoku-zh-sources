@@ -12,19 +12,20 @@ use alloc::string::ToString;
 mod helper;
 mod parser;
 
-const FILTER_CATEGORY: [&str; 37] = [
-	"0", "1", "3", "4", "5", "6", "7", "8", "10", "11", "2", "12", "13", "14", "15", "16", "17",
+const FILTER_CATEGORY: [&str; 38] = [
+	"", "1", "3", "4", "5", "6", "7", "8", "10", "11", "2", "12", "13", "14", "15", "16", "17",
 	"18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "9", "28", "31", "32", "33", "34",
-	"35", "36", "37", "40",
+	"35", "36", "37", "40", "42",
 ];
-const FILTER_ORDER_BY: [&str; 2] = ["VIEWS", "DATE_UPDATED"];
+const FILTER_STATUS: [&str; 3] = ["", "ONGOING", "END"];
+const FILTER_ORDER_BY: [&str; 3] = ["DATE_UPDATED", "VIEWS", "FAVORITE_COUNT"];
 
 #[get_manga_list]
 fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	let mut query = String::new();
 	let mut category = String::new();
+	let mut status = String::new();
 	let mut order_by = String::new();
-	let mut asc = false;
 
 	for filter in filters {
 		match filter.kind {
@@ -37,6 +38,9 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 					"类型" => {
 						category = FILTER_CATEGORY[index].to_string();
 					}
+					"状态" => {
+						status = FILTER_STATUS[index].to_string();
+					}
 					_ => continue,
 				}
 			}
@@ -46,16 +50,14 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 					Err(_) => continue,
 				};
 				let index = value.get("index").as_int()? as usize;
-				let ascending = value.get("ascending").as_bool().unwrap_or(false);
 				order_by = FILTER_ORDER_BY[index].to_string();
-				asc = ascending;
 			}
 			_ => continue,
 		}
 	}
 
 	let body = if query.is_empty() {
-		helper::gen_category_body_string(category, order_by, asc, page)
+		helper::gen_category_body_string(category, status, order_by, page)
 	} else {
 		helper::gen_search_body_string(query.clone())
 	};
@@ -65,7 +67,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	let mangas;
 
 	if query.is_empty() {
-		let list = data.get("comicByCategory").as_array()?;
+		let list = data.get("comicByCategories").as_array()?;
 		mangas = parser::parse_manga_list(list);
 	} else {
 		let data = data.get("searchComicsAndAuthors").as_object()?;
