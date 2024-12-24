@@ -65,10 +65,10 @@
   {
     "id": "zh.hanime1",
     "name": "Hanime1.me",
-    "file": "zh.hanime1-v2.aix",
-    "icon": "zh.hanime1-v2.png",
+    "file": "zh.hanime1-v3.aix",
+    "icon": "zh.hanime1-v3.png",
     "lang": "zh",
-    "version": 2,
+    "version": 3,
     "nsfw": 2
   },
   {
