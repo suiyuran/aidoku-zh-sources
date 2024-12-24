@@ -14,7 +14,8 @@ use aidoku::{
 };
 use alloc::string::ToString;
 
-const WWW_URL: &str = "https://cn.czmanga.com";
+const WWW_URL: &str = "https://www.baozimh.com";
+const IMG_URL: &str = "https://static-tw.baozimh.com";
 
 const FILTER_CATEGORY: [&str; 26] = [
 	"all",
@@ -78,50 +79,74 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 		}
 	}
 
-	let url = if query.is_empty() {
-		format!(
-			"{}/classify?type={}&region={}&state={}&page={}",
-			WWW_URL, category, region, status, page
-		)
-	} else {
-		format!("{}/search/?q={}", WWW_URL, encode_uri(query.clone()),)
-	};
-	let html = Request::new(url, HttpMethod::Get).html()?;
-	let list = html.select(".pure-g>.comics-card").array();
 	let has_more = query.is_empty();
 	let mut mangas: Vec<Manga> = Vec::new();
 
-	for item in list {
-		let item = match item.as_node() {
-			Ok(node) => node,
-			Err(_) => continue,
-		};
-		let id = item
-			.select(".comics-card__info")
-			.attr("href")
-			.read()
-			.split("/")
-			.filter(|a| !a.is_empty())
-			.map(|a| a.to_string())
-			.collect::<Vec<String>>()
-			.pop()
-			.unwrap();
-		let cover = item
-			.select(".comics-card__poster>amp-img")
-			.attr("src")
-			.read();
-		let title = item
-			.select(".comics-card__title")
-			.text()
-			.read()
-			.trim()
-			.to_string();
-		mangas.push(Manga {
-			id,
-			cover,
-			title,
-			..Default::default()
-		});
+	if query.is_empty() {
+		let url = format!(
+			"{}/api/bzmhq/amp_comic_list?type={}&region={}&state={}&page={}&language=tw",
+			WWW_URL, category, region, status, page
+		);
+		let json = Request::new(url, HttpMethod::Get).json()?;
+		let data = json.as_object()?;
+		let list = data.get("items").as_array()?;
+
+		for item in list {
+			let item = match item.as_object() {
+				Ok(item) => item,
+				Err(_) => continue,
+			};
+			let id = item.get("comic_id").as_string()?.read();
+			let cover = format!(
+				"{}/cover/{}?w=285&h=375&q=100",
+				IMG_URL,
+				item.get("topic_img").as_string()?.read()
+			);
+			let title = item.get("name").as_string()?.read();
+			mangas.push(Manga {
+				id,
+				cover,
+				title,
+				..Default::default()
+			});
+		}
+	} else {
+		let url = format!("{}/search/?q={}", WWW_URL, encode_uri(query.clone()));
+		let html = Request::new(url, HttpMethod::Get).html()?;
+		let list = html.select(".pure-g>.comics-card").array();
+
+		for item in list {
+			let item = match item.as_node() {
+				Ok(node) => node,
+				Err(_) => continue,
+			};
+			let id = item
+				.select(".comics-card__info")
+				.attr("href")
+				.read()
+				.split("/")
+				.filter(|a| !a.is_empty())
+				.map(|a| a.to_string())
+				.collect::<Vec<String>>()
+				.pop()
+				.unwrap();
+			let cover = item
+				.select(".comics-card__poster>amp-img")
+				.attr("src")
+				.read();
+			let title = item
+				.select(".comics-card__title")
+				.text()
+				.read()
+				.trim()
+				.to_string();
+			mangas.push(Manga {
+				id,
+				cover,
+				title,
+				..Default::default()
+			});
+		}
 	}
 
 	Ok(MangaPageResult {
@@ -177,8 +202,8 @@ fn get_manga_details(id: String) -> Result<Manga> {
 		.read()
 		.as_str()
 	{
-		"连载中" => MangaStatus::Ongoing,
-		"已完结" => MangaStatus::Completed,
+		"連載中" => MangaStatus::Ongoing,
+		"已完結" => MangaStatus::Completed,
 		_ => MangaStatus::Unknown,
 	};
 	let nsfw = MangaContentRating::Safe;
@@ -272,7 +297,7 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 				Err(_) => continue,
 			};
 			let index = page as i32;
-			let url = item.attr("src").read();
+			let url = item.attr("src").read().replace("fcomic", "scomic");
 			pages.push(Page {
 				index,
 				url,
