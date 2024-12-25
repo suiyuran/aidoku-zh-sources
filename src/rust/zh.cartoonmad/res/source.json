@@ -1,0 +1,18 @@
+{
+  "info": {
+    "id": "zh.cartoonmad",
+    "lang": "zh",
+    "name": "动漫狂",
+    "version": 1,
+    "url": "https://www.cartoonmad.com",
+    "nsfw": 0
+  },
+  "listings": [
+    {
+      "name": "最新上架"
+    },
+    {
+      "name": "热门连载"
+    }
+  ]
+}

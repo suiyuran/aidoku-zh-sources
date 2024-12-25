@@ -36,6 +36,15 @@
     "nsfw": 0
   },
   {
+    "id": "zh.cartoonmad",
+    "name": "动漫狂",
+    "file": "zh.cartoonmad-v1.aix",
+    "icon": "zh.cartoonmad-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 0
+  },
+  {
     "id": "zh.copymanga",
     "name": "拷贝漫画",
     "file": "zh.copymanga-v4.aix",
