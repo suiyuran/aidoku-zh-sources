@@ -1,0 +1,10 @@
+{
+  "info": {
+    "id": "zh.mycomic",
+    "lang": "zh",
+    "name": "MYCOMIC",
+    "version": 1,
+    "url": "https://mycomic.com/cn",
+    "nsfw": 1
+  }
+}

@@ -32,6 +32,7 @@ Aidoku 中文图源
 - ~~[喵上漫画](https://www.miaoshangmanhua.cc)~~
 - [漫小肆韩漫](https://www.freexcomic.com)
 - ~~[Nico](https://nicohub.cc/index?category=comic)~~
+- [MYCOMIC](https://mycomic.com/cn)
 - [NoyAcg](https://noy1.top)
 - [韩漫库](https://se8.us)
 - ~~[vomic漫画](http://www.vomicmh.com)~~
