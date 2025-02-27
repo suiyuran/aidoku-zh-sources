@@ -135,6 +135,15 @@
     "nsfw": 0
   },
   {
+    "id": "zh.mkzhan",
+    "name": "漫客栈",
+    "file": "zh.mkzhan-v1.aix",
+    "icon": "zh.mkzhan-v1.png",
+    "lang": "zh",
+    "version": 1,
+    "nsfw": 0
+  },
+  {
     "id": "zh.msxhm",
     "name": "漫小肆韩漫",
     "file": "zh.msxhm-v5.aix",

@@ -30,6 +30,7 @@ Aidoku 中文图源
 - [漫画DB](https://www.manhuadb.com)
 - [漫画人](https://www.manhuaren.com)
 - ~~[喵上漫画](https://www.miaoshangmanhua.cc)~~
+- [漫客栈](https://www.mkzhan.com)
 - [漫小肆韩漫](https://www.freexcomic.com)
 - ~~[Nico](https://nicohub.cc/index?category=comic)~~
 - [MYCOMIC](https://mycomic.com/cn)

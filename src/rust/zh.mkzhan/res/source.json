@@ -1,0 +1,36 @@
+{
+  "info": {
+    "id": "zh.mkzhan",
+    "lang": "zh",
+    "name": "漫客栈",
+    "version": 1,
+    "url": "https://www.mkzhan.com",
+    "nsfw": 0
+  },
+  "listings": [
+    {
+      "name": "人气榜"
+    },
+    {
+      "name": "收藏榜"
+    },
+    {
+      "name": "新作榜"
+    },
+    {
+      "name": "上升榜"
+    },
+    {
+      "name": "月票榜"
+    },
+    {
+      "name": "打赏榜"
+    },
+    {
+      "name": "评分榜"
+    },
+    {
+      "name": "付费榜"
+    }
+  ]
+}
