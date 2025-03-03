@@ -2,10 +2,15 @@
 extern crate alloc;
 
 use aidoku::{
-	error::Result, helpers::uri::encode_uri, prelude::*, std::{
+	error::Result,
+	helpers::uri::encode_uri,
+	prelude::*,
+	std::{
 		net::{HttpMethod, Request},
 		String, Vec,
-	}, Chapter, Filter, FilterType, Listing, Manga, MangaContentRating, MangaPageResult, MangaStatus, MangaViewer, Page
+	},
+	Chapter, Filter, FilterType, Listing, Manga, MangaContentRating, MangaPageResult, MangaStatus,
+	MangaViewer, Page,
 };
 use alloc::string::ToString;
 
@@ -310,7 +315,10 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 			Err(_) => continue,
 		};
 		let index = index as i32;
-		let url = format!("{}{}", IMG_URL, item.get("url").as_string()?.read());
+		let url = match item.get("url").as_string() {
+			Ok(url) => format!("{}{}", IMG_URL, url.read()),
+			Err(_) => continue,
+		};
 		pages.push(Page {
 			index,
 			url,
