@@ -16,6 +16,7 @@ Aidoku 中文图源
 - [巴卡漫画](https://bakamh.com)
 - [包子漫画1](https://www.baozimh.com)
 - [包子漫画2](https://baozimh.org)
+- [哔哩漫画](https://www.bilicomic.net)
 - [动漫狂](https://www.cartoonmad.com)
 - [拷贝漫画](https://www.mangacopy.com)
 - ~~[漫画狗](https://dogemanga.com)~~
