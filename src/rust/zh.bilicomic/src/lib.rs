@@ -125,14 +125,10 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	};
 	let mut mangas: Vec<Manga> = Vec::new();
 
-	for item in html.select(".book-li>a").array() {
-		let item = match item.as_node() {
-			Ok(node) => node,
-			Err(_) => continue,
-		};
-		let id = item
-			.attr("href")
-			.read()
+	let alternate_url = html.select("link[rel='alternate']").attr("href").read();
+
+	if alternate_url.contains("detail") {
+		let id = alternate_url
 			.split("/")
 			.map(|a| a.to_string())
 			.filter(|a| !a.is_empty())
@@ -140,14 +136,40 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 			.pop()
 			.unwrap()
 			.replace(".html", "");
-		let cover = item.select(".book-cover>img").attr("data-src").read();
-		let title = item.select(".book-title").text().read();
+		let cover = html.select(".book-cover").attr("src").read();
+		let title = html.select("h1.book-title").text().read();
+
 		mangas.push(Manga {
 			id,
 			cover,
 			title,
 			..Default::default()
 		});
+	} else {
+		for item in html.select(".book-li>a").array() {
+			let item = match item.as_node() {
+				Ok(node) => node,
+				Err(_) => continue,
+			};
+			let id = item
+				.attr("href")
+				.read()
+				.split("/")
+				.map(|a| a.to_string())
+				.filter(|a| !a.is_empty())
+				.collect::<Vec<String>>()
+				.pop()
+				.unwrap()
+				.replace(".html", "");
+			let cover = item.select(".book-cover>img").attr("data-src").read();
+			let title = item.select(".book-title").text().read();
+			mangas.push(Manga {
+				id,
+				cover,
+				title,
+				..Default::default()
+			});
+		}
 	}
 
 	Ok(MangaPageResult {
@@ -244,6 +266,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 	let html = Request::new(url.clone(), HttpMethod::Get)
 		.header("User-Agent", UA)
 		.html()?;
+	let cover = html.select(".book-cover").attr("src").read();
 	let title = html.select("h1.book-title").text().read();
 	let author = html
 		.select(".authorname,.illname")
@@ -279,7 +302,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 
 	Ok(Manga {
 		id,
-		cover: String::new(),
+		cover,
 		title,
 		author,
 		artist,

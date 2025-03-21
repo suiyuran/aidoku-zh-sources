@@ -38,10 +38,10 @@
   {
     "id": "zh.bilicomic",
     "name": "哔哩漫画",
-    "file": "zh.bilicomic-v1.aix",
-    "icon": "zh.bilicomic-v1.png",
+    "file": "zh.bilicomic-v2.aix",
+    "icon": "zh.bilicomic-v2.png",
     "lang": "zh",
-    "version": 1,
+    "version": 2,
     "nsfw": 0
   },
   {
