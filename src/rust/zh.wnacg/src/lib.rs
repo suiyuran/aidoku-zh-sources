@@ -14,7 +14,7 @@ use aidoku::{
 };
 use alloc::string::ToString;
 
-const WWW_URL: &str = "https://www.wnacg.com";
+const WWW_URL: &str = "https://www.wnacg01.cc";
 
 const FILTER_CATEGORY: [&str; 4] = ["", "5", "6", "7"];
 const FILTER_CATEGORY_5: [&str; 4] = ["5", "1", "12", "16"];
@@ -252,4 +252,9 @@ fn get_page_list(manga_id: String, _: String) -> Result<Vec<Page>> {
 	}
 
 	Ok(pages)
+}
+
+#[modify_image_request]
+fn modify_image_request(request: Request) {
+	request.header("Referer", WWW_URL);
 }
