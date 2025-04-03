@@ -41,4 +41,5 @@ Aidoku 中文图源
 - [绅士漫画](https://www.wnacg.com)
 - [言耽社](https://yandanshe.com)
 - ~~[野蛮漫画](https://yemancomic.com)~~
+- [再漫画](https://www.zaimanhua.com)
 - [zero搬运网](https://zerobyw.github.io)

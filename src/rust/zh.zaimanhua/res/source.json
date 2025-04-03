@@ -1,0 +1,30 @@
+{
+  "info": {
+    "id": "zh.zaimanhua",
+    "lang": "zh",
+    "name": "再漫画",
+    "version": 1,
+    "url": "https://www.zaimanhua.com",
+    "nsfw": 0
+  },
+  "listings": [
+    {
+      "name": "周人气排行"
+    },
+    {
+      "name": "月人气排行"
+    },
+    {
+      "name": "总人气排行"
+    },
+    {
+      "name": "周点击排行"
+    },
+    {
+      "name": "月点击排行"
+    },
+    {
+      "name": "总点击排行"
+    }
+  ]
+}
