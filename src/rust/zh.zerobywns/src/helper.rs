@@ -10,8 +10,10 @@ use aidoku::{
 };
 use alloc::{string::String, vec::Vec};
 
+const UA: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36";
+
 fn gen_request(url: String, method: HttpMethod) -> Request {
-	Request::new(url, method)
+	Request::new(url, method).header("User-Agent", UA)
 }
 
 fn handle_cookie_header(cookie_header: String) -> String {
