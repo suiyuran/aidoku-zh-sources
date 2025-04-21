@@ -100,16 +100,28 @@ pub fn login() -> Result<String, AidokuError> {
 }
 
 pub fn get_json(url: String, body: String) -> Result<ValueRef, AidokuError> {
-	let request = gen_request(url, HttpMethod::Post).body(body.as_bytes());
+	let mut request = gen_request(url.clone(), HttpMethod::Post).body(body.as_bytes());
 
 	request.send();
 
-	if request.status_code() == 401 {
+	let status = request.status_code();
+
+	if status == 401 {
 		request
 			.header("Cookie", &format!("NOY_SESSION={}", &login()?))
 			.json()
 	} else {
-		request.json()
+		let json = request.json()?;
+		let list = json.clone().as_array().unwrap_or_default();
+
+		if list.get(0).as_string().unwrap_or_default().read() == "login" {
+			request = gen_request(url, HttpMethod::Post)
+				.body(body.as_bytes())
+				.header("Cookie", &format!("NOY_SESSION={}", &login()?));
+			return request.json();
+		} else {
+			return Ok(json);
+		}
 	}
 }
 

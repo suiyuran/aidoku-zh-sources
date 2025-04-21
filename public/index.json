@@ -173,10 +173,10 @@
   {
     "id": "zh.noy1",
     "name": "NoyAcg",
-    "file": "zh.noy1-v2.aix",
-    "icon": "zh.noy1-v2.png",
+    "file": "zh.noy1-v3.aix",
+    "icon": "zh.noy1-v3.png",
     "lang": "zh",
-    "version": 2,
+    "version": 3,
     "nsfw": 2
   },
   {
