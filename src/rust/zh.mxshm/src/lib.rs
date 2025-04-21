@@ -15,6 +15,8 @@ use aidoku::{
 };
 use alloc::string::ToString;
 
+const UA: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36";
+
 const FILTER_TAG: [&str; 23] = [
 	"全部", "青春", "性感", "长腿", "多人", "御姐", "巨乳", "新婚", "媳妇", "暧昧", "清纯", "调教",
 	"少妇", "风骚", "同居", "淫乱", "好友", "女神", "诱惑", "偷情", "出轨", "正妹", "家教",
@@ -24,6 +26,10 @@ const FILTER_END: [&str; 3] = ["-1", "0", "1"];
 
 fn get_url() -> String {
 	defaults_get("url").unwrap().as_string().unwrap().read()
+}
+
+fn gen_request(url: String, method: HttpMethod) -> Request {
+	Request::new(url, method).header("User-Agent", UA)
 }
 
 #[get_manga_list]
@@ -69,7 +75,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	} else {
 		format!("{}/search?keyword={}", get_url(), encode_uri(query.clone()))
 	};
-	let html = Request::new(url, HttpMethod::Get).html()?;
+	let html = gen_request(url, HttpMethod::Get).html()?;
 	let has_more = query.is_empty();
 	let mut mangas: Vec<Manga> = Vec::new();
 
@@ -116,7 +122,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 #[get_manga_details]
 fn get_manga_details(id: String) -> Result<Manga> {
 	let url = format!("{}/book/{}", get_url(), id.clone());
-	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
+	let html = gen_request(url.clone(), HttpMethod::Get).html()?;
 	let cover = html
 		.select(".banner_detail_form>.cover>img")
 		.attr("src")
@@ -183,7 +189,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 #[get_chapter_list]
 fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 	let url = format!("{}/book/{}", get_url(), id.clone());
-	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
+	let html = gen_request(url.clone(), HttpMethod::Get).html()?;
 	let mut chapters: Vec<Chapter> = Vec::new();
 
 	for (index, item) in html.select("#detail-list-select>li>a").array().enumerate() {
@@ -218,7 +224,7 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 #[get_page_list]
 fn get_page_list(_: String, chapter_id: String) -> Result<Vec<Page>> {
 	let url = format!("{}/chapter/{}", get_url(), chapter_id.clone());
-	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
+	let html = gen_request(url.clone(), HttpMethod::Get).html()?;
 	let mut pages: Vec<Page> = Vec::new();
 
 	for (index, item) in html
