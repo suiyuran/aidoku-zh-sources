@@ -15,11 +15,16 @@ use aidoku::{
 use alloc::string::ToString;
 
 const WWW_URL: &str = "https://www.wnacg01.cc";
+const UA: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36";
 
 const FILTER_CATEGORY: [&str; 4] = ["", "5", "6", "7"];
 const FILTER_CATEGORY_5: [&str; 4] = ["5", "1", "12", "16"];
 const FILTER_CATEGORY_6: [&str; 4] = ["6", "9", "13", "17"];
 const FILTER_CATEGORY_7: [&str; 4] = ["7", "10", "14", "18"];
+
+fn gen_request(url: String, method: HttpMethod) -> Request {
+	Request::new(url, method).header("User-Agent", UA)
+}
 
 #[get_manga_list]
 fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
@@ -63,7 +68,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 			page
 		)
 	};
-	let html = Request::new(url, HttpMethod::Get).html()?;
+	let html = gen_request(url, HttpMethod::Get).html()?;
 	let has_more = true;
 	let mut mangas: Vec<Manga> = Vec::new();
 
@@ -126,7 +131,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 		"{}/albums-index-page-{}-cate-{}.html",
 		WWW_URL, page, category
 	);
-	let html = Request::new(url, HttpMethod::Get).html()?;
+	let html = gen_request(url, HttpMethod::Get).html()?;
 	let has_more = true;
 	let mut mangas: Vec<Manga> = Vec::new();
 
@@ -168,7 +173,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 #[get_manga_details]
 fn get_manga_details(id: String) -> Result<Manga> {
 	let url = format!("{}/photos-index-aid-{}.html", WWW_URL, id.clone());
-	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
+	let html = gen_request(url.clone(), HttpMethod::Get).html()?;
 	let cover = html
 		.select("#bodywrap>div>.uwthumb>img")
 		.attr("src")
@@ -234,7 +239,7 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 #[get_page_list]
 fn get_page_list(manga_id: String, _: String) -> Result<Vec<Page>> {
 	let url = format!("{}/photos-gallery-aid-{}.html", WWW_URL, manga_id.clone());
-	let text = Request::new(url.clone(), HttpMethod::Get).string()?;
+	let text = gen_request(url.clone(), HttpMethod::Get).string()?;
 	let urls = text
 		.split("\\\"")
 		.filter(|a| a.starts_with("//"))
