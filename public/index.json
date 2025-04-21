@@ -47,10 +47,10 @@
   {
     "id": "zh.cartoonmad",
     "name": "动漫狂",
-    "file": "zh.cartoonmad-v1.aix",
-    "icon": "zh.cartoonmad-v1.png",
+    "file": "zh.cartoonmad-v2.aix",
+    "icon": "zh.cartoonmad-v2.png",
     "lang": "zh",
-    "version": 1,
+    "version": 2,
     "nsfw": 0
   },
   {

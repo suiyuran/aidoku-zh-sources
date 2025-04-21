@@ -18,6 +18,11 @@ use aidoku::{
 use alloc::string::ToString;
 
 const WWW_URL: &str = "https://www.cartoonmad.com";
+const UA: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36";
+
+fn gen_request(url: String, method: HttpMethod) -> Request {
+	Request::new(url, method).header("User-Agent", UA)
+}
 
 fn handle_img_url(url: String) -> String {
 	if url.starts_with("http") {
@@ -47,7 +52,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	let has_more = query.is_empty();
 	let mut mangas: Vec<Manga> = Vec::new();
 
-	let html = Request::new(url, HttpMethod::Get).html()?;
+	let html = gen_request(url, HttpMethod::Get).html()?;
 	let list = html.select(".comic_prev").array();
 
 	for item in list {
@@ -100,7 +105,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 	let has_more = true;
 	let mut mangas: Vec<Manga> = Vec::new();
 
-	let html = Request::new(url, HttpMethod::Get).html()?;
+	let html = gen_request(url, HttpMethod::Get).html()?;
 	let list = html.select(".comic_prev").array();
 
 	for item in list {
@@ -138,7 +143,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 #[get_manga_details]
 fn get_manga_details(id: String) -> Result<Manga> {
 	let url = format!("{}/m/comic/{}.html", WWW_URL, id.clone());
-	let data = Request::new(url.clone(), HttpMethod::Get).data();
+	let data = gen_request(url.clone(), HttpMethod::Get).data();
 	let html = Node::new(BIG5.decode(&data).0.as_bytes())?;
 	let cover = format!(
 		"{}{}",
@@ -202,7 +207,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 #[get_chapter_list]
 fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 	let url = format!("{}/m/comic/{}.html", WWW_URL, id.clone());
-	let data = Request::new(url.clone(), HttpMethod::Get).data();
+	let data = gen_request(url.clone(), HttpMethod::Get).data();
 	let html = Node::new(BIG5.decode(&data).0.as_bytes())?;
 	let list = html
 		.select("td[style='font-size:11pt;']")
@@ -248,7 +253,7 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 #[get_page_list]
 fn get_page_list(_: String, chapter_id: String) -> Result<Vec<Page>> {
 	let url = format!("{}/m/comic/{}.html", WWW_URL, chapter_id.clone());
-	let data = Request::new(url.clone(), HttpMethod::Get).data();
+	let data = gen_request(url.clone(), HttpMethod::Get).data();
 	let html = Node::new(BIG5.decode(&data).0.as_bytes())?;
 	let img_url = handle_img_url(html.select("img[onload]").attr("src").read());
 	let length = html
