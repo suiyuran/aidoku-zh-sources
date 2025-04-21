@@ -13,6 +13,7 @@ const KEY: &[u8; 16] = b"xxxmanga.woo.key";
 
 const WWW_URL: &str = "https://www.mangacopy.com";
 const API_URL: &str = "https://api.mangacopy.com/api/v3";
+const UA: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36";
 
 pub fn decrypt(text: String) -> String {
 	let text = text.as_bytes();
@@ -25,6 +26,7 @@ pub fn decrypt(text: String) -> String {
 
 pub fn get_json(url: String) -> ObjectRef {
 	Request::new(url, HttpMethod::Get)
+		.header("User-Agent", UA)
 		.header("version", "2.3.6")
 		.header("platform", "3")
 		.header("region", "1")
