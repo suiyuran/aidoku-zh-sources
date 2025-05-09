@@ -14,7 +14,7 @@ use aidoku::{
 };
 use alloc::string::ToString;
 
-const WWW_URL: &str = "https://www.bilicomic.net";
+const WWW_URL: &str = "https://www.bilimanga.net";
 const UA: &str = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1";
 
 const FILTER_TAGID: [&str; 66] = [
@@ -44,6 +44,14 @@ const FILTER_ANIME: [&str; 3] = ["0", "1", "2"];
 const FILTER_QUALITY: [&str; 3] = ["0", "1", "2"];
 const FILTER_ISFULL: [&str; 3] = ["0", "1", "2"];
 const FILTER_UPDATE: [&str; 5] = ["0", "1", "2", "3", "4"];
+
+fn gen_request(url: String, method: HttpMethod) -> Request {
+	Request::new(url, method)
+		.header("Origin", WWW_URL)
+		.header("User-Agent", UA)
+		.header("Accept-Language", "zh-CN,zh;q=0.9")
+		.header("Cookie", "night=0")
+}
 
 #[get_manga_list]
 fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
@@ -114,8 +122,8 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 			page
 		)
 	};
-	let html = Request::new(url, HttpMethod::Get)
-		.header("User-Agent", UA)
+	let html = gen_request(url, HttpMethod::Get)
+		.header("Referer", &format!("{}/search.html", WWW_URL))
 		.html()?;
 	let link = html.select("#pagelink");
 	let has_more = if query.is_empty() {
@@ -223,9 +231,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 	}
 
 	let url = format!("{}/top/{}/1.html", WWW_URL, name);
-	let html = Request::new(url, HttpMethod::Get)
-		.header("User-Agent", UA)
-		.html()?;
+	let html = gen_request(url, HttpMethod::Get).html()?;
 	let has_more = false;
 	let mut mangas: Vec<Manga> = Vec::new();
 
@@ -263,9 +269,7 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 #[get_manga_details]
 fn get_manga_details(id: String) -> Result<Manga> {
 	let url = format!("{}/detail/{}.html", WWW_URL, id.clone());
-	let html = Request::new(url.clone(), HttpMethod::Get)
-		.header("User-Agent", UA)
-		.html()?;
+	let html = gen_request(url.clone(), HttpMethod::Get).html()?;
 	let cover = html.select(".book-cover").attr("src").read();
 	let title = html.select("h1.book-title").text().read();
 	let author = html
@@ -293,8 +297,8 @@ fn get_manga_details(id: String) -> Result<Manga> {
 		.unwrap()
 		.as_str()
 	{
-		"连载" => MangaStatus::Ongoing,
-		"完结" => MangaStatus::Completed,
+		"連載" => MangaStatus::Ongoing,
+		"完結" => MangaStatus::Completed,
 		_ => MangaStatus::Unknown,
 	};
 	let nsfw = MangaContentRating::Safe;
@@ -318,9 +322,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 #[get_chapter_list]
 fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 	let url = format!("{}/read/{}/catalog", WWW_URL, id.clone());
-	let html = Request::new(url.clone(), HttpMethod::Get)
-		.header("User-Agent", UA)
-		.html()?;
+	let html = gen_request(url.clone(), HttpMethod::Get).html()?;
 	let list = html.select(".catalog-volume .chapter-li-a").array();
 	let mut chapters: Vec<Chapter> = Vec::new();
 
@@ -368,11 +370,7 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 		manga_id.clone(),
 		chapter_id.clone()
 	);
-	let html = Request::new(url.clone(), HttpMethod::Get)
-		.header("User-Agent", UA)
-		.header("Cookie", "night=0")
-		.header("Accept-Language", "zh-CN,zh;q=0.9")
-		.html()?;
+	let html = gen_request(url.clone(), HttpMethod::Get).html()?;
 	let mut pages: Vec<Page> = Vec::new();
 
 	for (index, item) in html.select("#acontentz>img").array().enumerate() {
