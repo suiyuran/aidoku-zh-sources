@@ -28,7 +28,7 @@ pub fn get_json(url: String) -> ObjectRef {
 	Request::new(url, HttpMethod::Get)
 		.header("User-Agent", UA)
 		.header("version", "2.3.6")
-		.header("platform", "3")
+		.header("platform", "2")
 		.header("region", "1")
 		.header("webp", "1")
 		.json()
