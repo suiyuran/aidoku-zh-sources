@@ -306,7 +306,9 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 			page += 1;
 		}
 
-		if !next_chapter_id.starts_with(&current_chapter_id) {
+		if !next_chapter_id
+			.starts_with(&current_chapter_id.split('_').collect::<Vec<&str>>()[..2].join("_"))
+		{
 			break;
 		}
 
