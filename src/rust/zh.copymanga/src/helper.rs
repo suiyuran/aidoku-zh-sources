@@ -9,7 +9,7 @@ use aidoku::{
 
 use crate::crypto;
 
-const KEY: &[u8; 16] = b"xxxmanga.woo.key";
+const KEY: &[u8; 16] = b"xxxmanga.wo0.key";
 
 const WWW_URL: &str = "https://www.mangacopy.com";
 const API_URL: &str = "https://api.mangacopy.com/api/v3";
