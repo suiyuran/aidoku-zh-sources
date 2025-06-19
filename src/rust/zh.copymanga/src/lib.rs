@@ -3,6 +3,7 @@ extern crate alloc;
 
 use aidoku::{
 	error::Result,
+	helpers::substring::Substring,
 	prelude::*,
 	std::{json, String, Vec},
 	Chapter, Filter, FilterType, Listing, Manga, MangaPageResult, Page,
@@ -192,10 +193,18 @@ fn get_manga_details(id: String) -> Result<Manga> {
 
 #[get_chapter_list]
 fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
+	let manga_url = helper::gen_manga_url(id.clone());
+	let text = helper::get_text(manga_url);
+	let key = text
+		.substring_after("var dio = '")
+		.unwrap()
+		.substring_before("'")
+		.unwrap()
+		.to_string();
 	let url = helper::gen_chapter_list_url(id);
 	let json = helper::get_json(url);
 	let data = json.get("results").as_string()?.read();
-	let data = helper::decrypt(data);
+	let data = helper::decrypt(data, key);
 	let data = json::parse(data)?.as_object()?;
 
 	Ok(parser::parse_chapter_list(data))

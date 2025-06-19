@@ -9,19 +9,26 @@ use aidoku::{
 
 use crate::crypto;
 
-const KEY: &[u8; 16] = b"xxxmanga.wo0.key";
-
 const WWW_URL: &str = "https://www.mangacopy.com";
 const API_URL: &str = "https://api.mangacopy.com/api/v3";
 const UA: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36";
 
-pub fn decrypt(text: String) -> String {
+pub fn decrypt(text: String, key: String) -> String {
 	let text = text.as_bytes();
+	let key = key.as_bytes();
+	let key: &[u8; 16] = key.try_into().unwrap();
 	let iv = &text[..16];
 	let cipher = &text[16..];
 	let cipher = hex::decode(cipher).unwrap();
-	let pt = crypto::decrypt(&cipher, KEY, iv).unwrap();
+	let pt = crypto::decrypt(&cipher, key, iv).unwrap();
 	String::from_utf8_lossy(&pt).replace("", "")
+}
+
+pub fn get_text(url: String) -> String {
+	Request::new(url.clone(), HttpMethod::Get)
+		.header("User-Agent", UA)
+		.string()
+		.unwrap()
 }
 
 pub fn get_json(url: String) -> ObjectRef {
