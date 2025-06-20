@@ -2,6 +2,7 @@ use aidoku::{
 	helpers::uri::encode_uri,
 	prelude::*,
 	std::{
+		html::Node,
 		net::{HttpMethod, Request},
 		ObjectRef, String,
 	},
@@ -31,17 +32,28 @@ pub fn get_text(url: String) -> String {
 		.unwrap()
 }
 
-pub fn get_json(url: String) -> ObjectRef {
+pub fn get_html(url: String) -> Node {
 	Request::new(url.clone(), HttpMethod::Get)
 		.header("User-Agent", UA)
-		.header("version", "2.3.6")
-		.header("platform", if url.contains("search") { "2" } else { "" })
-		.header("region", "1")
-		.header("webp", "1")
-		.json()
+		.html()
 		.unwrap()
-		.as_object()
-		.unwrap()
+}
+
+pub fn get_json(url: String) -> ObjectRef {
+	let request = Request::new(url.clone(), HttpMethod::Get);
+
+	let request = if url.starts_with(WWW_URL) {
+		request.header("User-Agent", UA)
+	} else {
+		request
+			.header("User-Agent", "COPY/2.3.1")
+			.header("version", "2.3.1")
+			.header("platform", "3")
+			.header("region", "1")
+			.header("webp", "1")
+	};
+
+	request.json().unwrap().as_object().unwrap()
 }
 
 pub fn gen_explore_url(theme: String, top: String, ordering: String, page: i32) -> String {
@@ -100,9 +112,9 @@ pub fn gen_manga_url(id: String) -> String {
 	format!("{}/comic/{}", WWW_URL, id)
 }
 
-pub fn gen_manga_details_url(id: String) -> String {
-	format!("{}/comic2/{}", API_URL, id)
-}
+// pub fn gen_manga_details_url(id: String) -> String {
+// 	format!("{}/comic2/{}", API_URL, id)
+// }
 
 pub fn gen_chapter_list_url(id: String) -> String {
 	format!("{}/comicdetail/{}/chapters", WWW_URL, id)

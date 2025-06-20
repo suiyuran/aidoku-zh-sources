@@ -6,7 +6,8 @@ use aidoku::{
 	helpers::substring::Substring,
 	prelude::*,
 	std::{json, String, Vec},
-	Chapter, Filter, FilterType, Listing, Manga, MangaPageResult, Page,
+	Chapter, Filter, FilterType, Listing, Manga, MangaContentRating, MangaPageResult, MangaViewer,
+	Page,
 };
 use alloc::string::ToString;
 
@@ -184,11 +185,50 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 
 #[get_manga_details]
 fn get_manga_details(id: String) -> Result<Manga> {
-	let url = helper::gen_manga_details_url(id);
-	let json = helper::get_json(url);
-	let data = json.get("results").as_object()?;
+	let url = helper::gen_manga_url(id.clone());
+	let html = helper::get_html(url.clone());
+	let cover = html
+		.select(".comicParticulars-left-img>img")
+		.attr("data-src")
+		.read();
+	let title = html.select("h6").text().read();
+	let author = html
+		.select(".comicParticulars-right-txt>a")
+		.array()
+		.map(|a| a.as_node().unwrap().text().read())
+		.collect::<Vec<String>>()
+		.join(", ");
+	let artist = String::new();
+	let description = html.select(".intro").text().read();
+	let categories = html
+		.select(".comicParticulars-tag>a")
+		.array()
+		.map(|a| a.as_node().unwrap().text().read().replace("#", ""))
+		.collect::<Vec<String>>();
+	let full_title = html.select("title").text().read();
+	let status = if full_title.contains("連載中") {
+		aidoku::MangaStatus::Ongoing
+	} else if full_title.contains("已完結") {
+		aidoku::MangaStatus::Completed
+	} else {
+		aidoku::MangaStatus::Unknown
+	};
+	let nsfw = MangaContentRating::Safe;
+	let viewer = MangaViewer::Rtl;
 
-	Ok(parser::parse_manga(data))
+	Ok(Manga {
+		id,
+		cover,
+		title,
+		author,
+		artist,
+		description,
+		url,
+		categories,
+		status,
+		nsfw,
+		viewer,
+	})
 }
 
 #[get_chapter_list]
