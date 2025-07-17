@@ -1,7 +1,9 @@
 use core::str::FromStr;
 
 use aidoku::{
-	prelude::*, std::{ArrayRef, ObjectRef, String, Vec}, Chapter, Manga, MangaContentRating, MangaStatus, MangaViewer, Page
+	prelude::*,
+	std::{ArrayRef, ObjectRef, String, Vec},
+	Chapter, Manga, MangaContentRating, MangaStatus, MangaViewer, Page,
 };
 use alloc::string::ToString;
 
@@ -111,7 +113,12 @@ pub fn parse_manga(manga: ObjectRef) -> Manga {
 	}
 }
 
-pub fn parse_chapter_group(manga_id: String, group: ObjectRef, name: String, start: usize) -> Vec<Chapter> {
+pub fn parse_chapter_group(
+	manga_id: String,
+	group: ObjectRef,
+	name: String,
+	start: usize,
+) -> Vec<Chapter> {
 	let list = group.get("chapters").as_array();
 	let mut chapters: Vec<Chapter> = Vec::new();
 
@@ -119,9 +126,17 @@ pub fn parse_chapter_group(manga_id: String, group: ObjectRef, name: String, sta
 		for (index, item) in list.unwrap().enumerate() {
 			let chapter = item.as_object().unwrap();
 			let id = chapter.get("id").as_string().unwrap().read();
-			let title = format!("{} - {}", name, chapter.get("name").as_string().unwrap().read());
+			let title = format!(
+				"{} - {}",
+				name,
+				chapter.get("name").as_string().unwrap().read()
+			);
 			let chapter = (index + start + 1) as f32;
-			let (p1, p2) = Uuid::from_str(&id.clone()).unwrap().get_timestamp().unwrap().to_unix();
+			let (p1, p2) = Uuid::from_str(&id.clone())
+				.unwrap()
+				.get_timestamp()
+				.unwrap()
+				.to_unix();
 			let date_updated = (p1 as f64) + (p2 as f64 * 10e-10);
 			let url = helper::gen_chapter_url(manga_id.clone(), id.clone());
 			chapters.push(Chapter {
@@ -144,23 +159,40 @@ pub fn parse_chapter_list(manga: ObjectRef) -> Vec<Chapter> {
 	let groups = manga.get("groups").as_object().unwrap();
 	let default_group = groups.get("default").as_object().unwrap_or_default();
 	let tankobon_group = groups.get("tankobon").as_object().unwrap_or_default();
-	let other_honyakuchimu_group = groups.get("other_honyakuchimu").as_object().unwrap_or_default();
+	let other_honyakuchimu_group = groups
+		.get("other_honyakuchimu")
+		.as_object()
+		.unwrap_or_default();
 	let karapeji_group = groups.get("karapeji").as_object().unwrap_or_default();
 	let default = parse_chapter_group(manga_id.clone(), default_group, String::from("默认"), 0);
-	let tankobon = parse_chapter_group(manga_id.clone(), tankobon_group, String::from("单行本"), default.len());
-	let other_honyakuchimu = parse_chapter_group(manga_id.clone(), other_honyakuchimu_group, String::from("其它汉化版"), default.len() + tankobon.len());
-	let karapeji = parse_chapter_group(manga_id.clone(), karapeji_group, String::from("全彩版"), default.len() + tankobon.len() + other_honyakuchimu.len());
+	let tankobon = parse_chapter_group(
+		manga_id.clone(),
+		tankobon_group,
+		String::from("单行本"),
+		default.len(),
+	);
+	let other_honyakuchimu = parse_chapter_group(
+		manga_id.clone(),
+		other_honyakuchimu_group,
+		String::from("其它汉化版"),
+		default.len() + tankobon.len(),
+	);
+	let karapeji = parse_chapter_group(
+		manga_id.clone(),
+		karapeji_group,
+		String::from("全彩版"),
+		default.len() + tankobon.len() + other_honyakuchimu.len(),
+	);
 	let mut chapters = [default, tankobon, other_honyakuchimu, karapeji].concat();
 
 	chapters.reverse();
 	chapters
 }
 
-pub fn parse_page_list(chapter: ObjectRef) -> Vec<Page> {
-	let list = chapter.get("contents").as_array().unwrap();
+pub fn parse_page_list(chapters: ArrayRef) -> Vec<Page> {
 	let mut pages: Vec<Page> = Vec::new();
 
-	for (index, item) in list.enumerate() {
+	for (index, item) in chapters.enumerate() {
 		let page = item.as_object().unwrap();
 		let index = index as i32;
 		let url = page.get("url").as_string().unwrap().read();

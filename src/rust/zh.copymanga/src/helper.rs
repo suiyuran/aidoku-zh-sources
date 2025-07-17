@@ -125,5 +125,5 @@ pub fn gen_chapter_url(manga_id: String, chapter_id: String) -> String {
 }
 
 pub fn gen_page_list_url(manga_id: String, chapter_id: String) -> String {
-	format!("{}/comic/{}/chapter/{}", API_URL, manga_id, chapter_id)
+	format!("{}/comic/{}/chapter/{}", WWW_URL, manga_id, chapter_id)
 }

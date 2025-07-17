@@ -236,7 +236,7 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 	let manga_url = helper::gen_manga_url(id.clone());
 	let text = helper::get_text(manga_url);
 	let key = text
-		.substring_after("var dio = '")
+		.substring_after("var ccx = '")
 		.unwrap()
 		.substring_before("'")
 		.unwrap()
@@ -253,9 +253,21 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 #[get_page_list]
 fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	let url = helper::gen_page_list_url(manga_id, chapter_id);
-	let json = helper::get_json(url);
-	let data = json.get("results").as_object()?;
-	let data = data.get("chapter").as_object()?;
+	let text = helper::get_text(url);
+	let key = text
+		.substring_after("var ccy = '")
+		.unwrap()
+		.substring_before("'")
+		.unwrap()
+		.to_string();
+	let data = text
+		.substring_after("contentKey=\"")
+		.unwrap()
+		.substring_before("\"")
+		.unwrap()
+		.to_string();
+	let data = helper::decrypt(data, key);
+	let data = json::parse(data)?.as_array()?;
 
 	Ok(parser::parse_page_list(data))
 }
