@@ -14,7 +14,7 @@ use aidoku::{
 };
 use alloc::string::ToString;
 
-const WWW_URL: &str = "https://hanime1.me";
+const WWW_URL: &str = "https://hanimeone.me";
 
 #[get_manga_list]
 fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {

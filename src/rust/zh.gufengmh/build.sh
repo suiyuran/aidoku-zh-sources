@@ -1,4 +1,4 @@
-cargo +nightly build --release
+cargo +nightly-2026-03-15 build --release
 mkdir -p target/wasm32-unknown-unknown/release/Payload
 cp res/* target/wasm32-unknown-unknown/release/Payload
 cp target/wasm32-unknown-unknown/release/*.wasm target/wasm32-unknown-unknown/release/Payload/main.wasm

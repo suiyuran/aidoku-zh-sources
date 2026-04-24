@@ -14,7 +14,7 @@ use aidoku::{
 };
 use alloc::string::ToString;
 
-const WWW_URL: &str = "https://www.wnacg01.cc";
+const WWW_URL: &str = "https://wnacg.com";
 const UA: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36";
 
 const FILTER_CATEGORY: [&str; 4] = ["", "5", "6", "7"];
