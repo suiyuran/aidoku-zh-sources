@@ -3,10 +3,9 @@ extern crate alloc;
 
 use aidoku::{
 	error::Result,
-	helpers::{substring::Substring, uri::encode_uri},
+	helpers::uri::encode_uri,
 	prelude::*,
 	std::{
-		json,
 		net::{HttpMethod, Request},
 		String, Vec,
 	},
@@ -110,21 +109,23 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	let has_more = true;
 	let mut mangas: Vec<Manga> = Vec::new();
 
-	for item in html.select("div[class*='c-image-hover']>a").array() {
+	for item in html.select(".ho5ho-v2-card").array() {
 		let item = match item.as_node() {
 			Ok(node) => node,
 			Err(_) => continue,
 		};
-		let list = item
+		let link = item.select(".ho5ho-v2-card-cover");
+		let id = link
 			.attr("href")
 			.read()
 			.split("/")
 			.filter(|a| !a.is_empty())
 			.map(|a| a.to_string())
-			.collect::<Vec<String>>();
-		let id = (&list[3]).to_string();
-		let cover = item.select("img").attr("data-src").read();
-		let title = item.attr("title").read();
+			.collect::<Vec<String>>()
+			.pop()
+			.unwrap();
+		let cover = link.select("img").attr("src").read();
+		let title = item.select(".ho5ho-v2-card-title").text().read();
 		mangas.push(Manga {
 			id,
 			cover: encode_uri(cover),
@@ -143,42 +144,25 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 fn get_manga_details(id: String) -> Result<Manga> {
 	let url = format!("{}/{}/", MANGA_URL, id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
-	let cover = html
-		.select(".summary_image>a>img")
-		.attr("data-src")
-		.read()
-		.replace("193x278", "175x238");
-	let title = html.select(".post-title>h1").text().read();
+	let cover = html.select(".ho5ho-v3-cover>img").attr("src").read();
+	let title = html.select(".ho5ho-v3-hero>h1").text().read();
 	let author = html
-		.select(".author-content>a")
+		.select(".ho5ho-v3-taxonomy-group:nth-of-type(1) a")
 		.array()
 		.map(|a| a.as_node().unwrap().text().read())
 		.collect::<Vec<String>>()
 		.join(", ");
 	let artist = String::new();
 	let description = html
-		.select(".description-summary>div>p")
-		.array()
-		.map(|a| a.as_node().unwrap().text().read())
-		.collect::<Vec<String>>()
-		.join("\n");
+		.select("meta[name='description']")
+		.attr("content")
+		.read();
 	let categories = html
-		.select(".genres-content>a")
+		.select(".ho5ho-v3-taxonomy-group:nth-of-type(2) a")
 		.array()
 		.map(|a| a.as_node().unwrap().text().read())
 		.collect::<Vec<String>>();
-	let status = match html
-		.select(".post-status>div:nth-child(2)>.summary-content")
-		.text()
-		.read()
-		.trim()
-		.to_string()
-		.as_str()
-	{
-		"OnGoing" => MangaStatus::Ongoing,
-		"Completed" => MangaStatus::Completed,
-		_ => MangaStatus::Unknown,
-	};
+	let status = MangaStatus::Unknown;
 	let nsfw = MangaContentRating::Nsfw;
 	let viewer = MangaViewer::Rtl;
 
@@ -235,18 +219,20 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 #[get_page_list]
 fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	let url = format!("{}/{}/{}/", MANGA_URL, manga_id, chapter_id);
-	let text = Request::new(url.clone(), HttpMethod::Get).string()?;
-	let list = text
-		.substring_after("var chapter_preloaded_images = ")
-		.unwrap()
-		.substring_before(", chapter_images_per_page =")
-		.unwrap();
-	let list = json::parse(list).unwrap().as_array()?;
+	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
 	let mut pages: Vec<Page> = Vec::new();
 
-	for (index, item) in list.enumerate() {
+	for (index, item) in html
+		.select(".reading-content .wp-manga-chapter-img")
+		.array()
+		.enumerate()
+	{
+		let item = match item.as_node() {
+			Ok(node) => node,
+			Err(_) => continue,
+		};
 		let index = index as i32;
-		let url = item.as_string()?.read();
+		let url = item.attr("src").read().trim().to_string();
 		pages.push(Page {
 			index,
 			url,

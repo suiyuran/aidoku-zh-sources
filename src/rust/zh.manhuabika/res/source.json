@@ -2,35 +2,48 @@
   "info": {
     "id": "zh.manhuabika",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "哔咔漫画",
     "version": 1,
     "url": "https://manhuabika.com",
-    "nsfw": 2
+    "nsfw": 2,
+    "contentRating": 2
   },
   "listings": [
     {
+      "id": "日榜",
       "name": "日榜"
     },
     {
+      "id": "周榜",
       "name": "周榜"
     },
     {
+      "id": "月榜",
       "name": "月榜"
     },
     {
+      "id": "随机本子",
       "name": "随机本子"
     },
     {
+      "id": "大湿推荐",
       "name": "大湿推荐"
     },
     {
+      "id": "那年今天",
       "name": "那年今天"
     },
     {
+      "id": "大家都在看",
       "name": "大家都在看"
     },
     {
+      "id": "官方都在看",
       "name": "官方都在看"
     }
-  ]
+  ],
+  "deprecated": true
 }

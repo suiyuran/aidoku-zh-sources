@@ -2,9 +2,14 @@
   "info": {
     "id": "zh.manhuadb",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "漫画DB",
     "version": 1,
     "url": "https://www.manhuadb.com",
-    "nsfw": 1
-  }
+    "nsfw": 1,
+    "contentRating": 1
+  },
+  "deprecated": true
 }

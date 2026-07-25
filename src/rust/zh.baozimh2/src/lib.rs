@@ -2,10 +2,11 @@
 extern crate alloc;
 
 use aidoku::{
-	error::Result,
+	error::{AidokuError, AidokuErrorKind, Result},
 	helpers::uri::encode_uri,
 	prelude::*,
 	std::{
+		json,
 		net::{HttpMethod, Request},
 		String, Vec,
 	},
@@ -15,8 +16,10 @@ use aidoku::{
 use alloc::string::ToString;
 
 const WWW_URL: &str = "https://baozimh.org";
-const API_URL: &str = "https://api-get-v2.mgsearcher.com";
+const API_URL: &str = "https://api-get-v3.mgsearcher.com";
 const IMG_URL: &str = "https://f40-1-4.g-mh.online";
+const BASE64_STD: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+const BASE64_CUSTOM: &[u8] = b"_-9876543210abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const FILTER_CATEGORY: [&str; 35] = [
 	"",
@@ -69,6 +72,96 @@ fn handle_cover_url(url: String) -> String {
 	} else {
 		url
 	}
+}
+
+fn json_error<T>() -> Result<T> {
+	Err(AidokuError {
+		reason: AidokuErrorKind::JsonParseError,
+	})
+}
+
+// baozimh.org shares godamh.com's chapter backend and encoded image payload.
+fn decode_chapter_images(encoded: String) -> Result<Vec<String>> {
+	let input = encoded.as_bytes();
+	if input.len() < 10 || !input.starts_with(b"J7r") || !input.ends_with(b"nQ") {
+		return json_error();
+	}
+
+	let body = &input[3..input.len() - 2];
+	let payload_len = match body.len().checked_sub(5) {
+		Some(len) => len,
+		None => return json_error(),
+	};
+	let part3_len = payload_len / 3;
+	let part1_len = (payload_len - part3_len) / 2;
+	let part2_len = payload_len - part3_len - part1_len;
+	let marker1 = part1_len;
+	let part2_start = marker1 + 2;
+	let marker2 = part2_start + part2_len;
+	let part3_start = marker2 + 3;
+
+	if body.get(marker1..part2_start) != Some(b"kD")
+		|| body.get(marker2..part3_start) != Some(b"W4s")
+		|| body.len() - part3_start != part3_len
+	{
+		return json_error();
+	}
+
+	let mut normalized = Vec::with_capacity(payload_len);
+	normalized.extend_from_slice(&body[part3_start..]);
+	normalized.extend_from_slice(&body[..part1_len]);
+	normalized.extend_from_slice(&body[part2_start..marker2]);
+
+	for (index, chunk) in normalized.chunks_mut(7).enumerate() {
+		if index % 2 == 1 {
+			chunk.reverse();
+		}
+	}
+
+	for byte in &mut normalized {
+		let alphabet_index = match BASE64_CUSTOM.iter().position(|item| item == byte) {
+			Some(index) => index,
+			None => return json_error(),
+		};
+		*byte = BASE64_STD[alphabet_index];
+	}
+
+	let mut decoded = Vec::with_capacity(normalized.len() * 3 / 4);
+	let mut buffer = 0u32;
+	let mut bits = 0u8;
+	for byte in normalized {
+		let value = match byte {
+			b'A'..=b'Z' => byte - b'A',
+			b'a'..=b'z' => byte - b'a' + 26,
+			b'0'..=b'9' => byte - b'0' + 52,
+			b'-' => 62,
+			b'_' => 63,
+			_ => return json_error(),
+		};
+		buffer = (buffer << 6) | value as u32;
+		bits += 6;
+		if bits >= 8 {
+			bits -= 8;
+			decoded.push((buffer >> bits) as u8);
+			buffer &= (1 << bits) - 1;
+		}
+	}
+
+	let list = json::parse(decoded)?.as_array()?;
+	let mut images = Vec::new();
+	for item in list {
+		let item = match item.as_object() {
+			Ok(item) => item,
+			Err(_) => continue,
+		};
+		if let Ok(url) = item.get("url").as_string() {
+			images.push(url.read());
+		}
+	}
+	if images.is_empty() {
+		return json_error();
+	}
+	Ok(images)
 }
 
 #[get_manga_list]
@@ -293,7 +386,7 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	let ids = manga_id.split("/").collect::<Vec<&str>>();
 	let url = format!(
-		"{}/api/chapter/getinfo?m={}&c={}",
+		"{}/api/v2/chapter/getinfo?m={}&c={}",
 		API_URL,
 		ids[1],
 		chapter_id.clone()
@@ -306,18 +399,15 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	let data = data.get("data").as_object()?;
 	let info = data.get("info").as_object()?;
 	let images = info.get("images").as_object()?;
-	let list = images.get("images").as_array()?;
+	let list = decode_chapter_images(images.get("images").as_string()?.read())?;
 	let mut pages: Vec<Page> = Vec::new();
 
-	for (index, item) in list.enumerate() {
-		let item = match item.as_object() {
-			Ok(item) => item,
-			Err(_) => continue,
-		};
+	for (index, item) in list.into_iter().enumerate() {
 		let index = index as i32;
-		let url = match item.get("url").as_string() {
-			Ok(url) => format!("{}{}", IMG_URL, url.read()),
-			Err(_) => continue,
+		let url = if item.starts_with("http://") || item.starts_with("https://") {
+			item
+		} else {
+			format!("{}{}", IMG_URL, item)
 		};
 		pages.push(Page {
 			index,

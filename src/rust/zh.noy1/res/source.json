@@ -2,32 +2,44 @@
   "info": {
     "id": "zh.noy1",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "NoyAcg",
     "version": 3,
     "url": "https://noy1.top",
-    "nsfw": 2
+    "nsfw": 2,
+    "contentRating": 2
   },
   "listings": [
     {
+      "id": "日阅读榜",
       "name": "日阅读榜"
     },
     {
+      "id": "周阅读榜",
       "name": "周阅读榜"
     },
     {
+      "id": "月阅读榜",
       "name": "月阅读榜"
     },
     {
+      "id": "日收藏榜",
       "name": "日收藏榜"
     },
     {
+      "id": "周收藏榜",
       "name": "周收藏榜"
     },
     {
+      "id": "月收藏榜",
       "name": "月收藏榜"
     },
     {
+      "id": "高质量榜",
       "name": "高质量榜"
     }
-  ]
+  ],
+  "deprecated": true
 }

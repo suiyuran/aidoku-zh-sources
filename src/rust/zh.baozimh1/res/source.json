@@ -2,9 +2,13 @@
   "info": {
     "id": "zh.baozimh1",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "包子漫画1",
-    "version": 5,
+    "version": 6,
     "url": "https://www.baozimh.com",
-    "nsfw": 0
+    "nsfw": 0,
+    "contentRating": 0
   }
 }

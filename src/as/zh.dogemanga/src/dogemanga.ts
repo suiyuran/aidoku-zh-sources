@@ -21,7 +21,10 @@ let gp2 = "";
 
 export class Dogemanga extends Source {
   genExploreURL(page: string, set: string): string {
-    return `https://dogemanga.com/_search?p=${page}&s=${set}`;
+    let url = "https://dogemanga.com/_search";
+    if (page !== "") url += `?p=${page}`;
+    if (set !== "") url += `${page === "" ? "?" : "&"}s=${set}`;
+    return url;
   }
 
   genSearchURL(query: string, page: number): string {
@@ -73,6 +76,7 @@ export class Dogemanga extends Source {
       const html = Html.parse(String.UTF8.encode(item));
       const id = html.select(".site-card").attr("data-manga-id");
       const title = html.select(".site-card__manga-title").text().trim();
+      if (title.length === 0) continue;
       const manga = new Manga(id, title);
       manga.cover_url = html.select(".card-img-top").attr("src");
       mangas.push(manga);
@@ -103,6 +107,7 @@ export class Dogemanga extends Source {
       const html = Html.parse(String.UTF8.encode(item));
       const id = html.select(".site-card").attr("data-manga-id");
       const title = html.select(".site-card__manga-title").text().trim();
+      if (title.length === 0) continue;
       const manga = new Manga(id, title);
       manga.cover_url = html.select(".card-img-top").attr("src");
       mangas.push(manga);
@@ -116,7 +121,7 @@ export class Dogemanga extends Source {
     const html = this.getHTML(url);
     const title = html.select(".site-card__manga-title").text().trim();
     const manga = new Manga(mangaId, title);
-    manga.cover_url = html.select("site-manga__cover-image").attr("src");
+    manga.cover_url = html.select(".site-manga__cover-image").attr("src");
     manga.author = html
       .select("h4>.site-card__link")
       .array()

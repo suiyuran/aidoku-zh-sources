@@ -15,7 +15,9 @@ use aidoku::{
 use alloc::string::ToString;
 
 const WWW_URL: &str = "https://www.baozimh.com";
+const APP_URL: &str = "https://appcn.baozimh.com/baozimhapp";
 const IMG_URL: &str = "https://static-tw.baozimh.com";
+const UA: &str = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
 
 const FILTER_CATEGORY: [&str; 26] = [
 	"all",
@@ -159,17 +161,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 fn get_manga_details(id: String) -> Result<Manga> {
 	let url = format!("{}/comic/{}", WWW_URL, id.clone());
 	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
-	let id = html
-		.select("meta[name='og:novel:read_url']")
-		.attr("content")
-		.read()
-		.split("/")
-		.filter(|a| !a.is_empty())
-		.map(|a| a.to_string())
-		.collect::<Vec<String>>()
-		.pop()
-		.unwrap();
-	let cover = html.select("meta[name='og:image'").attr("content").read();
+	let cover = html.select("meta[name='og:image']").attr("content").read();
 	let title = html
 		.select("meta[name='og:novel:book_name']")
 		.attr("content")
@@ -268,52 +260,35 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 #[get_page_list]
 fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	let mut pages: Vec<Page> = Vec::new();
-	let mut page = 1;
-	let mut current_chapter_id = chapter_id.clone();
+	let url = format!("{}/comic/chapter/{}/{}.html", APP_URL, manga_id, chapter_id);
+	let html = Request::new(url, HttpMethod::Get)
+		.header("Referer", &WWW_URL)
+		.header("User-Agent", UA)
+		.html()?;
 
-	loop {
-		let url = format!(
-			"{}/comic/chapter/{}/{}.html",
-			WWW_URL,
-			manga_id.clone(),
-			current_chapter_id.clone()
-		);
-		let html = Request::new(url.clone(), HttpMethod::Get).html()?;
-		let list = html.select("amp-img[id^='chapter-img']").array();
-		let next_chapter_id = html
-			.select("#next-chapter")
-			.attr("href")
-			.read()
-			.split("/")
-			.map(|a| a.to_string())
-			.collect::<Vec<String>>()
-			.pop()
-			.unwrap()
-			.replace(".html", "");
-
-		for item in list {
-			let item = match item.as_node() {
-				Ok(node) => node,
-				Err(_) => continue,
-			};
-			let index = page as i32;
-			let url = item.attr("src").read().replace("fcomic", "scomic");
-			pages.push(Page {
-				index,
-				url,
-				..Default::default()
-			});
-			page += 1;
+	for item in html.select(".comic-contain__item").array() {
+		let item = match item.as_node() {
+			Ok(node) => node,
+			Err(_) => continue,
+		};
+		let mut url = item.attr("data-src").read();
+		if url.is_empty() {
+			url = item.attr("src").read();
 		}
-
-		if !next_chapter_id
-			.starts_with(&current_chapter_id.split('_').collect::<Vec<&str>>()[..2].join("_"))
-		{
-			break;
+		if url.is_empty() {
+			continue;
 		}
-
-		current_chapter_id = next_chapter_id;
+		pages.push(Page {
+			index: pages.len() as i32,
+			url: url.replace("fcomic", "scomic"),
+			..Default::default()
+		});
 	}
 
 	Ok(pages)
+}
+
+#[modify_image_request]
+fn modify_image_request(request: Request) {
+	request.header("Referer", &APP_URL).header("User-Agent", UA);
 }

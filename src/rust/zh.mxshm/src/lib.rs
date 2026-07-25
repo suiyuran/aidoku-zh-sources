@@ -64,14 +64,17 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	}
 
 	let url = if query.is_empty() {
-		format!(
-			"{}/booklist?tag={}&area={}&end={}&page={}",
-			get_url(),
-			encode_uri(tag),
-			area,
-			end,
-			page
-		)
+		let mut url = format!("{}/booklist?page={}", get_url(), page);
+		if !tag.is_empty() {
+			url.push_str(&format!("&tag={}", encode_uri(tag)));
+		}
+		if !area.is_empty() {
+			url.push_str(&format!("&area={}", area));
+		}
+		if !end.is_empty() {
+			url.push_str(&format!("&end={}", end));
+		}
+		url
 	} else {
 		format!("{}/search?keyword={}", get_url(), encode_uri(query.clone()))
 	};

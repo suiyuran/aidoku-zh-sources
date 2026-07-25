@@ -2,9 +2,13 @@
   "info": {
     "id": "zh.ho5ho",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "HO5HO",
-    "version": 1,
+    "version": 2,
     "url": "https://www.ho5ho.com",
-    "nsfw": 2
+    "nsfw": 2,
+    "contentRating": 2
   }
 }

@@ -2,9 +2,14 @@
   "info": {
     "id": "zh.mycomic",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "MYCOMIC",
     "version": 2,
     "url": "https://mycomic.com/cn",
-    "nsfw": 1
-  }
+    "nsfw": 1,
+    "contentRating": 1
+  },
+  "deprecated": true
 }

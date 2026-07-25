@@ -2,9 +2,14 @@
   "info": {
     "id": "zh.yandanshe",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "言耽社",
     "version": 1,
     "url": "https://yandanshe.com",
-    "nsfw": 2
-  }
+    "nsfw": 2,
+    "contentRating": 2
+  },
+  "deprecated": true
 }

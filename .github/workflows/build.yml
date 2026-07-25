@@ -2,8 +2,12 @@ name: Build and Deploy Sources
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -11,51 +15,74 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 1. 配置 Rust 环境，并明确添加 wasm32 目标
-      - name: Setup Rust toolchain
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: src/as/*/package-lock.json
+
+      - name: Setup Rust toolchains
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
 
-      # 2. 缓存 Cargo (加快后续构建)
-      - name: Cache Cargo registry
-        uses: actions/cache@v3
+      - name: Install source build toolchain
+        run: |
+          rustup toolchain install nightly-2024-12-01 --profile minimal
+          rustup target add wasm32-unknown-unknown --toolchain nightly-2024-12-01
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
         with:
           path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            ~/.cargo/bin
+            src/rust/**/target
+          key: ${{ runner.os }}-cargo-v4-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
-            ${{ runner.os }}-cargo-
+            ${{ runner.os }}-cargo-v4-
 
-      # 3. 安装 aidoku-cli 工具 (这是修复 "aidoku: command not found" 的关键)
-      - name: Install aidoku-cli
-        run: |
-          # 从官方最新的 aidoku-rs 仓库安装 cli 工具
-          cargo install --git https://github.com/Aidoku/aidoku-rs aidoku-cli
+      - name: Install current Aidoku CLI
+        run: cargo +stable install --locked --git https://github.com/Aidoku/aidoku-rs aidoku-cli
 
-      # 4. 执行构建脚本
-      - name: Build Sources
+      - name: Build source packages and both indexes
+        env:
+          RUSTUP_TOOLCHAIN: nightly-2024-12-01
         run: |
           chmod +x build.sh
           ./build.sh
 
-      # 5. 验证构建结果 (调试用)
-      - name: List Output Files
-        run: ls -R public || echo "Public folder not found"
+      - name: Validate output layout
+        run: |
+          test -s public/index.json
+          test -s public/index.min.json
+          test -s public/v2/index.min.json
+          node scripts/build-indexes.mjs \
+            public/v2/index.min.json \
+            public/index.json \
+            public/index.min.json
 
-      # 6. 部署到 gh-pages
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           force_orphan: true
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-list
+          path: public
+          if-no-files-found: error

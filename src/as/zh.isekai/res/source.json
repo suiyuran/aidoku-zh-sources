@@ -2,10 +2,14 @@
   "info": {
     "id": "zh.isekai",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "ISEKAI",
     "version": 1,
     "url": "https://isekai.ch",
-    "nsfw": 2
+    "nsfw": 2,
+    "contentRating": 2
   },
   "deprecated": true
 }

@@ -2,15 +2,19 @@
   "info": {
     "id": "zh.dogemanga",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "漫画狗",
-    "version": 1,
+    "version": 2,
     "url": "https://dogemanga.com",
-    "nsfw": 0
+    "nsfw": 0,
+    "contentRating": 0
   },
   "listings": [
     {
+      "id": "最新连载",
       "name": "最新连载"
     }
-  ],
-  "deprecated": true
+  ]
 }

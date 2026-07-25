@@ -2,10 +2,14 @@
   "info": {
     "id": "zh.nicohub",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "Nico",
     "version": 1,
     "url": "https://nicohub.cc/index?category=comic",
-    "nsfw": 0
+    "nsfw": 0,
+    "contentRating": 0
   },
   "deprecated": true
 }

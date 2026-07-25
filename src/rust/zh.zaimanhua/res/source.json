@@ -2,28 +2,38 @@
   "info": {
     "id": "zh.zaimanhua",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "再漫画",
-    "version": 1,
+    "version": 2,
     "url": "https://www.zaimanhua.com",
-    "nsfw": 0
+    "nsfw": 0,
+    "contentRating": 0
   },
   "listings": [
     {
+      "id": "周人气排行",
       "name": "周人气排行"
     },
     {
+      "id": "月人气排行",
       "name": "月人气排行"
     },
     {
+      "id": "总人气排行",
       "name": "总人气排行"
     },
     {
+      "id": "周点击排行",
       "name": "周点击排行"
     },
     {
+      "id": "月点击排行",
       "name": "月点击排行"
     },
     {
+      "id": "总点击排行",
       "name": "总点击排行"
     }
   ]

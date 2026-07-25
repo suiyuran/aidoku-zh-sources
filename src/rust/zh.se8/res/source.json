@@ -2,9 +2,14 @@
   "info": {
     "id": "zh.se8",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "韩漫库",
     "version": 3,
     "url": "https://se8.us",
-    "nsfw": 2
-  }
+    "nsfw": 2,
+    "contentRating": 2
+  },
+  "deprecated": true
 }

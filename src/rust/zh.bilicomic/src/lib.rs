@@ -59,7 +59,8 @@ fn extract_chapter_number(title: &str) -> Option<f32> {
 	if let Some(captures) = re.captures(title) {
 		let num_match = captures.get(1).or_else(|| captures.get(2));
 		if let Some(num_match) = num_match {
-			let num_str = num_match.as_str()
+			let num_str = num_match
+				.as_str()
 				.chars()
 				.map(|c| match c {
 					'０' => '0',
@@ -142,7 +143,7 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 
 	let url = if query.is_empty() {
 		format!(
-			"{}/filter/{}_{}_{}_{}_{}_{}_{}_{}_{}_0.html",
+			"{}/filter/{}_{}_{}_{}_{}_{}_{}_{}_{}_0_0_0.html",
 			BASE_URL, order, tagid, isfull, anime, rgroupid, sortid, update, quality, page
 		)
 	} else {
@@ -399,7 +400,8 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 						.unwrap()
 						.replace(".html", "");
 					let title = chapter_item.select("span").text().read();
-					let chapter_num = extract_chapter_number(&title).unwrap_or(chapters.len() as f32 + 1.0);
+					let chapter_num =
+						extract_chapter_number(&title).unwrap_or(chapters.len() as f32 + 1.0);
 					let url = format!("{}{}", BASE_URL, chapter_href);
 					chapters.push(Chapter {
 						id: chapter_id,
@@ -427,7 +429,8 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 						.unwrap()
 						.replace(".html", "");
 					let title = item.select("span").text().read();
-					let chapter_num = extract_chapter_number(&title).unwrap_or(chapters.len() as f32 + 1.0);
+					let chapter_num =
+						extract_chapter_number(&title).unwrap_or(chapters.len() as f32 + 1.0);
 					let url = format!("{}{}", BASE_URL, chapter_href);
 					chapters.push(Chapter {
 						id: chapter_id,

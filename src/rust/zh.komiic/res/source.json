@@ -2,19 +2,26 @@
   "info": {
     "id": "zh.komiic",
     "lang": "zh",
+    "languages": [
+      "zh"
+    ],
     "name": "Komiic漫画",
-    "version": 3,
+    "version": 4,
     "url": "https://komiic.com",
-    "nsfw": 0
+    "nsfw": 0,
+    "contentRating": 0
   },
   "listings": [
     {
+      "id": "最近更新",
       "name": "最近更新"
     },
     {
+      "id": "本月热门",
       "name": "本月热门"
     },
     {
+      "id": "历史热门",
       "name": "历史热门"
     }
   ]
