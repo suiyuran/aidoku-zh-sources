@@ -1,53 +1,55 @@
 # aidoku-zh-sources
 
-Aidoku 中文图源
+繁體中文 | [简体中文](README.zh-CN.md)
+
+Aidoku 中文圖源
 
 ## 如何使用
 
-推荐使用 [v2 格式](https://aidoku.app/add-source-list/?url=https://raw.githubusercontent.com/NullKeeper-dev/aidoku-zh-sources/main/public/v2/index.min.json) 添加图源，不会出现「legacy source list」警告。
+推薦使用 [v2 格式](https://aidoku.app/add-source-list/?url=https://raw.githubusercontent.com/NullKeeper-dev/aidoku-zh-sources/main/public/v2/index.min.json) 新增圖源，不會出現「legacy source list」警告。
 
-旧版 Aidoku 仍可使用 [legacy 地址](https://aidoku.app/add-source-list/?url=https://raw.githubusercontent.com/NullKeeper-dev/aidoku-zh-sources/main/public/)；原有目录地址和 `public/index.json` 均继续保留。
+舊版 Aidoku 仍可使用 [legacy 位址](https://aidoku.app/add-source-list/?url=https://raw.githubusercontent.com/NullKeeper-dev/aidoku-zh-sources/main/public/)；原有目錄位址和 `public/index.json` 均繼續保留。
 
-如果 GitHub Raw 无法访问，可以使用 [jsDelivr legacy 地址](https://aidoku.app/add-source-list/?url=https://cdn.jsdelivr.net/gh/NullKeeper-dev/aidoku-zh-sources@main/public/)。
+如果無法存取 GitHub Raw，可以使用 [jsDelivr legacy 位址](https://aidoku.app/add-source-list/?url=https://cdn.jsdelivr.net/gh/NullKeeper-dev/aidoku-zh-sources@main/public/)。
 
-## 图源列表
+## 圖源列表
 
-- [18漫画](https://18mh.org)
-- [包子漫画1](https://www.baozimh.com)
-- [包子漫画2](https://baozimh.org)
-- [漫画狗](https://dogemanga.com)
-- [G站漫画](https://godamh.com)
+- [18漫畫](https://18mh.org)
+- [包子漫畫1](https://www.baozimh.com)
+- [包子漫畫2](https://baozimh.org)
+- [漫畫狗](https://dogemanga.com)
+- [G站漫畫](https://godamh.com)
 - [HO5HO](https://www.ho5ho.com)
-- [Komiic漫画](https://komiic.com)
-- [漫客栈](https://www.mkzhan.com)
-- [漫小肆韩漫](https://www.mxs13.cc)
-- [绅士漫画](https://www.wnacg.com)
-- [野蛮漫画](https://yemancomic.com)
-- [再漫画](https://www.zaimanhua.com)
+- [Komiic漫畫](https://komiic.com)
+- [漫客棧](https://www.mkzhan.com)
+- [漫小肆韓漫](https://www.mxs13.cc)
+- [紳士漫畫](https://www.wnacg.com)
+- [野蠻漫畫](https://yemancomic.com)
+- [再漫畫](https://www.zaimanhua.com)
 
-## 暂时下架
+## 暫時下架
 
-以下图源仍保留源码，待站点恢复或完成较大改版后再重新发布：
+以下圖源仍保留原始碼，待網站恢復或完成較大改版後再重新發布：
 
-- ~~[139漫画](https://139mh.com)~~：JavaScript 防机器人页
-- ~~[巴卡漫画](https://bakamh.com)~~：阅读页持续返回 HTTP 403
-- ~~[哔哩漫画](https://www.bilimanga.net)~~：图片 CDN 持续返回 HTTP 403
-- ~~[拷贝漫画](https://www.mangacopy.com)~~：新版章节 API 返回空图片组
-- ~~[古风漫画](https://www.gufengmh.com)~~：站点返回 HTTP 403 / TLS 异常
-- ~~[嗨皮漫画](https://m.happymh.com)~~：持续出现人机验证
-- ~~[哔咔漫画](https://manhuabika.com)~~：必须登录，无法进行匿名验收
-- ~~[漫画DB](https://www.manhuadb.com)~~：连接超时或 JavaScript 挑战
-- ~~[漫画人](https://www.manhuaren.com)~~：旧签名失效，需重写设备认证
+- ~~[139漫畫](https://139mh.com)~~：JavaScript 防機器人頁
+- ~~[巴卡漫畫](https://bakamh.com)~~：閱讀頁持續返回 HTTP 403
+- ~~[嗶哩漫畫](https://www.bilimanga.net)~~：圖片 CDN 持續返回 HTTP 403
+- ~~[拷貝漫畫](https://www.mangacopy.com)~~：新版章節 API 返回空圖片組
+- ~~[古風漫畫](https://www.gufengmh.com)~~：網站返回 HTTP 403 / TLS 異常
+- ~~[嗨皮漫畫](https://m.happymh.com)~~：持續出現人機驗證
+- ~~[嗶咔漫畫](https://manhuabika.com)~~：必須登入，無法進行匿名驗收
+- ~~[漫畫DB](https://www.manhuadb.com)~~：連線逾時或 JavaScript 挑戰
+- ~~[漫畫人](https://www.manhuaren.com)~~：舊簽章失效，需重寫裝置驗證
 - ~~[MYCOMIC](https://mycomic.com/cn)~~：Cloudflare HTTP 403
-- ~~[Nico](https://nicohub.cc/index?category=comic)~~：JavaScript 防机器人页
-- ~~[NoyAcg](https://noy1.top)~~：新版 API 强制登录
-- ~~[韩漫库](https://se8.us)~~：首页 HTTP 403，漫画路由 HTTP 404
-- ~~[vomic漫画](https://www.vomicmh.com)~~：站点已改版，旧 API 返回 HTTP 404
+- ~~[Nico](https://nicohub.cc/index?category=comic)~~：JavaScript 防機器人頁
+- ~~[NoyAcg](https://noy1.top)~~：新版 API 強制登入
+- ~~[韓漫庫](https://se8.us)~~：首頁 HTTP 403，漫畫路由 HTTP 404
+- ~~[vomic漫畫](https://www.vomicmh.com)~~：網站已改版，舊 API 返回 HTTP 404
 
 ## 已移除
 
-以下站点已确认永久失效或不再提供原漫画服务：无敌漫画、动漫狂、Hanime1 漫画区、ISEKAI、喵上漫画、言耽社、zero搬运网。
+以下網站已確認永久失效或不再提供原漫畫服務：無敵漫畫、動漫狂、Hanime1 漫畫區、ISEKAI、喵上漫畫、言耽社、zero搬運網。
 
-## 状态
+## 狀態
 
-2026-07-26 完成全量审计：修复 G站漫画、包子漫画、漫画狗、HO5HO、漫小肆、绅士漫画等站点变更，并迁移至 Aidoku v2 图源列表格式。当前发布 12 个通过构建和在线阅读链路测试的图源；其余图源已按上面的原因下架或移除。完整的逐源结果、测试标题和相关 issue 见 [AUDIT.md](AUDIT.md)。
+2026-07-26 完成完整稽核：修復 G站漫畫、包子漫畫、漫畫狗、HO5HO、漫小肆、紳士漫畫等網站變更，並遷移至 Aidoku v2 圖源列表格式。目前發布 12 個通過建置和線上閱讀流程測試的圖源；其餘圖源已依上述原因下架或移除。完整的逐源結果、測試作品和相關 issue 請參閱 [AUDIT.md](AUDIT.md)。
