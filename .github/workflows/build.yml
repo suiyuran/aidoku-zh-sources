@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-cargo-v4-
 
       - name: Install current Aidoku CLI
-        run: cargo +stable install --locked --git https://github.com/Aidoku/aidoku-rs aidoku-cli
+        run: cargo +stable install --force --locked --git https://github.com/Aidoku/aidoku-rs aidoku-cli
 
       - name: Build source packages and both indexes
         env:
