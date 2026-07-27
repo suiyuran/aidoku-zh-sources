@@ -6,6 +6,7 @@ use aidoku::{
 	helpers::uri::encode_uri,
 	prelude::*,
 	std::{
+		defaults::defaults_get,
 		json,
 		net::{HttpMethod, Request},
 		String, Vec,
@@ -16,8 +17,7 @@ use aidoku::{
 use alloc::string::ToString;
 
 const WWW_URL: &str = "https://baozimh.org";
-const API_URL: &str = "https://api-get-v3.mgsearcher.com";
-const IMG_URL: &str = "https://f40-1-4.g-mh.online";
+const API_URL: &str = "https://v2.apikk.top";
 const BASE64_STD: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 const BASE64_CUSTOM: &[u8] = b"_-9876543210abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -78,6 +78,21 @@ fn json_error<T>() -> Result<T> {
 	Err(AidokuError {
 		reason: AidokuErrorKind::JsonParseError,
 	})
+}
+
+fn image_host(line: i64) -> String {
+	let route = defaults_get("imageRoute")
+		.ok()
+		.and_then(|value| value.as_string().ok())
+		.map(|value| value.read())
+		.unwrap_or_else(|| String::from("c"));
+	let line = if line == 2 { 2 } else { 3 };
+	match route.as_str() {
+		"t" => format!("https://t-nd{}-1.6wm.top", line),
+		"g" if line == 2 => String::from("https://f40-1-4.g-mh.online"),
+		"g" => String::from("https://t40-1-4.g-mh.online"),
+		_ => format!("https://c-nd{}-1.6wm.top", line),
+	}
 }
 
 // baozimh.org shares godamh.com's chapter backend and encoded image payload.
@@ -348,7 +363,7 @@ fn get_manga_details(id: String) -> Result<Manga> {
 #[get_chapter_list]
 fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 	let ids = id.split("/").collect::<Vec<&str>>();
-	let url = format!("{}/api/manga/get?mid={}&mode=all", API_URL, ids[1]);
+	let url = format!("{}/api/v2/manga/get?mid={}&mode=all", API_URL, ids[1]);
 	let json = Request::new(url.clone(), HttpMethod::Get)
 		.header("Origin", &WWW_URL)
 		.header("Referer", &WWW_URL)
@@ -399,7 +414,9 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	let data = data.get("data").as_object()?;
 	let info = data.get("info").as_object()?;
 	let images = info.get("images").as_object()?;
+	let line = images.get("line").as_int().unwrap_or(3);
 	let list = decode_chapter_images(images.get("images").as_string()?.read())?;
+	let image_host = image_host(line);
 	let mut pages: Vec<Page> = Vec::new();
 
 	for (index, item) in list.into_iter().enumerate() {
@@ -407,7 +424,7 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 		let url = if item.starts_with("http://") || item.starts_with("https://") {
 			item
 		} else {
-			format!("{}{}", IMG_URL, item)
+			format!("{}{}", image_host, item)
 		};
 		pages.push(Page {
 			index,

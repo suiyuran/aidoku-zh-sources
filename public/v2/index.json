@@ -26,6 +26,18 @@
       "baseURL": "https://www.baozimh.com"
     },
     {
+      "id": "zh.baozimh2",
+      "name": "包子漫画2",
+      "version": 8,
+      "iconURL": "icons/zh.baozimh2-v8.png",
+      "downloadURL": "sources/zh.baozimh2-v8.aix",
+      "languages": [
+        "zh"
+      ],
+      "contentRating": 0,
+      "baseURL": "https://baozimh.org"
+    },
+    {
       "id": "zh.boylove",
       "name": "香香腐宅",
       "version": 13,
@@ -48,6 +60,18 @@
       ],
       "contentRating": 1,
       "baseURL": "https://www.dm5.com"
+    },
+    {
+      "id": "zh.godamanga",
+      "name": "G站漫画",
+      "version": 11,
+      "iconURL": "icons/zh.godamanga-v11.png",
+      "downloadURL": "sources/zh.godamanga-v11.aix",
+      "languages": [
+        "zh"
+      ],
+      "contentRating": 0,
+      "baseURL": "https://godamh.com"
     },
     {
       "id": "zh.ho5ho",

@@ -34,8 +34,8 @@ jobs:
 
       - name: Install source build toolchain
         run: |
-          rustup toolchain install nightly-2024-12-01 --profile minimal
-          rustup target add wasm32-unknown-unknown --toolchain nightly-2024-12-01
+          rustup toolchain install nightly-2025-06-01 --profile minimal
+          rustup target add wasm32-unknown-unknown --toolchain nightly-2025-06-01
 
       - name: Cache Cargo
         uses: actions/cache@v4
@@ -55,7 +55,7 @@ jobs:
 
       - name: Build source packages and both indexes
         env:
-          RUSTUP_TOOLCHAIN: nightly-2024-12-01
+          RUSTUP_TOOLCHAIN: nightly-2025-06-01
         run: |
           chmod +x build.sh
           ./build.sh

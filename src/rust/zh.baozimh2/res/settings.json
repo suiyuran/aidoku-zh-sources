@@ -1,0 +1,16 @@
+[
+  {
+    "type": "group",
+    "title": "图片线路",
+    "items": [
+      {
+        "type": "select",
+        "key": "imageRoute",
+        "title": "CDN 线路",
+        "titles": ["Cloudflare", "国际备用", "旧版兼容"],
+        "values": ["c", "t", "g"],
+        "default": "c"
+      }
+    ]
+  }
+]
