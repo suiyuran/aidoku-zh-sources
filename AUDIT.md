@@ -3,7 +3,7 @@
 稽核日期：2026-07-27
 主要線上測試位置：美國 Comcast/Xfinity（Cloudflare SJC 出口）；G站／包子漫畫2另以臺灣、新加坡、德國及多個美國節點交叉測試
 
-本次枚舉 `src/as/` 與 `src/rust/` 下全部 39 個圖源。建置欄表示原始碼可產生 `.aix`；線上欄依序檢查列表、漫畫詳情、章節列表、章節頁及至少一張實際圖片。發佈標準是可匿名使用，且整條閱讀鏈能從主要測試線路或分散式美國節點完成；需要登入、持續 Cloudflare 挑戰或只剩 App 宣傳圖者不進入 v2 索引。
+本次原始稽核枚舉 `src/as/` 與 `src/rust/` 下全部 39 個圖源。完成稽核後，永久失效的 7 個來源目錄已移除，倉庫現保留 32 個來源。建置欄表示原始碼可產生 `.aix`；`— 已移除` 表示僅保留歷史稽核記錄。線上欄依序檢查列表、漫畫詳情、章節列表、章節頁及至少一張實際圖片。發佈標準是可匿名使用，且整條閱讀鏈能從主要測試線路或分散式美國節點完成；需要登入、持續 Cloudflare 挑戰或只剩 App 宣傳圖者不進入 v2 索引。
 
 「全球可用」無法由任何有限節點絕對保證。G站／包子漫畫2的圖片在 13 個跨區節點全數成功，但本次 Comcast/Xfinity 線路會由 SafeBrowse 主動攔截其 CDN 網域；這是特定 ISP 的安全過濾，而非來源程式、網站或亞洲以外區域鎖，詳見下方專項結果。
 
@@ -14,7 +14,7 @@
 | 發佈 | 16 | 建置成功，並通過完整閱讀鏈 |
 | 暫時下架 | 16 | 反爬、認證或 API／網站改版 |
 | 已移除 | 7 | 域名失效、停站或原漫畫服務已不存在 |
-| 合計 | 39 | 全部原始碼皆可建置 |
+| 原始稽核合計 | 39 | 32 個保留來源可建置；7 個永久失效來源已移除 |
 
 ## 逐源結果
 
@@ -22,29 +22,29 @@
 | --- | --- | :---: | --- | --- | --- |
 | `zh.139mh` 139漫畫 | <https://139mh.com> | ✅ | ❌ 列表失敗 | HTTP 200，但內容只有 JavaScript「Loading...」防機器人頁 | — |
 | `zh.18mh` 18漫畫 | <https://18mh.org> | ✅ | ✅ 完整鏈路 | 列表、詳情、42 章、40 頁及原圖 HTTP 200 | — |
-| `zh.55dmh` 無敵漫畫 | <https://www.55dmh.com> | ✅ | ❌ 首頁失敗 | 連線被拒，站點已停止服務 | — |
+| `zh.55dmh` 無敵漫畫 | <https://www.55dmh.com> | — 已移除 | ❌ 首頁失敗 | 連線被拒，站點已停止服務 | — |
 | `zh.bakamh` 巴卡漫畫 | <https://bakamh.com> | ✅ | ❌ 章節頁失敗 | 列表需預熱 Cookie／Client Hints；閱讀路由仍持續 HTTP 403 | [#124](https://github.com/suiyuran/aidoku-zh-sources/issues/124)、[#148](https://github.com/suiyuran/aidoku-zh-sources/issues/148) |
 | `zh.baozimh1` 包子漫畫1 | <https://www.baozimh.com> | ✅ | ✅ 3 部作品完整鏈路 | 使用目前 `twmanga.com` 閱讀頁；略過網站替換的 App 宣傳假頁，較早可讀章節原圖 HTTP 200 | [#138](https://github.com/suiyuran/aidoku-zh-sources/issues/138)、[Aidoku #485](https://github.com/Skittyblock/aidoku-community-sources/issues/485)、[Suwayomi #686](https://github.com/Suwayomi/Suwayomi-Server/issues/686) |
 | `zh.baozimh2` 包子漫畫2 | <https://baozimh.org> | ✅ | ✅ 3 部作品完整鏈路 | 更新共用 v2 API、章節解碼及 line 2／3 圖片路由；跨區 13 節點圖片 HTTP 200。Comcast SafeBrowse 例外見下方 | [#138](https://github.com/suiyuran/aidoku-zh-sources/issues/138) |
 | `zh.bilicomic` 嗶哩漫畫 | <https://www.bilimanga.net> | ✅ | ❌ 圖片失敗 | 列表、詳情及章節可解析；`i.motiezw.com` 圖片持續 HTTP 403 | — |
 | `zh.boylove` 香香腐宅 | <https://boylove.cc> | ✅ | ✅ 完整鏈路 | 修復 JSON／HTML Accept 協商、失效章節 API、內嵌 `imageData` 與 13 欄圖片重排；原圖 HTTP 200 | — |
-| `zh.cartoonmad` 動漫狂 | <https://www.cartoonmad.com> | ✅ | ❌ 首頁失敗 | 所有路徑只返回 `/lander` 停放頁跳轉 | — |
+| `zh.cartoonmad` 動漫狂 | <https://www.cartoonmad.com> | — 已移除 | ❌ 首頁失敗 | 所有路徑只返回 `/lander` 停放頁跳轉 | — |
 | `zh.copymanga` 拷貝漫畫 | <https://www.mangacopy.com> | ✅ | ❌ 章節圖片失敗 | 切換目前參數與 `ccz` 解密後，多部作品仍返回空圖片組 | [#128](https://github.com/suiyuran/aidoku-zh-sources/issues/128)、[#135](https://github.com/suiyuran/aidoku-zh-sources/issues/135) |
 | `zh.dm5` 動漫屋 | <https://www.dm5.com> | ✅ | ✅ 完整鏈路 | 多部作品的列表、詳情、章節與圖片均通過官方 Aidoku 測試執行器 | — |
 | `zh.dogemanga` 漫畫狗 | <https://dogemanga.com> | ✅ | ❌ 列表失敗 | 首頁可開，但美國 `_search` 端點被 Cloudflare 返回 HTTP 403；legacy 套件圖示已補齊 | — |
 | `zh.godamanga` G站漫畫 | <https://godamh.com> | ✅ | ✅ 3 部作品完整鏈路 | 更新共用 v2 API、章節解碼及 line 2／3 圖片路由；跨區 13 節點圖片 HTTP 200。Comcast SafeBrowse 例外見下方 | [#142](https://github.com/suiyuran/aidoku-zh-sources/issues/142)、[#144](https://github.com/suiyuran/aidoku-zh-sources/issues/144) |
 | `zh.gufengmh` 古風漫畫 | <https://www.gufengmh.com> | ✅ | ❌ 首頁失敗 | HTTPS/TLS 異常；HTTP 返回 nginx 403 | — |
-| `zh.hanime1` Hanime1.me | <https://hanime1.me/comics> | ✅ | ❌ 漫畫服務失效 | 漫畫路由在行動版 HTTP 404、桌面版 Cloudflare 403；主站只剩影片服務 | [#147](https://github.com/suiyuran/aidoku-zh-sources/issues/147) |
+| `zh.hanime1` Hanime1.me | <https://hanime1.me/comics> | — 已移除 | ❌ 漫畫服務失效 | 漫畫路由在行動版 HTTP 404、桌面版 Cloudflare 403；主站只剩影片服務 | [#147](https://github.com/suiyuran/aidoku-zh-sources/issues/147) |
 | `zh.happymh` 嗨皮漫畫 | <https://m.happymh.com> | ✅ | ❌ 首頁／API 失敗 | HTTP 403 人機驗證；圖片算法也改為新的加密掃描格式 | — |
 | `zh.ho5ho` HO5HO | <https://www.ho5ho.com> | ✅ | ✅ 完整鏈路 | 目前卡片、詳情與閱讀頁選擇器正常；原圖 HTTP 200 | — |
-| `zh.isekai` ISEKAI | <https://isekai.ch> | ✅ | ❌ 首頁失敗 | 所有路徑均為域名停放頁 | — |
+| `zh.isekai` ISEKAI | <https://isekai.ch> | — 已移除 | ❌ 首頁失敗 | 所有路徑均為域名停放頁 | — |
 | `zh.komiic` Komiic漫畫 | <https://komiic.com> | ✅ | ✅ 完整鏈路 | GraphQL 列表、詳情、章節及圖片均成功 | [#127](https://github.com/suiyuran/aidoku-zh-sources/issues/127) |
 | `zh.mangabz` Māngabz | <https://mangabz.com> | ✅ | ✅ 完整鏈路 | 列表、詳情、章節腳本及圖片通過官方 Aidoku 測試執行器 | — |
 | `zh.manhuabika` 嗶咔漫畫 | <https://manhuabika.com> | ✅ | ⚠️ 無法匿名驗收 | 必須使用有效帳號登入；本次不建立帳號或繞過認證 | — |
 | `zh.manhuadb` 漫畫DB | <https://www.manhuadb.com> | ✅ | ❌ 首頁失敗 | HTTPS 逾時；HTTP 返回混淆 JavaScript 挑戰 | — |
 | `zh.manhuagui` 漫畫櫃 | <https://www.manhuagui.com> | ✅ | ✅ 完整鏈路 | 列表、詳情、章節解碼及圖片通過官方 Aidoku 測試執行器 | — |
 | `zh.manhuaren` 漫畫人 | <https://www.manhuaren.com> | ✅ | ❌ API 認證失敗 | 舊 token／簽章失效；目前需要匿名裝置註冊、RSA 與新簽名流程 | — |
-| `zh.miaoshangmanhua` 喵上漫畫 | <https://www.miaoshangmanhua.cc> | ✅ | ❌ DNS 失敗 | 域名無法解析 | — |
+| `zh.miaoshangmanhua` 喵上漫畫 | <https://www.miaoshangmanhua.cc> | — 已移除 | ❌ DNS 失敗 | 域名無法解析 | — |
 | `zh.mkzhan` 漫客棧 | <https://www.mkzhan.com> | ✅ | ✅ 完整鏈路 | 列表 API、詳情、章節、頁面及圖片均成功 | — |
 | `zh.mxshm`（ID `zh.msxhm`）漫小肆韓漫 | <https://www.mxshm.top> | ✅ | ✅ 完整鏈路 | 更新目前域名；將舊圖片主機的 `/static/` 路徑改寫回可用主站，原圖 HTTP 200 | — |
 | `zh.mycomic` MYCOMIC | <https://mycomic.com/cn> | ✅ | ❌ 首頁失敗 | Cloudflare HTTP 403 | — |
@@ -54,11 +54,11 @@
 | `zh.se8` 韓漫庫 | <https://se8.us> | ✅ | ❌ 首頁／路由失敗 | 首頁 nginx 403；舊漫畫路由及 `index.php` HTTP 404 | — |
 | `zh.vomicmh` vomic漫畫 | <https://www.vomicmh.com> | ✅ | ⚠️ 無法匿名驗收 | 網站已重寫為新前端；列表／詳情可見，但匿名章節頁顯示「請先登入」且 `chapterData` 為空 | — |
 | `zh.wnacg` 紳士漫畫 | <https://www.wn07.cfd> | ✅ | ✅ 完整鏈路 | 更新到目前可用域名；列表、詳情、188 頁章節及圖片 HTTP 200 | [#149](https://github.com/suiyuran/aidoku-zh-sources/issues/149)、[#152](https://github.com/suiyuran/aidoku-zh-sources/issues/152) |
-| `zh.yandanshe` 言耽社 | <https://yandanshe.com> | ✅ | ❌ DNS 失敗 | 域名無法解析 | — |
+| `zh.yandanshe` 言耽社 | <https://yandanshe.com> | — 已移除 | ❌ DNS 失敗 | 域名無法解析 | — |
 | `zh.yemancomic` 野蠻漫畫 | <https://yemancomic.com> | ✅ | ❌ 首頁失敗 | 臺灣曾可讀；目前美國線路持續 HTTP 403，因此不符合發佈標準 | — |
 | `zh.zaimanhua` 再漫畫 | <https://www.zaimanhua.com> | ✅ | ✅ 完整鏈路 | 列表、詳情、章節頁及圖片 HTTP 200 | — |
 | `zh.zerobyw` zero搬運網 | <https://www.zerobyw33.com> | ✅ | ✅ 完整鏈路 | 新版來源登入初始化、列表、詳情、章節與圖片通過官方 Aidoku 測試執行器 | — |
-| `zh.zerobywns` 舊版 zero搬運網 | <https://zerobyw.github.io> | ✅ | ❌ 服務失效 | GitHub Pages 只剩說明頁；舊內容域名已變成無關 WordPress，插件 API 404 | [#145](https://github.com/suiyuran/aidoku-zh-sources/issues/145) |
+| `zh.zerobywns` 舊版 zero搬運網 | <https://zerobyw.github.io> | — 已移除 | ❌ 服務失效 | GitHub Pages 只剩說明頁；舊內容域名已變成無關 WordPress，插件 API 404 | [#145](https://github.com/suiyuran/aidoku-zh-sources/issues/145) |
 
 ## G站／包子漫畫2：共用後端修復與三部作品驗證
 
@@ -127,7 +127,14 @@
 - `public/v2/index.json`：同一 v2 索引的可讀版本。
 - `public/index.json`：保留 legacy 陣列格式。
 - `public/index.min.json`：保留 legacy 壓縮陣列；舊目錄型訂閱會讀取此檔，不可用 v2 物件覆蓋。
-- 兩套索引目前都列出 16 個發佈來源；legacy 舊版 `.aix` 仍保留，避免既有下載網址失效。
-- 所有發佈包與保留的 legacy 包都同時包含 `Payload/icon.png`、`Payload/Icon.png`。漫畫狗舊包已確認補上兩個路徑，不再顯示空白圖示。
+- 兩套索引目前都列出相同的 16 個發佈來源；既有 `public/` legacy 訂閱網址及目前套件下載路徑保持不變。
+- 建置時會重建 legacy 套件／圖示目錄，避免已移除來源及舊版本再次累積。所有目前發佈包都同時包含 `Payload/icon.png`、`Payload/Icon.png`。
+
+## 倉庫整理
+
+- 移除 7 個已確認永久失效的來源目錄；16 個暫時下架來源仍保留，方便後續修復。
+- 移除 `public/` 中 74 個未被目前 legacy 或 v2 索引引用的舊套件／圖示。
+- 移除 25 份未被根目錄建置流程使用的來源內 `build.sh`，並將 31 份重複的 Cargo 設定集中至 `src/rust/.cargo/config.toml`。
+- 清除約 3.2 GB 的本機忽略建置快取；這些檔案原本未受 Git 追蹤，也不影響任何提交或發佈。
 
 本倉庫同時含 Aidoku 舊版 WASM Source API 與新版 Source API；這和「來源清單 v2 schema」是兩個層級。新來源使用目前 `aidoku-rs`，舊來源仍由 Aidoku 的 legacy runner 相容載入。

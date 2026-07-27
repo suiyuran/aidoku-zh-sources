@@ -114,18 +114,12 @@ for package in "$V2_OUTPUT"/sources/*.aix; do
 done
 
 # Keep package/icon locations used by the long-standing legacy directory URL.
+# Recreate the directories so removed sources and old package versions cannot
+# accumulate outside the generated indexes.
+rm -rf -- public/sources public/icons
 mkdir -p public/sources public/icons
 cp -f "$V2_OUTPUT"/sources/*.aix public/sources/
 cp -f "$V2_OUTPUT"/icons/*.png public/icons/
-
-# Retained legacy packages include deprecated sources that are intentionally no
-# longer present in the v2 list. Repair their case-sensitive icon entry too, so
-# existing installs (notably 漫畫狗) no longer show a blank icon.
-for package in public/sources/*.aix; do
-  if unzip -Z1 "$package" | grep -qx "Payload/icon.png"; then
-    add_legacy_icon "$package"
-  fi
-done
 
 # Preserve public/index.json and public/index.min.json as legacy arrays. Current
 # clients should use public/v2/index.min.json, which avoids the legacy warning.
