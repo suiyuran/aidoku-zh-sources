@@ -18,6 +18,8 @@ use alloc::string::ToString;
 
 const WWW_URL: &str = "https://baozimh.org";
 const API_URL: &str = "https://v2.apikk.top";
+const USER_AGENT: &str = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_6 like Mac OS X) \
+	AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Mobile/15E148 Safari/604.1";
 const BASE64_STD: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 const BASE64_CUSTOM: &[u8] = b"_-9876543210abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -60,18 +62,36 @@ const FILTER_CATEGORY: [&str; 35] = [
 ];
 
 fn handle_cover_url(url: String) -> String {
-	if url.contains("url=") {
-		url.split("url=")
-			.map(|a| a.to_string())
-			.collect::<Vec<String>>()
-			.pop()
-			.unwrap()
-			.replace("%3A", ":")
-			.replace("%2F", "/")
-			.replace("&w=250&q=60", "")
+	let url = if let Some(value) = url.split("url=").nth(1) {
+		value.split('&').next().unwrap_or(value).to_string()
+	} else {
+		url
+	};
+	let url = url
+		.replace("%3A", ":")
+		.replace("%3a", ":")
+		.replace("%2F", "/")
+		.replace("%2f", "/")
+		.replace("%3F", "?")
+		.replace("%3f", "?")
+		.replace("%26", "&")
+		.replace("%3D", "=")
+		.replace("%3d", "=");
+
+	if url.starts_with("//") {
+		format!("https:{}", url)
+	} else if url.starts_with('/') {
+		format!("{}{}", WWW_URL, url)
 	} else {
 		url
 	}
+}
+
+fn first_image_url(data_src: String, data_original: String, src: String) -> String {
+	[data_src, data_original, src]
+		.into_iter()
+		.find(|value| !value.is_empty())
+		.unwrap_or_default()
 }
 
 fn json_error<T>() -> Result<T> {
@@ -217,7 +237,9 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 	} else {
 		format!("{}/s/{}?page={}", WWW_URL, encode_uri(query), page)
 	};
-	let html = Request::new(url, HttpMethod::Get).html()?;
+	let html = Request::new(url, HttpMethod::Get)
+		.header("User-Agent", USER_AGENT)
+		.html()?;
 
 	for item in html.select(".pb-2>a").array() {
 		let item = match item.as_node() {
@@ -232,7 +254,12 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 			.collect::<Vec<String>>()
 			.pop()
 			.unwrap();
-		let cover = handle_cover_url(item.select("div>img").attr("src").read());
+		let image = item.select("div>img");
+		let cover = handle_cover_url(first_image_url(
+			image.attr("data-src").read(),
+			image.attr("data-original").read(),
+			image.attr("src").read(),
+		));
 		let title = item.select("div>h3").text().read();
 		mangas.push(Manga {
 			id,
@@ -266,7 +293,9 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 	}
 
 	let url = format!("{}/{}/page/{}", WWW_URL, list, page);
-	let html = Request::new(url, HttpMethod::Get).html()?;
+	let html = Request::new(url, HttpMethod::Get)
+		.header("User-Agent", USER_AGENT)
+		.html()?;
 	let has_more = true;
 	let mut mangas: Vec<Manga> = Vec::new();
 
@@ -283,7 +312,12 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 			.collect::<Vec<String>>()
 			.pop()
 			.unwrap();
-		let cover = handle_cover_url(item.select("div>img").attr("src").read());
+		let image = item.select("div>img");
+		let cover = handle_cover_url(first_image_url(
+			image.attr("data-src").read(),
+			image.attr("data-original").read(),
+			image.attr("src").read(),
+		));
 		let title = item.select("div>h3").text().read();
 		mangas.push(Manga {
 			id,
@@ -303,7 +337,9 @@ fn get_manga_listing(listing: Listing, page: i32) -> Result<MangaPageResult> {
 fn get_manga_details(id: String) -> Result<Manga> {
 	let ids = id.split("/").collect::<Vec<&str>>();
 	let url = format!("{}/manga/{}", WWW_URL, ids[0]);
-	let html = Request::new(url.clone(), HttpMethod::Get).html()?;
+	let html = Request::new(url.clone(), HttpMethod::Get)
+		.header("User-Agent", USER_AGENT)
+		.html()?;
 	let mid = html.select("#mangachapters").attr("data-mid").read();
 	let cover = handle_cover_url(
 		html.select("meta[property='og:image']")
@@ -367,6 +403,8 @@ fn get_chapter_list(id: String) -> Result<Vec<Chapter>> {
 	let json = Request::new(url.clone(), HttpMethod::Get)
 		.header("Origin", &WWW_URL)
 		.header("Referer", &WWW_URL)
+		.header("User-Agent", USER_AGENT)
+		.header("Accept", "application/json")
 		.json()?;
 	let data = json.as_object()?;
 	let data = data.get("data").as_object()?;
@@ -409,6 +447,8 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 	let json = Request::new(url.clone(), HttpMethod::Get)
 		.header("Origin", &WWW_URL)
 		.header("Referer", &WWW_URL)
+		.header("User-Agent", USER_AGENT)
+		.header("Accept", "application/json")
 		.json()?;
 	let data = json.as_object()?;
 	let data = data.get("data").as_object()?;
@@ -438,5 +478,12 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 
 #[modify_image_request]
 fn modify_image_request(request: Request) {
-	request.header("Referer", &WWW_URL);
+	request
+		.header("Referer", &WWW_URL)
+		.header("User-Agent", USER_AGENT)
+		.header(
+			"Accept",
+			"image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+		)
+		.header("Accept-Language", "zh-TW,zh;q=0.9,en;q=0.8");
 }

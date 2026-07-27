@@ -14,23 +14,11 @@
       "baseURL": "https://18mh.org"
     },
     {
-      "id": "zh.baozimh1",
-      "name": "包子漫画1",
-      "version": 8,
-      "iconURL": "icons/zh.baozimh1-v8.png",
-      "downloadURL": "sources/zh.baozimh1-v8.aix",
-      "languages": [
-        "zh"
-      ],
-      "contentRating": 0,
-      "baseURL": "https://www.baozimh.com"
-    },
-    {
       "id": "zh.baozimh2",
       "name": "包子漫画2",
-      "version": 8,
-      "iconURL": "icons/zh.baozimh2-v8.png",
-      "downloadURL": "sources/zh.baozimh2-v8.aix",
+      "version": 9,
+      "iconURL": "icons/zh.baozimh2-v9.png",
+      "downloadURL": "sources/zh.baozimh2-v9.aix",
       "languages": [
         "zh"
       ],
@@ -38,35 +26,11 @@
       "baseURL": "https://baozimh.org"
     },
     {
-      "id": "zh.boylove",
-      "name": "香香腐宅",
-      "version": 13,
-      "iconURL": "icons/zh.boylove-v13.png",
-      "downloadURL": "sources/zh.boylove-v13.aix",
-      "languages": [
-        "zh"
-      ],
-      "contentRating": 2,
-      "baseURL": "https://boylove.cc"
-    },
-    {
-      "id": "zh.dm5",
-      "name": "动漫屋",
-      "version": 3,
-      "iconURL": "icons/zh.dm5-v3.png",
-      "downloadURL": "sources/zh.dm5-v3.aix",
-      "languages": [
-        "zh"
-      ],
-      "contentRating": 1,
-      "baseURL": "https://www.dm5.com"
-    },
-    {
       "id": "zh.godamanga",
       "name": "G站漫画",
-      "version": 11,
-      "iconURL": "icons/zh.godamanga-v11.png",
-      "downloadURL": "sources/zh.godamanga-v11.aix",
+      "version": 12,
+      "iconURL": "icons/zh.godamanga-v12.png",
+      "downloadURL": "sources/zh.godamanga-v12.aix",
       "languages": [
         "zh"
       ],
@@ -122,18 +86,6 @@
       "baseURL": "https://www.manhuagui.com"
     },
     {
-      "id": "zh.mkzhan",
-      "name": "漫客栈",
-      "version": 3,
-      "iconURL": "icons/zh.mkzhan-v3.png",
-      "downloadURL": "sources/zh.mkzhan-v3.aix",
-      "languages": [
-        "zh"
-      ],
-      "contentRating": 0,
-      "baseURL": "https://www.mkzhan.com"
-    },
-    {
       "id": "zh.msxhm",
       "name": "漫小肆韩漫",
       "version": 8,
@@ -180,18 +132,6 @@
       ],
       "contentRating": 0,
       "baseURL": "https://www.zaimanhua.com"
-    },
-    {
-      "id": "zh.zerobyw",
-      "name": "zero搬运网",
-      "version": 1,
-      "iconURL": "icons/zh.zerobyw-v1.png",
-      "downloadURL": "sources/zh.zerobyw-v1.aix",
-      "languages": [
-        "zh"
-      ],
-      "contentRating": 1,
-      "baseURL": "https://www.zerobyw33.com"
     }
   ]
 }
