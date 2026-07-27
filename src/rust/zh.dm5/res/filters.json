@@ -1,0 +1,47 @@
+[
+	{
+		"type": "sort",
+		"title": "排序",
+		"options": ["热门人气", "更新时间", "新品上架"]
+	},
+	{
+		"type": "select",
+		"title": "题材",
+		"isGenre": true,
+		"canExclude": false,
+		"options": [
+			"全部", "热血", "恋爱", "校园", "冒险", "后宫", "科幻",
+			"战争", "悬疑", "推理", "搞笑", "奇幻", "魔法", "神鬼",
+			"历史", "同人", "运动", "绅士", "机甲"
+		],
+		"ids": [
+			"", "tag31", "tag26", "tag1", "tag2", "tag8", "tag25",
+			"tag12", "tag17", "tag33", "tag37", "tag14", "tag15", "tag20",
+			"tag4", "tag30", "tag34", "tag36", "tag40"
+		]
+	},
+	{
+		"type": "select",
+		"title": "地区",
+		"options": ["全部", "港台", "日韩", "大陆", "欧美"],
+		"ids": ["", "area35", "area36", "area37", "area52"]
+	},
+	{
+		"type": "select",
+		"title": "进度",
+		"options": ["全部", "连载", "完结"],
+		"ids": ["", "st1", "st2"]
+	},
+	{
+		"type": "select",
+		"title": "受众",
+		"options": ["全部", "少年向", "少女向", "青年向"],
+		"ids": ["", "group1", "group2", "group3"]
+	},
+	{
+		"type": "select",
+		"title": "收费",
+		"options": ["全部", "免费", "付费", "VIP 免费"],
+		"ids": ["", "pay0", "pay1", "pay2"]
+	}
+]

@@ -32,5 +32,6 @@
       "id": "总收藏",
       "name": "总收藏"
     }
-  ]
+  ],
+  "deprecated": true
 }

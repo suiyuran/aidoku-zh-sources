@@ -1,0 +1,25 @@
+[
+	{
+		"type": "sort",
+		"title": "排序",
+		"options": ["最新发布", "最新更新", "人气最旺", "评分最高"]
+	},
+	{
+		"type": "select",
+		"title": "地区",
+		"options": ["全部", "日本", "港台", "欧美", "内地", "韩国", "其他"],
+		"ids": ["all", "japan", "hongkong", "europe", "china", "korea", "other"]
+	},
+	{
+		"type": "select",
+		"title": "受众",
+		"options": ["全部", "少女", "少年", "青年", "儿童", "通用"],
+		"ids": ["all", "shaonv", "shaonian", "qingnian", "ertong", "tongyong"]
+	},
+	{
+		"type": "select",
+		"title": "进度",
+		"options": ["全部", "连载", "完结"],
+		"ids": ["all", "lianzai", "wanjie"]
+	}
+]

@@ -1,0 +1,15 @@
+{
+	"info": {
+		"id": "zh.mangabz",
+		"name": "Māngabz",
+		"version": 5,
+		"url": "https://mangabz.com",
+		"contentRating": 1,
+		"languages": ["zh"]
+	},
+	"config": {
+		"hidesFiltersWhileSearching": true,
+		"supportsAuthorSearch": true,
+		"supportsTagSearch": true
+	}
+}

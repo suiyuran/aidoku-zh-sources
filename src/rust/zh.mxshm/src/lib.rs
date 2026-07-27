@@ -28,6 +28,19 @@ fn get_url() -> String {
 	defaults_get("url").unwrap().as_string().unwrap().read()
 }
 
+fn normalize_url(url: String) -> String {
+	if let Some(index) = url.find("/static/") {
+		return format!("{}{}", get_url().trim_end_matches('/'), &url[index..]);
+	}
+	if url.starts_with("//") {
+		return format!("https:{}", url);
+	}
+	if url.starts_with('/') {
+		return format!("{}{}", get_url().trim_end_matches('/'), url);
+	}
+	url
+}
+
 fn gen_request(url: String, method: HttpMethod) -> Request {
 	Request::new(url, method).header("User-Agent", UA)
 }
@@ -96,12 +109,13 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 			.collect::<Vec<String>>()
 			.pop()
 			.unwrap();
-		let cover = item
-			.select("a>p")
-			.attr("style")
-			.read()
-			.replace("background-image: url(", "")
-			.replace(")", "");
+		let cover = normalize_url(
+			item.select("a>p")
+				.attr("style")
+				.read()
+				.replace("background-image: url(", "")
+				.replace(")", ""),
+		);
 		let title = item
 			.select(".mh-item-detali>h2>a")
 			.text()
@@ -126,10 +140,11 @@ fn get_manga_list(filters: Vec<Filter>, page: i32) -> Result<MangaPageResult> {
 fn get_manga_details(id: String) -> Result<Manga> {
 	let url = format!("{}/book/{}", get_url(), id.clone());
 	let html = gen_request(url.clone(), HttpMethod::Get).html()?;
-	let cover = html
-		.select(".banner_detail_form>.cover>img")
-		.attr("src")
-		.read();
+	let cover = normalize_url(
+		html.select(".banner_detail_form>.cover>img")
+			.attr("src")
+			.read(),
+	);
 	let title = html
 		.select(".banner_detail_form>.info>h1")
 		.text()
@@ -240,7 +255,7 @@ fn get_page_list(_: String, chapter_id: String) -> Result<Vec<Page>> {
 			Err(_) => continue,
 		};
 		let index = index as i32;
-		let url = item.attr("data-original").read().trim().to_string();
+		let url = normalize_url(item.attr("data-original").read().trim().to_string());
 		pages.push(Page {
 			index,
 			url,

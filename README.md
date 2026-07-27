@@ -16,16 +16,20 @@ Aidoku 中文圖源
 
 - [18漫畫](https://18mh.org)
 - [包子漫畫1](https://www.baozimh.com)
-- [包子漫畫2](https://baozimh.org)
-- [漫畫狗](https://dogemanga.com)
-- [G站漫畫](https://godamh.com)
+- [香香腐宅](https://boylove.cc)
+- [動漫屋](https://www.dm5.com)
 - [HO5HO](https://www.ho5ho.com)
 - [Komiic漫畫](https://komiic.com)
+- [Māngabz](https://mangabz.com)
+- [漫畫櫃（Manhuagui）](https://www.manhuagui.com)
 - [漫客棧](https://www.mkzhan.com)
-- [漫小肆韓漫](https://www.mxs13.cc)
-- [紳士漫畫](https://www.wnacg.com)
-- [野蠻漫畫](https://yemancomic.com)
+- [漫小肆韓漫](https://www.mxshm.top)
+- [熱辣漫畫](https://www.manga2026.com)
+- [紳士漫畫](https://www.wn07.cfd)
 - [再漫畫](https://www.zaimanhua.com)
+- [zero搬運網](https://www.zerobyw33.com)
+
+以上 14 個圖源都已從美國網路完成「列表 → 詳情 → 章節 → 圖片」測試。包子漫畫網站會把部分最新章節替換成「請使用 App」宣傳圖；來源會略過這類假頁面，較早的可讀章節仍可正常使用。
 
 ## 暫時下架
 
@@ -33,8 +37,11 @@ Aidoku 中文圖源
 
 - ~~[139漫畫](https://139mh.com)~~：JavaScript 防機器人頁
 - ~~[巴卡漫畫](https://bakamh.com)~~：閱讀頁持續返回 HTTP 403
+- ~~[包子漫畫2](https://baozimh.org)~~：與 G站共用的圖片 CDN 在美國 Comcast/Xfinity 線路發生 TLS／安全攔截
 - ~~[嗶哩漫畫](https://www.bilimanga.net)~~：圖片 CDN 持續返回 HTTP 403
 - ~~[拷貝漫畫](https://www.mangacopy.com)~~：新版章節 API 返回空圖片組
+- ~~[漫畫狗](https://dogemanga.com)~~：美國線路搜尋／列表端點被 Cloudflare 返回 HTTP 403；舊套件的缺失圖示已修復
+- ~~[G站漫畫](https://godamh.com)~~：首頁與 API 可開，但圖片 CDN 在部分美國 ISP 被 TLS／SafeBrowse 攔截，無法符合全球可用標準
 - ~~[古風漫畫](https://www.gufengmh.com)~~：網站返回 HTTP 403 / TLS 異常
 - ~~[嗨皮漫畫](https://m.happymh.com)~~：持續出現人機驗證
 - ~~[嗶咔漫畫](https://manhuabika.com)~~：必須登入，無法進行匿名驗收
@@ -45,11 +52,14 @@ Aidoku 中文圖源
 - ~~[NoyAcg](https://noy1.top)~~：新版 API 強制登入
 - ~~[韓漫庫](https://se8.us)~~：首頁 HTTP 403，漫畫路由 HTTP 404
 - ~~[vomic漫畫](https://www.vomicmh.com)~~：網站已改版，舊 API 返回 HTTP 404
+- ~~[野蠻漫畫](https://yemancomic.com)~~：美國線路持續返回 HTTP 403
 
 ## 已移除
 
-以下網站已確認永久失效或不再提供原漫畫服務：無敵漫畫、動漫狂、Hanime1 漫畫區、ISEKAI、喵上漫畫、言耽社、zero搬運網。
+以下網站已確認永久失效或不再提供原漫畫服務：無敵漫畫、動漫狂、Hanime1 漫畫區、ISEKAI、喵上漫畫、言耽社、舊版 zero搬運網（`zerobyw.github.io`）。
 
 ## 狀態
 
-2026-07-26 完成完整稽核：修復 G站漫畫、包子漫畫、漫畫狗、HO5HO、漫小肆、紳士漫畫等網站變更，並遷移至 Aidoku v2 圖源列表格式。目前發布 12 個通過建置和線上閱讀流程測試的圖源；其餘圖源已依上述原因下架或移除。完整的逐源結果、測試作品和相關 issue 請參閱 [AUDIT.md](AUDIT.md)。
+2026-07-27 於美國（Comcast/Xfinity、SJC 出口）重新稽核。新增香香腐宅、動漫屋、Māngabz、漫畫櫃、熱辣漫畫與新版 zero搬運網；修復包子漫畫 App 宣傳假頁、香香腐宅新章節格式與 13 欄圖片重排、漫小肆／紳士漫畫新域名，以及所有 legacy 套件的大小寫相容圖示（包含漫畫狗）。G站並非單純封鎖亞洲以外訪客，而是漫畫圖片所用 CDN 在部分美國 ISP 路徑被攔截，因此暫不發布。
+
+目前發布 14 個通過建置和美國完整閱讀鏈測試的圖源。候選來源也交叉檢查了 Aidoku Community 的 21 個中文來源與 Keiyoushi 的 51 個中文擴充；只有可匿名存取、可用 Aidoku 實作且圖片能從美國直接下載者才會加入。完整逐源結果、三部作品驗證、候選排除原因及相關 issue 請參閱 [AUDIT.md](AUDIT.md)。

@@ -1,0 +1,19 @@
+[
+	{
+		"type": "group",
+		"title": "账户登录",
+		"items": [
+			{
+				"type": "login",
+				"key": "login",
+				"title": "登录",
+				"notification": "login",
+				"method": "basic",
+				"refreshes": [
+					"content",
+					"listings"
+				]
+			}
+		]
+	}
+]

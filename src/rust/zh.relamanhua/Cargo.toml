@@ -1,0 +1,33 @@
+[package]
+name = "relamanhua"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+aes = "0.8.4"
+aidoku = { git = "https://github.com/Aidoku/aidoku-rs.git", version = "0.3.0", features = ["json"] }
+cbc = "0.1.2"
+chinese-number = { version = "0.7.7", default-features = false, features = ["chinese-to-number"] }
+hex = { version = "0.4.3", default-features = false, features = ["alloc"] }
+regex = { version = "1.11.1", default-features = false, features = ["unicode"] }
+serde = { version = "1.0.219", default-features = false }
+serde_json = { version = "1.0.140", default-features = false }
+spin = "0.10.0"
+strum = { version = "0.27.1", default-features = false, features = ["derive"] }
+uuid = { version = "1.17.0", default-features = false, features = ["serde"] }
+
+[dev-dependencies]
+aidoku = { git = "https://github.com/Aidoku/aidoku-rs.git", features = ["test"] }
+aidoku-test = { git = "https://github.com/Aidoku/aidoku-rs.git" }
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+opt-level = "s"
+strip = true
+lto = true

@@ -1,0 +1,28 @@
+{
+	"info": {
+		"id": "zh.boylove",
+		"name": "香香腐宅",
+		"version": 13,
+		"url": "https://boylove.cc",
+		"contentRating": 2,
+		"languages": ["zh"]
+	},
+	"listings": [
+		{ "id": "11", "name": "最新" },
+		{ "id": "recommend", "name": "無碼專區" },
+		{ "id": "topestmh", "name": "排行榜" },
+		{ "id": "猜你喜歡" },
+		{ "id": "0", "name": "週一" },
+		{ "id": "1", "name": "週二" },
+		{ "id": "2", "name": "週三" },
+		{ "id": "3", "name": "週四" },
+		{ "id": "4", "name": "週五" },
+		{ "id": "5", "name": "週六" },
+		{ "id": "6", "name": "週日" }
+	],
+	"config": {
+		"hidesFiltersWhileSearching": true,
+		"supportsAuthorSearch": true,
+		"supportsTagSearch": true
+	}
+}

@@ -15,8 +15,9 @@ use aidoku::{
 use alloc::string::ToString;
 
 const WWW_URL: &str = "https://www.baozimh.com";
-const APP_URL: &str = "https://appcn.baozimh.com/baozimhapp";
+const APP_URL: &str = "https://www.twmanga.com";
 const IMG_URL: &str = "https://static-tw.baozimh.com";
+const APP_ONLY_PLACEHOLDER: &str = "/meishaonianbangjiashijian-aojianyixi2/0/1-iirg/";
 const UA: &str = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
 
 const FILTER_CATEGORY: [&str; 26] = [
@@ -276,6 +277,12 @@ fn get_page_list(manga_id: String, chapter_id: String) -> Result<Vec<Page>> {
 			url = item.attr("src").read();
 		}
 		if url.is_empty() {
+			continue;
+		}
+		// The web reader now substitutes a six-page “read in the app” banner
+		// for app-only chapters. It is not manga content and cannot be restored
+		// by cropping, so omit it instead of presenting the advert as pages.
+		if url.contains(APP_ONLY_PLACEHOLDER) {
 			continue;
 		}
 		pages.push(Page {

@@ -1,0 +1,14 @@
+[
+	{
+		"type": "group",
+		"title": "网站选择",
+		"items": [
+			{
+				"type": "segment",
+				"key": "isTraditionalChinese",
+				"title": "网站版本",
+				"options": ["简体", "繁体"]
+			}
+		]
+	}
+]

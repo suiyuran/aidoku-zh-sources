@@ -1,0 +1,24 @@
+[
+	{
+		"type": "group",
+		"title": "圖片",
+		"items": [
+			{
+				"type": "select",
+				"key": "image.quality",
+				"title": "畫質",
+				"titles": ["低", "中", "高"],
+				"values": ["h800x", "h1200x", "h1500x"],
+				"default": "h1500x"
+			},
+			{
+				"type": "select",
+				"key": "image.format",
+				"title": "格式",
+				"titles": ["高效率", "最相容"],
+				"values": ["webp", "jpg"],
+				"default": "webp"
+			}
+		]
+	}
+]

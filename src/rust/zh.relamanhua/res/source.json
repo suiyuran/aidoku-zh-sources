@@ -1,0 +1,20 @@
+{
+	"info": {
+		"id": "zh.relamanhua",
+		"name": "熱辣漫畫",
+		"version": 2,
+		"urls": [
+			"https://www.manga2026.com",
+			"https://www.manga2025.com",
+			"https://www.2024manga.com",
+			"https://www.relamanhua.org"
+		],
+		"contentRating": 1,
+		"languages": ["zh"]
+	},
+	"config": {
+		"hidesFiltersWhileSearching": true,
+		"supportsAuthorSearch": true,
+		"supportsTagSearch": true
+	}
+}

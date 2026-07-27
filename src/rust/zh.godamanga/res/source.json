@@ -24,5 +24,6 @@
       "id": "最新上架",
       "name": "最新上架"
     }
-  ]
+  ],
+  "deprecated": true
 }
